@@ -1,5 +1,5 @@
 {
-  "name": "with-typescript",
+  "name": "chimera",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -8,9 +8,14 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "formik": "^2.2.6",
     "next": "latest",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
