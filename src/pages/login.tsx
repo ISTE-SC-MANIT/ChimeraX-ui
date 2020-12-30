@@ -104,101 +104,106 @@ export default function SignInSide() {
 
 
     return (
-        <>
-        {openPass && <FormDialog open={openPass} onClose={()=>setOpenPass(false)}/>}
+      <>
+        {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
         <Grid container component="main" className={classes.root}>
-
-            <Grid item xs={false} sm={4} md={6} className={classes.image} >
-                <Box className={classes.logo}>
-                    <Image src="/chimerax.png" alt="logo" width={600} height={150} />
+          <Grid item xs={false} sm={4} md={6} className={classes.image}>
+            <Box className={classes.logo}>
+              <Image src="/chimerax.png" alt="logo" width={600} height={150} />
+            </Box>
+            <Box width="80%" className={classes.customButton}>
+              <ButtonBase focusRipple className={classes.base}>
+                <span className={classes.imageButton}>
+                  <Typography
+                    component="span"
+                    variant="h4"
+                    color="inherit"
+                    className={classes.imageTitle}
+                  >
+                    Sign In
+                  </Typography>
+                </span>
+              </ButtonBase>
+            </Box>
+            <Box className={classes.vector} display={{ xs: 'none', sm: 'none', md: 'block' }}>
+              <Image
+                src="/login.png"
+                alt="logo"
+                width={700}
+                height={550}
+                className={classes.imageV}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h2">
+                Log In
+              </Typography>
+              <form className={classes.form} noValidate>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  variant="outlined"
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  variant="outlined"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className={classes.submit}
+                  color="primary"
+                >
+                  Log In
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link onClick={() => setOpenPass(true)} variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Box mt={5}>
+                  {' '}
+                  <Typography align="center" variant="h6">
+                    Or Log in with other social platforms.
+                  </Typography>
                 </Box>
-                <Box width= "80%" className={classes.customButton}>
-                    <ButtonBase
-                        focusRipple
-                        className={classes.base}
-                    >
-                        <span className={classes.imageButton}>
-                            <Typography
-                                component="span"
-                                variant="h4"
-                                color="inherit"
-                                className={classes.imageTitle}
-                            >
-                                Sign In
-              
-                            </Typography>
-                        </span>
-                    </ButtonBase>
+                <Box mt={5}>
+                  <Copyright />
                 </Box>
-                <Box className={classes.vector}>
-                <Image src="/login.png" alt="logo" width={700} height={550} className={classes.imageV}/>
-                </Box>
-            </Grid>
-            <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h2">
-                        Log In
-          </Typography>
-                    <form className={classes.form} noValidate>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            variant="outlined"
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            variant="outlined"
-                        />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            className={classes.submit}
-                            color="primary"
-                        >
-                            Log In
-            </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link onClick={()=>setOpenPass(true)} variant="body2">
-                                    Forgot password?
-                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-
-
-                        </Grid>
-                        <Box mt={5}> <Typography align="center" variant="h6">Or Log in with other social platforms.</Typography></Box>
-                        <Box mt={5}>
-                            <Copyright />
-                        </Box>
-                    </form>
-                </div>
-            </Grid>
-        </Grid></>
+              </form>
+            </div>
+          </Grid>
+        </Grid>
+      </>
     );
 }
