@@ -11,23 +11,37 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ButtonBase } from '@material-ui/core';
 import FormDialog from '../components/forgotPassword';
+import { blue } from '@material-ui/core/colors';
 
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+// function Copyright() {
+//     return (
+//         <Typography variant="body2" color="textSecondary" align="center">
+//             {'Copyright © '}
+//             <Link color="inherit" href="https://material-ui.com/">
+//                 Your Website
+//       </Link>{' '}
+//             {new Date().getFullYear()}
+//             {'.'}
+//         </Typography>
+//     );
+// }
+
+const SigninButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blue[500]),
+    backgroundColor: blue[500],
+    border: '2px solid white',
+    borderRadius: '50px',
+    padding: '10px 20px',
+    '&:hover': {
+      backgroundColor: blue[700],
+    },
+  },
+}))(Button);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   imageTitle: {
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px `,
     border: '2px solid currentColor',
-    borderRadius: '20px',
+    borderRadius: '50px',
   },
   imageButton: {
     alignItems: 'center',
@@ -111,14 +125,14 @@ export default function SignInSide() {
         <Grid container component="main" className={classes.root}>
           <Grid item xs={false} sm={4} md={6} className={classes.image}>
             <Box className={classes.logo}>
-              <Image src="/chimerax.png" alt="logo" width={600} height={150} />
+              <Image src="/chimerax.png" alt="logo" width={400} height={104} />
             </Box>
-            <Box width="80%" className={classes.customButton}>
+            {/* <Box className={classes.customButton}>
               <ButtonBase focusRipple className={classes.base}>
                 <span className={classes.imageButton}>
                   <Typography
                     component="span"
-                    variant="h4"
+                    variant="h6"
                     color="inherit"
                     className={classes.imageTitle}
                   >
@@ -126,13 +140,16 @@ export default function SignInSide() {
                   </Typography>
                 </span>
               </ButtonBase>
+            </Box> */}
+            <Box component="span" marginLeft={21}>
+              <SigninButton>Sign In</SigninButton>
             </Box>
-            <Box className={classes.vector}>
+            <Box className={classes.vector} marginLeft={10}>
               <Image
                 src="/login.png"
                 alt="logo"
-                width={700}
-                height={550}
+                width={500}
+                height={345}
                 className={classes.imageV}
               />
             </Box>

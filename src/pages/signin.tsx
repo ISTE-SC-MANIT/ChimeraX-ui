@@ -11,8 +11,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ButtonBase } from '@material-ui/core';
+import { blue } from '@material-ui/core/colors';
 
 function Copyright() {
     return (
@@ -26,6 +27,19 @@ function Copyright() {
         </Typography>
     );
 }
+
+const LoginButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blue[500]),
+    backgroundColor: blue[500],
+    border: '2px solid white',
+    borderRadius: '50px',
+    padding: '10px 20px',
+    '&:hover': {
+      backgroundColor: blue[700],
+    },
+  },
+}))(Button);
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -189,7 +203,7 @@ export default function SignInSide() {
               One of us?
             </Typography>
           </Box>
-          <Box width="80%" className={classes.customButton}>
+          {/* <Box width="80%" className={classes.customButton}>
             <ButtonBase focusRipple className={classes.base}>
               <span className={classes.imageButton}>
                 <Typography
@@ -202,9 +216,18 @@ export default function SignInSide() {
                 </Typography>
               </span>
             </ButtonBase>
+          </Box> */}
+          <Box component="span" marginLeft={43}>
+            <LoginButton>Log In</LoginButton>
           </Box>
-          <Box className={classes.vector}>
-            <img src="/signin.png" alt="logo" className={classes.imageV} />
+          <Box className={classes.vector} marginLeft={10}>
+            <Image
+              src="/signin.png"
+              alt="logo"
+              className={classes.imageV}
+              width={460}
+              height={367}
+            />
           </Box>
         </Grid>
       </Grid>
