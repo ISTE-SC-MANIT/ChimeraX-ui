@@ -11,25 +11,13 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { GoogleLogin, GoogleLoginResponse } from "react-google-login";
+import axios from "axios"
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import FormDialog from '../components/forgotPassword';
 import { blue } from '@material-ui/core/colors';
-import axios from "axios"
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-
-// function Copyright() {
-//     return (
-//         <Typography variant="body2" color="textSecondary" align="center">
-//             {'Copyright © '}
-//             <Link color="inherit" href="https://material-ui.com/">
-//                 Your Website
-//       </Link>{' '}
-//             {new Date().getFullYear()}
-//             {'.'}
-//         </Typography>
-//     );
-// }
 
 const SigninButton = withStyles((theme) => ({
   root: {
@@ -114,7 +102,28 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
 }));
-
+const VectorImg = (classes) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  if (mobile) {
+    return (
+      <Box className={classes.vector}>
+        <Image
+          src="/login.png"
+          alt="logo"
+          className={classes.imageV}
+          width={window.innerWidth}
+          height={window.innerWidth / 1.45}
+        />
+      </Box>
+    );
+  }
+  return (
+    <Box className={classes.vector}>
+      <Image src="/login.png" alt="logo" className={classes.imageV} width={500} height={345} />
+    </Box>
+  );
+};
 export default function SignInSide() {
     const classes = useStyles();
     const [openPass,setOpenPass]=React.useState(false)
@@ -142,38 +151,18 @@ export default function SignInSide() {
       <>
         {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
         <Grid container component="main" className={classes.root}>
-          <Grid item xs={false} sm={4} md={6} className={classes.image}>
+          <Grid item xs={false} sm={6} className={classes.image}>
             <Box className={classes.logo}>
               <Image src="/chimerax.png" alt="logo" width={400} height={104} />
             </Box>
-            {/* <Box className={classes.customButton}>
-              <ButtonBase focusRipple className={classes.base}>
-                <span className={classes.imageButton}>
-                  <Typography
-                    component="span"
-                    variant="h6"
-                    color="inherit"
-                    className={classes.imageTitle}
-                  >
-                    Sign In
-                  </Typography>
-                </span>
-              </ButtonBase>
-            </Box> */}
-            <Box component="span" marginLeft={21}>
-              <SigninButton>Sign In</SigninButton>
+            <Box component="span">
+              <Grid container justify="center" alignItems="center">
+                <SigninButton>Sign In</SigninButton>
+              </Grid>
             </Box>
-            <Box className={classes.vector} marginLeft={10}>
-              <Image
-                src="/login.png"
-                alt="logo"
-                width={500}
-                height={345}
-                className={classes.imageV}
-              />
-            </Box>
+            <VectorImg classes={classes} />
           </Grid>
-          <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
+          <Grid item xs={12} sm={6} component={Paper} elevation={0} square>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
