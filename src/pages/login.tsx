@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
                 : theme.palette.grey[900],
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-    },
+         [theme.breakpoints.down('md')]: {
+      backgroundImage: `url('')`,
+      backgroundColor: '#3997F5',
+      paddingBottom:'25px'
+         }
+      },
     paper: {
         margin: theme.spacing(8, 4),
         display: 'flex',
@@ -71,13 +76,17 @@ const useStyles = makeStyles((theme) => ({
 
         padding: `${theme.spacing(2)}px ${theme.spacing(3)}px `,
         border: '2px solid currentColor',
-        borderRadius:"20px"
+        borderRadius:"20px",
+        textAlign:'center',
+        margin:'auto',
     
     },
     imageButton: {
-alignItems: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
         color: theme.palette.common.white,
+        textAlign:'center',
+        
     },
     vector:{
         width:"100%",
@@ -89,11 +98,13 @@ alignItems: 'center',
     },
     customButton:{
         marginLeft:"auto",
-        marginRight:"auto"
+        marginRight:"auto",
+        textAlign:'center',
     },
     base:{
-       width:"80%",
-       marginTop:theme.spacing(2) 
+       width:"auto",
+       marginTop:theme.spacing(2),
+       
     }
 
 }));

@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
-      backgroundPosition: 'top',
+      backgroundImage: `url('')`,
+      backgroundColor: '#3997F5',
     },
   },
   paper: {
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
   },
   imageTitle2: {
-    color: theme.palette.common.white,
+    color: theme.palette.common.black,
   },
   vector: {
     width: '100%',
@@ -97,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(6),
+  },
+  copyright:{
+    marginBottom:theme.spacing(2),
+    color:'white',
   },
 }));
 
@@ -191,7 +196,7 @@ export default function SignInSide() {
           <Box className={classes.vector} display={{ xs: 'none', sm: 'none', md: 'block' }}>
             <img src="/signin.png" alt="logo" className={classes.imageV} />
           </Box>
-          <Box mt={5} display={{ xs: 'block', sm: 'none' }}>
+          <Box className={classes.copyright} mt={5} display={{ xs: 'block', sm: 'none' }}>
             <Copyright />
           </Box>
         </Grid>
