@@ -52,6 +52,10 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('sm')]: {
+      backgroundImage: `url('')`,
+      backgroundColor: `#3997F5`,
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -101,8 +105,13 @@ const useStyles = makeStyles((theme) => ({
     height: '600px',
   },
   customButton: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: '25%',
+    marginBottom: theme.spacing(3),
+    padding: 'auto',
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '20%',
+    },
   },
   base: {
     width: '100%',
@@ -116,6 +125,16 @@ const useStyles = makeStyles((theme) => ({
   control: {
     padding: theme.spacing(1),
   },
+  background: {
+    [theme.breakpoints.down('sm')]: {
+      backgroundImage: `url('/login.png')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      backgroundSize: 'fit',
+      backgroundPosition: 'center',
+    },
+  },
 }));
 
 export default function SignInSide() {
@@ -123,7 +142,7 @@ export default function SignInSide() {
 
     return (
       <Grid container component="main" className={classes.root}>
-        <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
+        <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square className={classes.background}>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
@@ -192,7 +211,7 @@ export default function SignInSide() {
           </div>
         </Grid>
 
-        <Grid item xs={false} sm={4} md={6} className={classes.image}>
+        <Grid item xs={12} sm={4} md={6} className={classes.image}>
           <Box className={classes.logo}>
             <Typography
               component="span"
@@ -217,10 +236,14 @@ export default function SignInSide() {
               </span>
             </ButtonBase>
           </Box> */}
-          <Box component="span" marginLeft={43}>
-            <LoginButton>Log In</LoginButton>
+          <Box component="span" className={classes.customButton}>
+            <LoginButton className={classes.customButton}>Log In</LoginButton>
           </Box>
-          <Box className={classes.vector} marginLeft={10}>
+          <Box
+            className={classes.vector}
+            marginLeft={10}
+            display={{ xs: 'none', sm: 'none', md: 'block' }}
+          >
             <Image
               src="/signin.png"
               alt="logo"

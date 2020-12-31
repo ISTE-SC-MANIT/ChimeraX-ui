@@ -15,6 +15,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ButtonBase } from '@material-ui/core';
 import FormDialog from '../components/forgotPassword';
 import { blue } from '@material-ui/core/colors';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 // function Copyright() {
@@ -54,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+     [theme.breakpoints.down('sm')]: {
+       backgroundImage: `url('')`,
+       backgroundColor: `#3997F5`,}
+
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -98,8 +103,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100% !important',
   },
   customButton: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: '25%',
+    marginBottom:theme.spacing(3),
+    padding: 'auto',
+    textAlign: 'center',
+     [theme.breakpoints.down('sm')]: {
+       marginLeft:'20%',}
   },
   base: {
     width: '80%',
@@ -112,6 +121,15 @@ const useStyles = makeStyles((theme) => ({
   control: {
     padding: theme.spacing(1),
   },
+  background:{
+     [theme.breakpoints.down('sm')]: {
+       backgroundImage: `url('/login.png')`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'fit',
+    backgroundPosition: 'center',}
+  }
 }));
 
 export default function SignInSide() {
@@ -123,7 +141,7 @@ export default function SignInSide() {
       <>
         {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
         <Grid container component="main" className={classes.root}>
-          <Grid item xs={false} sm={4} md={6} className={classes.image}>
+          <Grid item xs={12} sm={4} md={6} className={classes.image}>
             <Box className={classes.logo}>
               <Image src="/chimerax.png" alt="logo" width={400} height={104} />
             </Box>
@@ -141,20 +159,24 @@ export default function SignInSide() {
                 </span>
               </ButtonBase>
             </Box> */}
-            <Box component="span" marginLeft={21}>
-              <SigninButton>Sign In</SigninButton>
+            <Box component="span" className={classes.customButton}>
+              <SigninButton className={classes.customButton}>Sign In</SigninButton>
             </Box>
-            <Box className={classes.vector} marginLeft={10}>
+            <Box
+              className={classes.vector}
+              marginLeft={10}
+              display={{ xs: 'none', sm: 'none', md: 'block' }}
+            >
               <Image
                 src="/login.png"
                 alt="logo"
-                width={500}
-                height={345}
+                width={400}
+                height={300}
                 className={classes.imageV}
               />
             </Box>
           </Grid>
-          <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
+          <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square className={classes.background}>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />

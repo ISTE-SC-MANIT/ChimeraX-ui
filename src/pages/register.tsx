@@ -55,7 +55,9 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             // flexGrow: 1,
             backgroundColor: "#3997F5",
-            marginTop: "-40px"
+            margin: "0px",
+            padding:"0px",
+            boxSizing:"border-box",
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -183,7 +185,7 @@ const Register: React.FC<RegisterPageProps> = ({ payment }) => {
 
 
 
-        <Box>
+        <Box className={classes.root}>
             <ListItem className={classes.heading}>
                 <ListItemText primary={"Registration"} primaryTypographyProps={{ variant: "h4", align: "center" }}
                     secondary={"Register now to experience the fun-packed workshop planned ahead for you by ISTE!  "}
