@@ -11,22 +11,10 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { ButtonBase } from '@material-ui/core';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const LoginButton = withStyles((theme) => ({
   root: {
@@ -117,13 +105,28 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
 }));
-
+const VectorImg = (classes) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  if (mobile) {
+    return (
+      <Box className={classes.vector}>
+        <Image src="/signin.png" alt="logo" className={classes.imageV} width={window.innerWidth} height={window.innerWidth/1.25} />
+      </Box>
+    );
+  }
+  return (
+      <Box className={classes.vector}>
+        <Image src="/signin.png" alt="logo" className={classes.imageV} width={460} height={367} />
+      </Box>
+  );
+};
 export default function SignInSide() {
     const classes = useStyles();
 
     return (
       <Grid container component="main" className={classes.root}>
-        <Grid item xs={12} sm={8} md={6} component={Paper} elevation={0} square>
+        <Grid item xs={12} sm={6} component={Paper} elevation={0} square>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
@@ -192,7 +195,7 @@ export default function SignInSide() {
           </div>
         </Grid>
 
-        <Grid item xs={false} sm={4} md={6} className={classes.image}>
+        <Grid item xs={false} sm={6} className={classes.image}>
           <Box className={classes.logo}>
             <Typography
               component="span"
@@ -203,32 +206,12 @@ export default function SignInSide() {
               One of us?
             </Typography>
           </Box>
-          {/* <Box width="80%" className={classes.customButton}>
-            <ButtonBase focusRipple className={classes.base}>
-              <span className={classes.imageButton}>
-                <Typography
-                  component="span"
-                  variant="h4"
-                  color="inherit"
-                  className={classes.imageTitle}
-                >
-                  Log In
-                </Typography>
-              </span>
-            </ButtonBase>
-          </Box> */}
-          <Box component="span" marginLeft={43}>
-            <LoginButton>Log In</LoginButton>
+          <Box component="span">
+            <Grid container justify="center" alignItems="center">
+              <LoginButton>Log In</LoginButton>
+            </Grid>
           </Box>
-          <Box className={classes.vector} marginLeft={10}>
-            <Image
-              src="/signin.png"
-              alt="logo"
-              className={classes.imageV}
-              width={460}
-              height={367}
-            />
-          </Box>
+          <VectorImg classes={classes} />
         </Grid>
       </Grid>
     );
