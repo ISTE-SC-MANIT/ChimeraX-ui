@@ -38,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: `#3997F5`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
