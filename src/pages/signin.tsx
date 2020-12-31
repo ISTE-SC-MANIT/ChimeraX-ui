@@ -14,6 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ButtonBase } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
+import axios from "axios"
+import { authenticate } from '../components/utils';
+import { useRouter } from 'next/router';
 
 function Copyright() {
     return (
@@ -121,14 +124,55 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
     const classes = useStyles();
     const [formData,setFormData]=React.useState({email:"",password:"",text:"Sign In"})
-
+    const router = useRouter()
+    
     const handleChange = (field:string)=>(e:any)=>{
         setFormData({ ...formData, [field]: e.target.value });
     }
 
     const handleSubmit = (e:any)=>{
         e.preventDefault();
-    }
+        setFormData({...formData,text:"Submitting ....."})
+
+        fetch(`http://localhost:8080/api/register`, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              //...values,
+                     email:formData.email,
+          password:formData.password
+            }),
+          })
+            .then((response) => {
+            //   return response.json();
+         return response.json()
+            }).then((body)=>   authenticate(body,()=>{
+                router.push("/register")
+            }))
+            .catch((error) => {
+              return error;
+            });
+    //     axios
+    //     .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`, {
+         
+    //       email:formData.email,
+    //       password:formData.password
+    //     })
+    //     .then((res) => {
+    //       setFormData({
+    //         ...formData,
+           
+    //         email: "",
+           
+    //         password: "",
+    //         text: "Submitted",
+    //       });
+    // }
+    //)
+}
 
     return (
       <Grid container component="main" className={classes.root}>
@@ -140,7 +184,7 @@ export default function SignInSide() {
             <Typography component="h1" variant="h2">
               Sign In
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <TextField
                 margin="normal"
                 required
@@ -151,6 +195,7 @@ export default function SignInSide() {
                 autoComplete="email"
                 autoFocus
                 variant="outlined"
+                onChange={handleChange("email")}
               />
               <TextField
                 margin="normal"
@@ -162,6 +207,7 @@ export default function SignInSide() {
                 id="password"
                 autoComplete="current-password"
                 variant="outlined"
+                onChange={handleChange("password")}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -173,8 +219,9 @@ export default function SignInSide() {
                 variant="contained"
                 className={classes.submit}
                 color="primary"
+              
               >
-                Sign In
+              {formData.text}
               </Button>
 
               <Box mt={5}>
