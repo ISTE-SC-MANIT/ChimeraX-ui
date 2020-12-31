@@ -12,9 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { ButtonBase } from '@material-ui/core';
+import { GoogleLogin, GoogleLoginResponse } from "react-google-login";
 import FormDialog from '../components/forgotPassword';
 import { blue } from '@material-ui/core/colors';
+import axios from "axios"
 
 
 // function Copyright() {
@@ -118,6 +119,24 @@ export default function SignInSide() {
     const classes = useStyles();
     const [openPass,setOpenPass]=React.useState(false)
 
+    const sendGoogleToken = (tokenId) => {
+      axios
+        .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/googlelogin`, {
+          idToken: tokenId,
+        })
+        .then((res) => {
+          console.log(res.data);
+         
+        })
+        .catch((error) => {
+          console.log("GOOGLE SIGNIN ERROR", error.response);
+        });
+    };
+
+    const responseGoogle = (response:GoogleLoginResponse) => {
+      console.log(response);
+      sendGoogleToken(response.tokenId);
+    }
 
     return (
       <>
@@ -219,9 +238,20 @@ export default function SignInSide() {
                 <Box>
                   <Grid container justify="center" alignItems="center">
                     <Grid item className={classes.control}>
-                      <Link href="#">
+                    <GoogleLogin
+                  clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogle}
+                  cookiePolicy={"single_host_origin"}
+                  render={(renderProps) => (
+                    <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
                         <Avatar alt="google" src="/google.png" className={classes.large} />
-                      </Link>
+                      </Button>
+                    )}
+                ></GoogleLogin>
+
+
+                     
                     </Grid>
                     <Grid item className={classes.control}>
                       <Link href="#">
