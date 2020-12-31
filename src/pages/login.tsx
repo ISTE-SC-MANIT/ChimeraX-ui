@@ -11,9 +11,11 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ButtonBase } from '@material-ui/core';
 import FormDialog from '../components/forgotPassword';
+import { blue } from '@material-ui/core/colors';
+
 
 function Copyright() {
     return (
@@ -28,85 +30,88 @@ function Copyright() {
     );
 }
 
+const SigninButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(blue[500]),
+    backgroundColor: blue[500],
+    border: '2px solid white',
+    borderRadius: '50px',
+    padding: '10px 20px',
+    '&:hover': {
+      backgroundColor: blue[700],
+    },
+  },
+}))(Button);
+
 const useStyles = makeStyles((theme) => ({
-    root: {
-        height: '100vh',
-    },
-    image: {
-        backgroundImage: `url('/vector.png')`,
-        backgroundRepeat: 'no-repeat',
-        backgroundColor:
-            theme.palette.type === 'light'
-                ? theme.palette.grey[50]
-                : theme.palette.grey[900],
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-         [theme.breakpoints.down('md')]: {
-      backgroundImage: `url('')`,
-      backgroundColor: '#3997F5',
-      paddingBottom:'25px'
-         }
-      },
-    paper: {
-        margin: theme.spacing(8, 4),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    logo: {
-        // backgroundImage: `url('/chimerax.png')`,
-        width: "80%",
-        height: "200px",
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: theme.spacing(5)
-    },
-    imageTitle: {
-
-        padding: `${theme.spacing(2)}px ${theme.spacing(3)}px `,
-        border: '2px solid currentColor',
-        borderRadius:"20px",
-        textAlign:'center',
-        margin:'auto',
-    
-    },
-    imageButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: theme.palette.common.white,
-        textAlign:'center',
-        
-    },
-    vector:{
-        width:"100%",
-        marginTop:theme.spacing(4)
-    },
-    imageV:{
-      width:"100% !important" ,
- 
-    },
-    customButton:{
-        marginLeft:"auto",
-        marginRight:"auto",
-        textAlign:'center',
-    },
-    base:{
-       width:"auto",
-       marginTop:theme.spacing(2),
-       
-    }
-
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: `url('/vector.png')`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  logo: {
+    // backgroundImage: `url('/chimerax.png')`,
+    width: '80%',
+    height: '200px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: theme.spacing(5),
+  },
+  imageTitle: {
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px `,
+    border: '2px solid currentColor',
+    borderRadius: '50px',
+  },
+  imageButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.common.white,
+  },
+  vector: {
+    width: '100%',
+    marginTop: theme.spacing(4),
+  },
+  imageV: {
+    width: '100% !important',
+  },
+  customButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  base: {
+    width: '80%',
+    marginTop: theme.spacing(2),
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+  control: {
+    padding: theme.spacing(1),
+  },
 }));
 
 export default function SignInSide() {
