@@ -105,6 +105,15 @@ alignItems: 'center',
 
 export default function SignInSide() {
     const classes = useStyles();
+    const [formData,setFormData]=React.useState({email:"",password:"",text:"Sign In"})
+
+    const handleChange = (field:string)=>(e:any)=>{
+        setFormData({ ...formData, [field]: e.target.value });
+    }
+
+    const handleSubmit = (e:any)=>{
+        e.preventDefault();
+    }
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -129,6 +138,8 @@ export default function SignInSide() {
                             autoComplete="email"
                             autoFocus
                             variant="outlined"
+                            value={formData.email}
+                            onChange={handleChange("email")}
                         />
                         <TextField
                             margin="normal"
@@ -140,6 +151,8 @@ export default function SignInSide() {
                             id="password"
                             autoComplete="current-password"
                             variant="outlined"
+                            value={formData.password}
+                            onChange={handleChange("password")}
                         />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -152,7 +165,7 @@ export default function SignInSide() {
                             className={classes.submit}
                             color="primary"
                         >
-                            Sign In
+                          {formData.text}
             </Button>
 
                         <Box mt={5}> <Typography align="center" variant="h6">Or Sign in with other social platforms.</Typography></Box>
