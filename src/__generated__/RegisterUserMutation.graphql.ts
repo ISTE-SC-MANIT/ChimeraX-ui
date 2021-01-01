@@ -15,9 +15,9 @@ export type RegisterUserMutationVariables = {
 };
 export type RegisterUserMutationResponse = {
     readonly registerUser: {
-        readonly name: string | null;
+        readonly name: string;
         readonly email: string;
-        readonly phone: string | null;
+        readonly phone: string;
         readonly college: string | null;
         readonly strategy: string;
     };

@@ -4,12 +4,50 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+input AcceptInvitationInput {
+  invitationId: String!
+  receiverId: String!
+}
+
+type Invitation {
+  _id: String
+  sendersId: String!
+  sendersName: String!
+  sendersEmail: String!
+  receiversName: String!
+  receiversEmail: String!
+  receiversId: String!
+  status: Status!
+}
+
+input InvitationInput {
+  receiverId: String!
+  receiverName: String!
+  receiverEmail: String!
+}
+
+type InvitationResponse {
+  sentInvitations: [Invitation!]!
+  receivedInvitations: [Invitation!]!
+}
+
 type Mutation {
   registerUser(userInfo: UserInput!): User!
+  sendInvitation(invitationInput: InvitationInput!): Invitation!
+  acceptInvitation(acceptInvitationInput: AcceptInvitationInput!): Invitation!
 }
 
 type Query {
   viewer: User!
+  getInvitations: InvitationResponse!
+  getSingleUsers: [User!]!
+}
+
+"""status of invitation"""
+enum Status {
+  ACCEPTED
+  REJECTED
+  PENDING
 }
 
 """Step on which user is present"""
@@ -21,15 +59,16 @@ enum Step {
 }
 
 type User {
-  userName: String
+  _id: String
   password: String!
-  name: String
+  name: String!
   email: String!
-  phone: String
+  phone: String!
   college: String
   year: Int!
   strategy: String!
   registered: Boolean!
+  city: String!
   step: Step!
 }
 

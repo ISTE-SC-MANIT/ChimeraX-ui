@@ -1,8 +1,8 @@
 import { graphql } from 'relay-runtime'
 
-const AppViewerQuery = graphql`
-    query AppViewerQuery {
-        viewer {
+const GetUserQuery = graphql`
+    query GetUserQuery {
+        getSingleUsers {
             _id
             name
  email
@@ -14,4 +14,4 @@ const AppViewerQuery = graphql`
     }
 `
 
-export default AppViewerQuery
+export default GetUserQuery

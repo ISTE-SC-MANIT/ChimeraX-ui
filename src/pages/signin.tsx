@@ -130,6 +130,8 @@ const VectorImg = (classes) => {
 export default function SignInSide() {
     const classes = useStyles();
     const [formData,setFormData]=React.useState({email:"",password:"",text:"Sign In"})
+    
+    const [visible,setVisible]=React.useState(false)
     const router = useRouter()
     
     const handleChange = (field:string)=>(e:any)=>{
@@ -209,7 +211,7 @@ export default function SignInSide() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={visible?"string":"password"}
                 id="password"
                 autoComplete="current-password"
                 variant="outlined"
@@ -229,7 +231,7 @@ export default function SignInSide() {
               >
               {formData.text}
               </Button>
-
+<Button onClick={()=>setVisible(!visible)}>Toogle Password</Button>
               <Box mt={5}>
                 {' '}
                 <Typography align="center" variant="h6">

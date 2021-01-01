@@ -3,27 +3,27 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type AppViewerQueryVariables = {};
-export type AppViewerQueryResponse = {
-    readonly viewer: {
+export type GetUserQueryVariables = {};
+export type GetUserQueryResponse = {
+    readonly getSingleUsers: ReadonlyArray<{
         readonly _id: string | null;
         readonly name: string;
         readonly email: string;
         readonly phone: string;
         readonly registered: boolean;
         readonly strategy: string;
-    };
+    }>;
 };
-export type AppViewerQuery = {
-    readonly response: AppViewerQueryResponse;
-    readonly variables: AppViewerQueryVariables;
+export type GetUserQuery = {
+    readonly response: GetUserQueryResponse;
+    readonly variables: GetUserQueryVariables;
 };
 
 
 
 /*
-query AppViewerQuery {
-  viewer {
+query GetUserQuery {
+  getSingleUsers {
     _id
     name
     email
@@ -41,8 +41,8 @@ var v0 = [
     "args": null,
     "concreteType": "User",
     "kind": "LinkedField",
-    "name": "viewer",
-    "plural": false,
+    "name": "getSingleUsers",
+    "plural": true,
     "selections": [
       {
         "alias": null,
@@ -95,7 +95,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppViewerQuery",
+    "name": "GetUserQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -104,18 +104,18 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AppViewerQuery",
+    "name": "GetUserQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "5f9803daddc2ca70fb384b45160d29de",
+    "cacheID": "f5b04406c0f1c11fab89220db8f7c8f3",
     "id": null,
     "metadata": {},
-    "name": "AppViewerQuery",
+    "name": "GetUserQuery",
     "operationKind": "query",
-    "text": "query AppViewerQuery {\n  viewer {\n    _id\n    name\n    email\n    phone\n    registered\n    strategy\n  }\n}\n"
+    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    phone\n    registered\n    strategy\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '555836c00ffb04e2f883ea7fa61fc340';
+(node as any).hash = 'f039fa2000f0f83371b1ff7c851c3566';
 export default node;
