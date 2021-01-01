@@ -1,31 +1,23 @@
 import React from "react"
+import {ComponentProps} from "../_app"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
 import { Box, Typography, ListItem, ListItemText, TextField, Paper, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, RadioGroup, Radio, Checkbox, Button, ListItemIcon, Link, useMediaQuery, useTheme, ListItemSecondaryAction, List, Snackbar, Grid } from "@material-ui/core";
 import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
 import { useRouter } from "next/dist/client/router";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { Details } from "./_app";
+import { Details } from "../_app";
 
 import * as yup from "yup"
-import { cities } from "../components/cities";
+import { cities } from "../../components/cities";
+import  RegisterUserMutation  from "../../components/relay/mutations/RegisterUserMutation";
+import { UserInput } from "../../__generated__/RegisterUserMutation.graphql";
 
 
 
 
 
-export const initialValues = {
-    name: "",
-    email: "",
-    college: "",
-    phone: "", year: 1,
-    dataStructures: false,
-    dataScience: false,
-    workshopA: false,
-    workshopB: false,
 
-
-}
 
 const validationSchema = yup.object({
     name: yup
@@ -140,35 +132,46 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-interface RegisterPageProps {
-    payment: (a: Details) => void
-
-}
 
 
-type count = {
-    dataScienceCount: number,
-    dataStructureCount: number,
-    workshopA: number,
-    workshopB: number
-}
 
-const Register: React.FC<RegisterPageProps> = ({ payment }) => {
+
+
+const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment }) => {
+
+    
 
     const classes = useStyles()
     const router = useRouter()
-    const [loading, setLoading] = React.useState<boolean>(false)
-    const [count, setCount] = React.useState<count>({ dataScienceCount: 0, dataStructureCount: 0, workshopA: 0, workshopB: 0 })
-    const [terms, setTerms] = React.useState<boolean>(false)
-    const [promo, setPromo] = React.useState<string>("")
-    const [isPromoValid, setIsPromoValid] = React.useState(false)
-    const [message, setMessage] = React.useState(false)
-    const theme = useTheme()
-    const matches = useMediaQuery(theme.breakpoints.down('md'));
+const [terms, setTerms] = React.useState<boolean>(false)
+   
+    // const theme = useTheme()
+    // const matches = useMediaQuery(theme.breakpoints.down('md'));
 
 
+    const initialValues = {
+        name: "",
+        email: viewer.email,
+        college: "",
+        phone: "", year: 1,
+        
+    
+    
+    }
 
 
+    const handleSubmit = (values:typeof initialValues)=>{
+        const userInput:UserInput={
+            name:values.name,
+            phone:values.phone,
+            year:values.year,
+            college:values.college
+        }
+        RegisterUserMutation(environment,userInput,{onCompleted:()=>{
+console.log("registered")
+
+        },onError:(err)=>{console.log(err)}})
+    }
 
 
 
@@ -194,7 +197,7 @@ const Register: React.FC<RegisterPageProps> = ({ payment }) => {
 
 
             <Formik
-                onSubmit={(values) => console.log(values)}
+                onSubmit={(values) =>  handleSubmit(values)}
                 validationSchema={validationSchema}
                 initialValues={initialValues}>
 
@@ -248,6 +251,7 @@ const Register: React.FC<RegisterPageProps> = ({ payment }) => {
                                                     variant="outlined"
                                                     size="small"
                                                     className={classes.textField}
+                                                    disabled
                                                 />
                                             )}
                                     </Field>
@@ -343,7 +347,7 @@ const Register: React.FC<RegisterPageProps> = ({ payment }) => {
                                 </ListItem>
 
 
-                                {matches && <Typography variant="body2" color={"textSecondary"} align="center">{"Scroll to right ->"} </Typography>}
+                                
                                 <Box className={classes.center}>
                                     <ListItem >
                                         <ListItemIcon>

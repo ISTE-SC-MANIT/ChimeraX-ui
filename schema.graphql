@@ -1,0 +1,43 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Mutation {
+  registerUser(userInfo: UserInput!): User!
+}
+
+type Query {
+  viewer: User!
+}
+
+"""Step on which user is present"""
+enum Step {
+  REGISTER
+  CHOOSE_TEAM
+  PAYMENT
+  TEST
+}
+
+type User {
+  userName: String
+  password: String!
+  name: String
+  email: String!
+  phone: String
+  college: String
+  year: Int!
+  strategy: String!
+  registered: Boolean!
+  step: Step!
+}
+
+input UserInput {
+  name: String
+  phone: String
+  year: Float
+  country: String
+  college: String
+}
+

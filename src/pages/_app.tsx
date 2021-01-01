@@ -1,7 +1,7 @@
 import React from "react";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {
-    ThemeProvider,
+
     CssBaseline,
     LinearProgress,
     Snackbar,
@@ -9,14 +9,19 @@ import {
     Paper,
 
 } from "@material-ui/core";
+import "regenerator-runtime/runtime";
+import { ThemeProvider } from "@material-ui/core/styles";
 import { useRouter, Router } from "next/router";
 
 // import LoadingScreen from "../components/loading";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-
+import query from "../components/relay/queries/AppViewerQuery"
 
 import blue from "@material-ui/core/colors/blue";
 import orange from "@material-ui/core/colors/orange";
+import { Environment, QueryRenderer } from "react-relay";
+import { makeEnvironment } from "../components/relay/environment";
+import { AppViewerQuery, AppViewerQueryResponse } from "../__generated__/AppViewerQuery.graphql";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -50,7 +55,11 @@ export type Details = {
     discountValue: string | null
 } | null
 
-
+export interface ComponentProps {
+    environment:Environment
+    viewer:AppViewerQueryResponse["viewer"]
+    refetch:()=>void
+}
 
 
 const MyApp = ({
@@ -64,8 +73,18 @@ const MyApp = ({
     const router = useRouter();
     const classes = useStyles();
     const paths = router.route.split("/");
+    const first = paths[1];
+    
+    const isProtectedRoute = React.useMemo(() => {
+        return first === "dashboard" 
+    }, [first, ]);
 
 
+    const environment: Environment | null = React.useMemo(() => {
+        if (first === "dashboard" )
+            return makeEnvironment();
+        return null;
+    }, [first, ]);
 
     /* Page loading animation */
     const [routeChange, setRouteChange] = React.useState<boolean>(false);
@@ -109,7 +128,23 @@ const MyApp = ({
 
 
 
-            <Component payment={payment} details={details} {...pageProps} />
+            {/* <Component payment={payment} details={details} {...pageProps} /> */}
+            {!isProtectedRoute ? <Component {...pageProps} /> :
+                    <QueryRenderer<AppViewerQuery>
+                        environment={environment}
+                        query={query}
+                        variables={{}}
+                        render={
+                            ({ error, props, retry }: { error: Error, props: AppViewerQueryResponse, retry: () => void }) => {
+                                if (error) {
+                                    // showNotification("Please login to Continue", "error")
+                                    console.log(error)
+                                    return null
+                                } else if (props) {
+                                    return <Component {...pageProps} viewer={props.viewer} refetch={retry} environment={environment} />
+                                } else { return <h1>Loading</h1> }
+                            }} />
+                }
 
 
         </ThemeProvider>

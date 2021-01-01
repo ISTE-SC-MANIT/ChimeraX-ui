@@ -17,6 +17,8 @@ import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import FormDialog from '../components/forgotPassword';
 import { blue } from '@material-ui/core/colors';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useRouter } from 'next/router';
+import { authenticate } from '../components/utils';
 
 
 const SigninButton = withStyles((theme) => ({
@@ -127,19 +129,40 @@ const VectorImg = (classes) => {
 export default function SignInSide() {
     const classes = useStyles();
     const [openPass,setOpenPass]=React.useState(false)
+    const router = useRouter()
+
+    const getStep =(step:"REGISTER"|"PAYMENT"|"CHOOSE_TEAM"|"TEST")=>{
+      switch(step)
+    {
+      case "REGISTER":
+        return "/dashboard/register"
+        break;
+      case "PAYMENT": 
+        return "/dashboard/payment"
+        break;
+      case "CHOOSE_TEAM": 
+        return "/dashboard/team"
+        break;
+      case "TEST": 
+        return "/dashboard/test"
+        break;
+    }
+    }
 
     const sendGoogleToken = (tokenId) => {
       axios
         .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/googlelogin`, {
           idToken: tokenId,
         })
-        .then((res) => {
-          console.log(res.data);
-         
+        .then((response) => {
+          authenticate(response,()=>{
+            router.push(getStep(response.data.user.step))
         })
-        .catch((error) => {
-          console.log("GOOGLE SIGNIN ERROR", error.response);
-        });
+        // setCookie("token")
+        })
+          .catch((error) => {
+            return error;
+          });
     };
 
     const responseGoogle = (response:GoogleLoginResponse) => {

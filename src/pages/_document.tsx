@@ -9,6 +9,7 @@ import Document, {
 } from "next/document";
 import { AppType } from "next/dist/next-server/lib/utils";
 import { ServerStyleSheets } from "@material-ui/core/styles";
+import "regenerator-runtime/runtime";
 
 class MyDocument extends Document {
     static async getInitialProps(

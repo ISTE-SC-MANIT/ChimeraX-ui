@@ -15,5 +15,5 @@
     "jsx": "preserve"
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "src", "tests", "tests/formPage.test.tsx"]
+  "include": ["next-env.d.ts", "src", "tests", "tests/formPage.test.tsx", "babel.config.js"]
 }
