@@ -5,7 +5,6 @@ import Image from 'next/image'
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -17,17 +16,17 @@ import axios from "axios"
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import { IconButton } from '@material-ui/core';
 
 const LoginButton = withStyles((theme) => ({
   root: {
-    color: theme.palette.getContrastText(blue[500]),
-    backgroundColor: blue[500],
+    color: theme.palette.getContrastText('#3997F5'),
+    backgroundColor: '#3997F5',
     border: '2px solid white',
     borderRadius: '50px',
     padding: '10px 20px',
     '&:hover': {
-      backgroundColor: blue[700],
+      backgroundColor: '#1976D2',
     },
   },
 }))(Button);
@@ -43,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: `#3997F5`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -52,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#3997F5',
   },
   form: {
     width: '100%', // Fix IE11 issue.
@@ -100,12 +106,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(6),
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
-  control: {
-    padding: theme.spacing(1),
+  logoIcon: {
+    border: '2px solid black',
+    borderRadius: '50px',
   },
 }));
 const VectorImg = (classes) => {
@@ -235,15 +238,20 @@ export default function SignInSide() {
               </Box>
               <Box>
                 <Grid container justify="center" alignItems="center">
-                  <Grid item className={classes.control}>
-                    <Link href="#">
-                      <Avatar alt="google" src="/google.png" className={classes.large} />
-                    </Link>
+                  <Grid item>
+                    <IconButton>
+                      <img
+                        src="/google-logo.png"
+                        alt="google"
+                        height={70}
+                        className={classes.logoIcon}
+                      />
+                    </IconButton>
                   </Grid>
-                  <Grid item className={classes.control}>
-                    <Link href="#">
-                      <Avatar alt="fb" src="/fb.png" className={classes.large} />
-                    </Link>
+                  <Grid item>
+                    <IconButton>
+                      <img src="/fb-logo.png" alt="fb" height={70} className={classes.logoIcon} />
+                    </IconButton>
                   </Grid>
                 </Grid>
               </Box>

@@ -15,21 +15,21 @@ import { GoogleLogin, GoogleLoginResponse } from "react-google-login";
 import axios from "axios"
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import FormDialog from '../components/forgotPassword';
-import { blue } from '@material-ui/core/colors';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRouter } from 'next/router';
 import { authenticate } from '../components/utils';
+import { IconButton } from '@material-ui/core';
 
 
 const SigninButton = withStyles((theme) => ({
   root: {
-    color: theme.palette.getContrastText(blue[500]),
-    backgroundColor: blue[500],
+    color: theme.palette.getContrastText('#3997F5'),
+    backgroundColor: '#3997F5',
     border: '2px solid white',
     borderRadius: '50px',
     padding: '10px 20px',
     '&:hover': {
-      backgroundColor: blue[700],
+      backgroundColor: '#1976D2',
     },
   },
 }))(Button);
@@ -45,6 +45,13 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: `#3997F5`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -54,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#3997F5',
   },
   form: {
     width: '100%', // Fix IE11 issue.
@@ -96,12 +103,9 @@ const useStyles = makeStyles((theme) => ({
     width: '80%',
     marginTop: theme.spacing(2),
   },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
-  control: {
-    padding: theme.spacing(1),
+  logoIcon: {
+    border: '2px solid black',
+    borderRadius: '50px',
   },
 }));
 const VectorImg = (classes) => {
@@ -249,27 +253,38 @@ export default function SignInSide() {
                 </Box>
                 <Box>
                   <Grid container justify="center" alignItems="center">
-                    <Grid item className={classes.control}>
+                    <Grid item ></Grid>
                     <GoogleLogin
                   clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}
                   cookiePolicy={"single_host_origin"}
                   render={(renderProps) => (
-                    <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <Avatar alt="google" src="/google.png" className={classes.large} />
-                      </Button>
+                    // <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                    //     <Avatar alt="google" src="/google.png" className={classes.large} />
+                    //   </Button>
+                    <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <img
+                          src="/google-logo.png"
+                          alt="google"
+                          height={70}
+                          className={classes.logoIcon}
+                        />
+                      </IconButton>
                     )}
                 ></GoogleLogin>
 
 
                      
-                    </Grid>
-                    <Grid item className={classes.control}>
-                      <Link href="#">
-                        <Avatar alt="fb" src="/fb.png" className={classes.large} />
-                      </Link>
-                    </Grid>
+                    {/* <Grid item>
+                      
+                    </Grid> */}
+                    {/* <Grid item>
+                      <IconButton>
+                        <img src="/fb-logo.png" alt="fb" height={70} className={classes.logoIcon} />
+                      </IconButton>
+                    </Grid> */}
+
                   </Grid>
                 </Box>
               </form>

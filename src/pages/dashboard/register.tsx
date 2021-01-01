@@ -43,92 +43,92 @@ const validationSchema = yup.object({
 
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            // flexGrow: 1,
-            backgroundColor: "#3997F5",
-            marginTop: "-40px"
-        },
-        menuButton: {
-            marginRight: theme.spacing(2),
-        },
-        title: {
-            flexGrow: 1,
-        },
-        list: {
-            width: 320,
-        },
-        fullList: {
-            width: 'auto',
-        },
-        sublist: {
-            marginLeft: theme.spacing(3)
-        },
-        paper: {
-            width: "80%",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginBottom: theme.spacing(4),
-            padding: theme.spacing(2),
-            [theme.breakpoints.down('md')]: {
-                width: "98%",
-            }
-        },
-        textField: {
-            marginLeft: theme.spacing(2),
-            marginRight: theme.spacing(2)
-        },
-        divider: {
-            marginTop: theme.spacing(4)
-        },
-        table: {
-            marginLeft: "auto",
-            marginRight: "auto",
-            width: "90%",
-            marginTop: theme.spacing(2),
-            marginBottom: theme.spacing(2),
-
-
-        },
-        button: {
-            margin: theme.spacing(2)
-        },
-        buttonGroup: {
-            // float: "right",
-            width: "300px",
-            marginLeft: "auto",
-
-            //marginTop: theme.spacing(4)
-        },
-        heading: {
-            marginTop: theme.spacing(12),
-            marginBottom: theme.spacing(4),
-            paddingTop: "40px"
-        },
-        center: {
-            width: "fit-content",
-            margin: "auto"
-        },
-        promoB: {
-            [theme.breakpoints.down('md')]: {
-                height: "200px"
-            }
-        },
-        promoButton: {
-            [theme.breakpoints.down('md')]: {
-                marginTop: "15px",
-                marginLeft: theme.spacing(2),
-            }
-        },
-        text: {
-            marginRight: theme.spacing(2),
-            [theme.breakpoints.down('md')]: {
-                marginTop: "165px",
-                marginLeft: theme.spacing(2),
-
-            }
-        }
-    }),
+  createStyles({
+    root: {
+      // flexGrow: 1,
+      backgroundColor: '#3997F5',
+      minHeight: '100vh',
+      margin: '0px',
+      padding: '0px',
+      boxSizing: 'border-box',
+      paddingBottom: "6px"
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    list: {
+      width: 320,
+    },
+    fullList: {
+      width: 'auto',
+    },
+    sublist: {
+      marginLeft: theme.spacing(3),
+    },
+    paper: {
+      width: '80%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginBottom: theme.spacing(4),
+      padding: theme.spacing(2),
+      [theme.breakpoints.down('md')]: {
+        width: '98%',
+      },
+    },
+    textField: {
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
+    divider: {
+      marginTop: theme.spacing(4),
+    },
+    table: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '90%',
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+    },
+    button: {
+      margin: theme.spacing(2),
+    },
+    buttonGroup: {
+      // float: "right",
+      width: '300px',
+      marginLeft: 'auto',
+      //marginTop: theme.spacing(4)
+    },
+    heading: {
+      color: "white",
+      marginBottom: theme.spacing(4),
+      paddingTop: '40px',
+    },
+    center: {
+      width: 'fit-content',
+      margin: 'auto',
+    },
+    promoB: {
+      [theme.breakpoints.down('md')]: {
+        height: '200px',
+      },
+    },
+    promoButton: {
+      [theme.breakpoints.down('md')]: {
+        marginTop: '15px',
+        marginLeft: theme.spacing(2),
+      },
+    },
+    text: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.down('md')]: {
+        marginTop: '165px',
+        marginLeft: theme.spacing(2),
+      },
+    },
+  })
 );
 
 
@@ -182,10 +182,8 @@ console.log("registered")
 
 
 
-    return <div className={classes.root} id="reg">
-
-
-
+    return (
+      <div className={classes.root} id="reg">
         <Box>
             <ListItem className={classes.heading}>
                 <ListItemText primary={"Registration"} primaryTypographyProps={{ variant: "h4", align: "center" }}
@@ -371,8 +369,8 @@ console.log("registered")
                     </Form>)}
             </Formik>
         </Box>
-
-    </div >
+      </div>
+    );
 }
 
 export default Register
