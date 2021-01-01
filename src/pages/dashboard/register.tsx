@@ -169,6 +169,7 @@ const [terms, setTerms] = React.useState<boolean>(false)
         }
         RegisterUserMutation(environment,userInput,{onCompleted:()=>{
 console.log("registered")
+router.push("/dashboard/team")
 
         },onError:(err)=>{console.log(err)}})
     }
