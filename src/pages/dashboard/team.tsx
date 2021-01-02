@@ -60,6 +60,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
   const classes = useStyles();
   const [tab,setTab] =React.useState(0)
   const [receiver,setReceiver]=React.useState<any>(null)
+  const [send,setSend]=React.useState(false)
   const refetchRef = React.useRef<any>(null)
 
   const handleSendInvitation=()=>{
@@ -71,7 +72,9 @@ const Team:React.FC<ComponentProps>=({environment})=> {
     }
     SendInvitationMutation(environment,receiverInput,{onCompleted:()=>{
       console.log("registered")
-      refetchRef.current.retry()
+      console.log(refetchRef.current)
+      setSend(!send)
+      refetchRef.current && refetchRef.current.retry()
       
               },onError:(err)=>{console.log(err)}})
   }
@@ -208,7 +211,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
               <Tab label="Received Invitations" />
             </Tabs>
             <Divider />
-            {tab === 0 ? <ReceivedInvitation refetchRef={refetchRef} /> : <SendInvitation refetchRef={refetchRef} />}
+            {tab === 0 ?  <SendInvitation refetchRef={refetchRef} send={send} />:<ReceivedInvitation refetchRef={refetchRef} />}
           </Paper>
         </Grid>
       </Grid>

@@ -28,8 +28,8 @@ const ReceivedInvitation:React.FC<Props> =({refetchRef})=>{
                           <Avatar alt="Remy Sharp" src="/dummy.png" />
                         </ListItemAvatar>
                         <ListItemText
-                          primary={invitation.receiversName}
-                          secondary={invitation.receiversEmail}
+                          primary={invitation.sendersName}
+                          secondary={invitation.sendersEmail}
                         />
                         <ListItemSecondaryAction>
                           <IconButton aria-label="Check">
