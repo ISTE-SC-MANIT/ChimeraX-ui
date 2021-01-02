@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       //   flexGrow: 1,
       height: '100vh',
+      margin:'0px',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(4),
       marginLeft: '50%',
       marginBottom: theme.spacing(2),
+    },
+    tab:{
+      overflow:'scroll',
     },
   })
 );
@@ -106,7 +110,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
       <Grid container component="main">
         <Grid item xs={12} sm={12} md={7} lg={8}>
           <Box mt={6} ml={2}>
-            <Grid container justify='flex-start' alignItems="center">
+            <Grid container justify="flex-start" alignItems="center">
               <Grid item md={4} lg={4}>
                 <Box>
                   <img src="/dashboard.png" className={classes.dashboardImg}></img>
@@ -171,7 +175,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
                   &nbsp; {option.name} {option.email}
                 </React.Fragment>
               )}
-              style={{ width: 400}}
+              style={{ width: 400 }}
               renderInput={(params) => (
                 <TextField {...params} label="Search Team Member" variant="outlined" size="small" />
               )}
@@ -194,7 +198,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
         <Grid
           item
           xs={12}
-          sm={8}
+          sm={12}
           md={5}
           lg={4}
           //   component={Paper} elevation={6} square
@@ -209,9 +213,14 @@ const Team:React.FC<ComponentProps>=({environment})=> {
             >
               <Tab label="Sent Invitations" />
               <Tab label="Received Invitations" />
+              classsName={classes.tab}
             </Tabs>
             <Divider />
-            {tab === 0 ?  <SendInvitation refetchRef={refetchRef} send={send} />:<ReceivedInvitation refetchRef={refetchRef} />}
+            {tab === 0 ? (
+              <SendInvitation refetchRef={refetchRef} send={send} />
+            ) : (
+              <ReceivedInvitation refetchRef={refetchRef} />
+            )}
           </Paper>
         </Grid>
       </Grid>
