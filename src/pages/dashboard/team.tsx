@@ -20,8 +20,8 @@ import {ComponentProps} from "../_app"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-    //   flexGrow: 1,
-      height:"100vh"
+      //   flexGrow: 1,
+      height: '100vh',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -30,17 +30,30 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     paper: {
-height:"100%"
-      },
-      container:{
-          height:"93vh"
-      },
-      dashboardImg:{
-          width:"60%",
-          height:"20%",
-          marginLeft:theme.spacing(16)
-      }
-  }),
+      height: '100%',
+    },
+    container: {
+      height: '93vh',
+    },
+    dashboardImg: {
+      width: '30%',
+      height: '10%',
+      marginLeft: theme.spacing(8),
+    },
+    Head_title: {
+      textAlign: 'center',
+      margin: 'auto',
+    },
+    invitation_button: {
+      marginLeft: theme.spacing(4),
+      size: 'small',
+    },
+    proceed_button: {
+      marginTop: theme.spacing(4),
+      marginLeft: '50%',
+      marginBottom: theme.spacing(2),
+    },
+  })
 );
 
 const Team:React.FC<ComponentProps>=({environment})=> {
@@ -82,102 +95,123 @@ const Team:React.FC<ComponentProps>=({environment})=> {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Chimera-X 
+            Chimera-X
           </Typography>
           <Button color="inherit">Log out</Button>
         </Toolbar>
       </AppBar>
       <Grid container component="main">
-     
-      <Grid item xs={false} sm={4} md={7}  lg={8} >
-      <Box mt={6} ml={2}>
-          <Grid container>
-              <Grid item md={6} lg={6}>
-                  <Box>
-                      <img src="/dashboard.png" className={classes.dashboardImg}></img>
-                  </Box>
+        <Grid item xs={12} sm={12} md={7} lg={8}>
+          <Box mt={6} ml={2}>
+            <Grid container justify='flex-start' alignItems="center">
+              <Grid item md={4} lg={4}>
+                <Box>
+                  <img src="/dashboard.png" className={classes.dashboardImg}></img>
+                </Box>
               </Grid>
-              <Grid item md={6} lg={6}><Box mt={6}><Typography variant="h4"> Hello CoderBite</Typography></Box>
-              <Box><Typography >Welcome to your Chimera dashboard</Typography>
-                  </Box>
-                  </Grid>
-          </Grid>
-      </Box>
-      <Box>
-        <Box display="flex">
-      <Radio
-        checked={true}
-      value="a"
-      name="radio-button-demo"
-        inputProps={{ 'aria-label': 'A' }}
-      />
-      <div>
-      <Typography variant="h6">Play as an Individual</Typography>
-      <Typography >You will be the one man army of your team</Typography>
-      </div>
-      </Box>
-      <Box display="flex">
-      <Radio
-        checked={true}
-      value="a"
-      name="radio-button-demo"
-        inputProps={{ 'aria-label': 'A' }}
-      />
-     
-      <ListItemText primary={"Play as a Team"} primaryTypographyProps={{ variant: "h6" }}
-                                        secondary={"Choose your team mate and play together"}
-                                    />
-      
-      </Box>
-      </Box>
+              <Grid item xs={12} sm={12} md={8} lg={8}>
+                <Box mt={6} className={classes.Head_title}>
+                  <Typography variant="h4"> Hello CoderBite</Typography>
 
-      <Box display="flex">
-        <Typography variant="body1">Send Invitation to your team mate</Typography> 
-        <Autocomplete
-  id="combo-box-demo"
-  //@ts-ignore
-  options={dummyUsers}
-  value={receiver}
-  onChange={(event: any, newValue: any) => {
-    setReceiver(newValue);
-  }}
-  getOptionLabel={(option) => `${option.name} ${option.email}`}
-  renderOption={(option) => (
-    <React.Fragment>
-      <span><Avatar alt="Remy Sharp" src="/dummy.png" /></span>
-     &nbsp; {option.name} {option.email}
-    </React.Fragment>
-  )}
-  style={{ width: 400 }}
-  renderInput={(params) => <TextField {...params} label="Search Team Member" variant="outlined" size="small" />}
-/>
-      </Box>
-<Button variant="outlined" color="primary" disabled={receiver===null} onClick={handleSendInvitation}>
-  Send Invitation
-  </Button>
+                  <Typography variant="h6"> Welcome to your Chimera dashboard</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box ml={4} mt={2}>
+            <Box display="flex">
+              <Radio
+                checked={false}
+                value="a"
+                name="radio-button-demo"
+                inputProps={{ 'aria-label': 'A' }}
+              />
+              <div>
+                <Typography variant="h6">Play as an Individual</Typography>
+                <Typography>You will be the one man army of your team</Typography>
+              </div>
+            </Box>
+            <Box display="flex" mt={2}>
+              <Radio
+                checked={true}
+                value="a"
+                name="radio-button-demo"
+                inputProps={{ 'aria-label': 'A' }}
+              />
 
-<Button variant="contained" color="primary">PROCEED </Button>
+              <ListItemText
+                primary={'Play as a Team'}
+                primaryTypographyProps={{ variant: 'h6' }}
+                secondary={'Choose your team mate and play together'}
+              />
+            </Box>
+          </Box>
+
+          <Box display="flex" mt={2} ml={6}>
+            <Typography variant="body1">Send Invitation to your team mate</Typography>
+          </Box>
+          <Box display="flex" mt={2} ml={6}>
+            <Autocomplete
+              id="combo-box-demo"
+              //@ts-ignore
+              options={dummyUsers}
+              value={receiver}
+              onChange={(event: any, newValue: any) => {
+                setReceiver(newValue);
+              }}
+              getOptionLabel={(option) => `${option.name} ${option.email}`}
+              renderOption={(option) => (
+                <React.Fragment>
+                  <span>
+                    <Avatar alt="Remy Sharp" src="/dummy.png" />
+                  </span>
+                  &nbsp; {option.name} {option.email}
+                </React.Fragment>
+              )}
+              style={{ width: 400}}
+              renderInput={(params) => (
+                <TextField {...params} label="Search Team Member" variant="outlined" size="small" />
+              )}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={receiver === null}
+              onClick={handleSendInvitation}
+              className={classes.invitation_button}
+            >
+              Send
+            </Button>
+          </Box>
+
+          <Button variant="contained" color="primary" className={classes.proceed_button}>
+            PROCEED{' '}
+          </Button>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          lg={4}
+          //   component={Paper} elevation={6} square
+        >
+          <Paper elevation={6} className={classes.container}>
+            <Tabs
+              value={tab}
+              onChange={handleChange}
+              indicatorColor="primary"
+              // textColor="primary"
+              variant="fullWidth"
+            >
+              <Tab label="Sent Invitations" />
+              <Tab label="Received Invitations" />
+            </Tabs>
+            <Divider />
+            {tab === 0 ? <ReceivedInvitation refetchRef={refetchRef} /> : <SendInvitation refetchRef={refetchRef} />}
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={8} md={5} lg={4} 
-    //   component={Paper} elevation={6} square
-      >
-      <Paper elevation={6}  className={classes.container}>
-      <Tabs
-        value={tab}
-        onChange={handleChange}
-        indicatorColor="primary"
-        // textColor="primary"
-        variant="fullWidth"
-      >
-        <Tab label="Sent Invitations" />
-        <Tab label="Received Invitations" />
-       
-      </Tabs>
-      <Divider/>
-      {tab===0?<SendInvitation refetchRef={refetchRef}/>:<ReceivedInvitation refetchRef={refetchRef}/>}
-      </Paper>
-      </Grid>
-    </Grid>
     </div>
   );
 }
