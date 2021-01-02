@@ -5,7 +5,8 @@ const GetUserQuery = graphql`
         getSingleUsers {
             _id
             name
- email
+            email
+            id
             phone
             registered
             strategy

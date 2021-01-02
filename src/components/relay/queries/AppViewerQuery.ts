@@ -5,6 +5,7 @@ const AppViewerQuery = graphql`
         viewer {
             _id
             name
+            id,
  email
             phone
             registered

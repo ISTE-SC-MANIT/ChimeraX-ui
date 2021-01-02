@@ -1,33 +1,34 @@
 import { graphql,  commitMutation } from "react-relay";
+import { AcceptInvitationMutationResponse, AcceptInvitationInput } from "../../../__generated__/AcceptInvitationMutation.graphql";
 import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment";
-import { InvitationInput, SendInvitationMutationResponse } from "../../../__generated__/SendInvitationMutation.graphql";
+
 
 interface Callbacks {
     onError(err: Error): void;
-    onCompleted(response: SendInvitationMutationResponse ): void;
+    onCompleted(response: AcceptInvitationMutationResponse ): void;
 }
 
+
 const mutation = graphql`
-    mutation SendInvitationMutation($input: InvitationInput!) {
-        sendInvitation(invitationInput: $input) {
+    mutation AcceptInvitationMutation($input: AcceptInvitationInput!) {
+        acceptInvitation(acceptInvitationInput: $input) {
             _id,
-            sendersId,
             id,
-            sendersName,
-            sendersEmail,
-            receiversName,
-            receiversEmail,
-            receiversId,
+            teamLeadersId,
+            invitationId,
+            teamHelpersId,
+            teamName,
+            city,
+            teamStatus,
             status
             
         }
     }
 `
 
-
 const commit = (
     environment: RelayModernEnvironment,
-   sendInvitationInput: InvitationInput,
+   acceptInvitationInput: AcceptInvitationInput,
      { onCompleted, onError }: Callbacks
 ) => {
 
@@ -35,11 +36,11 @@ const commit = (
     return commitMutation(environment, {
         mutation,
         variables: {
-            input: sendInvitationInput
+            input: acceptInvitationInput
         },
         onCompleted: (response, error) => {
             if (error) {console.log(error)}
-            onCompleted(response as SendInvitationMutationResponse);
+            onCompleted(response as AcceptInvitationMutationResponse);
         },
         onError,
        
@@ -47,3 +48,4 @@ const commit = (
 };
 
 export default commit
+

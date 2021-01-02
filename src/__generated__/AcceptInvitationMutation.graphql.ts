@@ -3,48 +3,48 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type Status = "ACCEPTED" | "PENDING" | "REJECTED" | "%future added value";
-export type InvitationInput = {
+export type PaymentStatus = "PAID" | "UNPAID" | "%future added value";
+export type TeamStatus = "INDIVIDUAL" | "NOT_INITIALIZED" | "TEAM" | "%future added value";
+export type AcceptInvitationInput = {
+    invitationId: string;
     receiverId: string;
-    receiverName: string;
-    receiverEmail: string;
 };
-export type SendInvitationMutationVariables = {
-    input: InvitationInput;
+export type AcceptInvitationMutationVariables = {
+    input: AcceptInvitationInput;
 };
-export type SendInvitationMutationResponse = {
-    readonly sendInvitation: {
+export type AcceptInvitationMutationResponse = {
+    readonly acceptInvitation: {
         readonly _id: string | null;
-        readonly sendersId: string;
         readonly id: string;
-        readonly sendersName: string;
-        readonly sendersEmail: string;
-        readonly receiversName: string;
-        readonly receiversEmail: string;
-        readonly receiversId: string;
-        readonly status: Status;
+        readonly teamLeadersId: string;
+        readonly invitationId: string;
+        readonly teamHelpersId: string | null;
+        readonly teamName: string | null;
+        readonly city: string | null;
+        readonly teamStatus: TeamStatus;
+        readonly status: PaymentStatus;
     };
 };
-export type SendInvitationMutation = {
-    readonly response: SendInvitationMutationResponse;
-    readonly variables: SendInvitationMutationVariables;
+export type AcceptInvitationMutation = {
+    readonly response: AcceptInvitationMutationResponse;
+    readonly variables: AcceptInvitationMutationVariables;
 };
 
 
 
 /*
-mutation SendInvitationMutation(
-  $input: InvitationInput!
+mutation AcceptInvitationMutation(
+  $input: AcceptInvitationInput!
 ) {
-  sendInvitation(invitationInput: $input) {
+  acceptInvitation(acceptInvitationInput: $input) {
     _id
-    sendersId
     id
-    sendersName
-    sendersEmail
-    receiversName
-    receiversEmail
-    receiversId
+    teamLeadersId
+    invitationId
+    teamHelpersId
+    teamName
+    city
+    teamStatus
     status
   }
 }
@@ -64,13 +64,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "invitationInput",
+        "name": "acceptInvitationInput",
         "variableName": "input"
       }
     ],
-    "concreteType": "Invitation",
+    "concreteType": "Team",
     "kind": "LinkedField",
-    "name": "sendInvitation",
+    "name": "acceptInvitation",
     "plural": false,
     "selections": [
       {
@@ -84,13 +84,6 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "sendersId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
         "name": "id",
         "storageKey": null
       },
@@ -98,35 +91,42 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "sendersName",
+        "name": "teamLeadersId",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "sendersEmail",
+        "name": "invitationId",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "receiversName",
+        "name": "teamHelpersId",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "receiversEmail",
+        "name": "teamName",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "receiversId",
+        "name": "city",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "teamStatus",
         "storageKey": null
       },
       {
@@ -145,7 +145,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "SendInvitationMutation",
+    "name": "AcceptInvitationMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -154,18 +154,18 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "SendInvitationMutation",
+    "name": "AcceptInvitationMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "caad49790aa2543fbb8773be92aad064",
+    "cacheID": "a53b68c57505d4a5251cec1a6814bd7f",
     "id": null,
     "metadata": {},
-    "name": "SendInvitationMutation",
+    "name": "AcceptInvitationMutation",
     "operationKind": "mutation",
-    "text": "mutation SendInvitationMutation(\n  $input: InvitationInput!\n) {\n  sendInvitation(invitationInput: $input) {\n    _id\n    sendersId\n    id\n    sendersName\n    sendersEmail\n    receiversName\n    receiversEmail\n    receiversId\n    status\n  }\n}\n"
+    "text": "mutation AcceptInvitationMutation(\n  $input: AcceptInvitationInput!\n) {\n  acceptInvitation(acceptInvitationInput: $input) {\n    _id\n    id\n    teamLeadersId\n    invitationId\n    teamHelpersId\n    teamName\n    city\n    teamStatus\n    status\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '6647b0abe9763a639bc087791e4b5322';
+(node as any).hash = 'aeda3a32a5a475d4a78fb1e824719495';
 export default node;

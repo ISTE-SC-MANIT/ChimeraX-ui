@@ -10,6 +10,7 @@ const GetInvitationQuery = graphql`
                receiversId
                receiversName
                receiversEmail
+               id
            }
            receivedInvitations{
             sendersId
@@ -18,6 +19,7 @@ const GetInvitationQuery = graphql`
                receiversId
                receiversName
                receiversEmail
+               id
            }
 
         }

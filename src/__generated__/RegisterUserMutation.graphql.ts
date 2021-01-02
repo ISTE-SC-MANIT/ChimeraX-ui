@@ -16,6 +16,7 @@ export type RegisterUserMutationVariables = {
 export type RegisterUserMutationResponse = {
     readonly registerUser: {
         readonly name: string;
+        readonly id: string;
         readonly email: string;
         readonly phone: string;
         readonly college: string | null;
@@ -35,6 +36,7 @@ mutation RegisterUserMutation(
 ) {
   registerUser(userInfo: $input) {
     name
+    id
     email
     phone
     college
@@ -71,6 +73,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "name",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
         "storageKey": null
       },
       {
@@ -123,14 +132,14 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "8e42d43b62ac32ff9d8b6fe8eacdee23",
+    "cacheID": "c5bc94386d81f016c21bd4659850ddef",
     "id": null,
     "metadata": {},
     "name": "RegisterUserMutation",
     "operationKind": "mutation",
-    "text": "mutation RegisterUserMutation(\n  $input: UserInput!\n) {\n  registerUser(userInfo: $input) {\n    name\n    email\n    phone\n    college\n    strategy\n  }\n}\n"
+    "text": "mutation RegisterUserMutation(\n  $input: UserInput!\n) {\n  registerUser(userInfo: $input) {\n    name\n    id\n    email\n    phone\n    college\n    strategy\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '687e8641bf32039fe0246e238110afb5';
+(node as any).hash = 'd3dd6d5ccf9a0500295e7992a19ea1f8';
 export default node;

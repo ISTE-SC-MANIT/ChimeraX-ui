@@ -4,19 +4,17 @@
 
 import { ConcreteRequest } from "relay-runtime";
 export type Status = "ACCEPTED" | "PENDING" | "REJECTED" | "%future added value";
-export type InvitationInput = {
-    receiverId: string;
-    receiverName: string;
-    receiverEmail: string;
+export type DeleteInvitationInput = {
+    invitationId: string;
 };
-export type SendInvitationMutationVariables = {
-    input: InvitationInput;
+export type DeleteInvitationMutationVariables = {
+    input: DeleteInvitationInput;
 };
-export type SendInvitationMutationResponse = {
-    readonly sendInvitation: {
+export type DeleteInvitationMutationResponse = {
+    readonly deleteInvitation: {
         readonly _id: string | null;
-        readonly sendersId: string;
         readonly id: string;
+        readonly sendersId: string;
         readonly sendersName: string;
         readonly sendersEmail: string;
         readonly receiversName: string;
@@ -25,21 +23,21 @@ export type SendInvitationMutationResponse = {
         readonly status: Status;
     };
 };
-export type SendInvitationMutation = {
-    readonly response: SendInvitationMutationResponse;
-    readonly variables: SendInvitationMutationVariables;
+export type DeleteInvitationMutation = {
+    readonly response: DeleteInvitationMutationResponse;
+    readonly variables: DeleteInvitationMutationVariables;
 };
 
 
 
 /*
-mutation SendInvitationMutation(
-  $input: InvitationInput!
+mutation DeleteInvitationMutation(
+  $input: DeleteInvitationInput!
 ) {
-  sendInvitation(invitationInput: $input) {
+  deleteInvitation(deleteInvitationInput: $input) {
     _id
-    sendersId
     id
+    sendersId
     sendersName
     sendersEmail
     receiversName
@@ -64,13 +62,13 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "invitationInput",
+        "name": "deleteInvitationInput",
         "variableName": "input"
       }
     ],
     "concreteType": "Invitation",
     "kind": "LinkedField",
-    "name": "sendInvitation",
+    "name": "deleteInvitation",
     "plural": false,
     "selections": [
       {
@@ -84,14 +82,14 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "sendersId",
+        "name": "id",
         "storageKey": null
       },
       {
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "id",
+        "name": "sendersId",
         "storageKey": null
       },
       {
@@ -145,7 +143,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "SendInvitationMutation",
+    "name": "DeleteInvitationMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -154,18 +152,18 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "SendInvitationMutation",
+    "name": "DeleteInvitationMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "caad49790aa2543fbb8773be92aad064",
+    "cacheID": "6fe3f916887fe7a41f31f42432d78703",
     "id": null,
     "metadata": {},
-    "name": "SendInvitationMutation",
+    "name": "DeleteInvitationMutation",
     "operationKind": "mutation",
-    "text": "mutation SendInvitationMutation(\n  $input: InvitationInput!\n) {\n  sendInvitation(invitationInput: $input) {\n    _id\n    sendersId\n    id\n    sendersName\n    sendersEmail\n    receiversName\n    receiversEmail\n    receiversId\n    status\n  }\n}\n"
+    "text": "mutation DeleteInvitationMutation(\n  $input: DeleteInvitationInput!\n) {\n  deleteInvitation(deleteInvitationInput: $input) {\n    _id\n    id\n    sendersId\n    sendersName\n    sendersEmail\n    receiversName\n    receiversEmail\n    receiversId\n    status\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '6647b0abe9763a639bc087791e4b5322';
+(node as any).hash = '65e24ce5ccfa5d81835ad4b5fe223190';
 export default node;

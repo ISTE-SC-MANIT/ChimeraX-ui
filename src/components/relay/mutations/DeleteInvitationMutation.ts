@@ -1,33 +1,40 @@
 import { graphql,  commitMutation } from "react-relay";
+import { DeleteInvitationMutationResponse, DeleteInvitationInput } from "../../../__generated__/DeleteInvitationMutation.graphql";
 import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment";
-import { InvitationInput, SendInvitationMutationResponse } from "../../../__generated__/SendInvitationMutation.graphql";
+import { RecordSourceSelectorProxy } from "relay-runtime";
+
 
 interface Callbacks {
     onError(err: Error): void;
-    onCompleted(response: SendInvitationMutationResponse ): void;
+    onCompleted(response: DeleteInvitationMutationResponse ): void;
 }
 
+
 const mutation = graphql`
-    mutation SendInvitationMutation($input: InvitationInput!) {
-        sendInvitation(invitationInput: $input) {
+    mutation DeleteInvitationMutation($input: DeleteInvitationInput!) {
+        deleteInvitation(deleteInvitationInput: $input) {
             _id,
-            sendersId,
             id,
+            sendersId,
             sendersName,
             sendersEmail,
             receiversName,
             receiversEmail,
             receiversId,
             status
+            status
             
         }
     }
 `
-
+const sharedUpdater = (store: RecordSourceSelectorProxy, id: string) => {
+    store.delete(id)
+}
 
 const commit = (
     environment: RelayModernEnvironment,
-   sendInvitationInput: InvitationInput,
+   deleteInvitationInput: DeleteInvitationInput,
+   id:string,
      { onCompleted, onError }: Callbacks
 ) => {
 
@@ -35,11 +42,12 @@ const commit = (
     return commitMutation(environment, {
         mutation,
         variables: {
-            input: sendInvitationInput
+            input: deleteInvitationInput
         },
+        updater: (store: RecordSourceSelectorProxy) => sharedUpdater(store, id),
         onCompleted: (response, error) => {
             if (error) {console.log(error)}
-            onCompleted(response as SendInvitationMutationResponse);
+            onCompleted(response as DeleteInvitationMutationResponse);
         },
         onError,
        
@@ -47,3 +55,5 @@ const commit = (
 };
 
 export default commit
+
+

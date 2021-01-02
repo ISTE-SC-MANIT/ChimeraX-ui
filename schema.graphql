@@ -9,8 +9,13 @@ input AcceptInvitationInput {
   receiverId: String!
 }
 
+input DeleteInvitationInput {
+  invitationId: String!
+}
+
 type Invitation {
   _id: String
+  id: String!
   sendersId: String!
   sendersName: String!
   sendersEmail: String!
@@ -34,13 +39,28 @@ type InvitationResponse {
 type Mutation {
   registerUser(userInfo: UserInput!): User!
   sendInvitation(invitationInput: InvitationInput!): Invitation!
-  acceptInvitation(acceptInvitationInput: AcceptInvitationInput!): Invitation!
+  acceptInvitation(acceptInvitationInput: AcceptInvitationInput!): Team!
+  deleteInvitation(deleteInvitationInput: DeleteInvitationInput!): Invitation!
+  playAsIndividual: Team!
+}
+
+"""payment status of team"""
+enum PaymentStatus {
+  PAID
+  UNPAID
 }
 
 type Query {
   viewer: User!
   getInvitations: InvitationResponse!
   getSingleUsers: [User!]!
+}
+
+"""role of user in team"""
+enum Role {
+  TEAM_LEADER
+  TEAM_HELPER
+  NOT_INITIALIZED
 }
 
 """status of invitation"""
@@ -58,8 +78,28 @@ enum Step {
   TEST
 }
 
+type Team {
+  _id: String
+  id: String!
+  teamLeadersId: String!
+  invitationId: String!
+  teamHelpersId: String
+  teamName: String
+  city: String
+  teamStatus: TeamStatus!
+  status: PaymentStatus!
+}
+
+"""tells wether player is individual or team"""
+enum TeamStatus {
+  INDIVIDUAL
+  TEAM
+  NOT_INITIALIZED
+}
+
 type User {
   _id: String
+  id: String!
   password: String!
   name: String!
   email: String!
@@ -69,7 +109,11 @@ type User {
   strategy: String!
   registered: Boolean!
   city: String!
+  resetPasswordLink: String!
+  teamId: String!
   step: Step!
+  role: Role!
+  teamStatus: TeamStatus!
 }
 
 input UserInput {

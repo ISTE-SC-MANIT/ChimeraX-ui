@@ -9,6 +9,7 @@ export type GetUserQueryResponse = {
         readonly _id: string | null;
         readonly name: string;
         readonly email: string;
+        readonly id: string;
         readonly phone: string;
         readonly registered: boolean;
         readonly strategy: string;
@@ -27,6 +28,7 @@ query GetUserQuery {
     _id
     name
     email
+    id
     phone
     registered
     strategy
@@ -63,6 +65,13 @@ var v0 = [
         "args": null,
         "kind": "ScalarField",
         "name": "email",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
         "storageKey": null
       },
       {
@@ -108,14 +117,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "f5b04406c0f1c11fab89220db8f7c8f3",
+    "cacheID": "80484b005b12279aa0b3381e9a236e84",
     "id": null,
     "metadata": {},
     "name": "GetUserQuery",
     "operationKind": "query",
-    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    phone\n    registered\n    strategy\n  }\n}\n"
+    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    id\n    phone\n    registered\n    strategy\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'f039fa2000f0f83371b1ff7c851c3566';
+(node as any).hash = '81ac87cc31a5290e0dbcc3639fd644f3';
 export default node;

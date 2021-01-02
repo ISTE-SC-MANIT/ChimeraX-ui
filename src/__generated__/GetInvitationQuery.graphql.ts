@@ -13,6 +13,7 @@ export type GetInvitationQueryResponse = {
             readonly receiversId: string;
             readonly receiversName: string;
             readonly receiversEmail: string;
+            readonly id: string;
         }>;
         readonly receivedInvitations: ReadonlyArray<{
             readonly sendersId: string;
@@ -21,6 +22,7 @@ export type GetInvitationQueryResponse = {
             readonly receiversId: string;
             readonly receiversName: string;
             readonly receiversEmail: string;
+            readonly id: string;
         }>;
     };
 };
@@ -41,6 +43,7 @@ query GetInvitationQuery {
       receiversId
       receiversName
       receiversEmail
+      id
     }
     receivedInvitations {
       sendersId
@@ -49,6 +52,7 @@ query GetInvitationQuery {
       receiversId
       receiversName
       receiversEmail
+      id
     }
   }
 }
@@ -96,6 +100,13 @@ var v0 = [
     "args": null,
     "kind": "ScalarField",
     "name": "receiversEmail",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "id",
     "storageKey": null
   }
 ],
@@ -150,14 +161,14 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "0758ab5fb26a0091e155b80804be16d9",
+    "cacheID": "fb39586148c8d7cea453cbbc738244c9",
     "id": null,
     "metadata": {},
     "name": "GetInvitationQuery",
     "operationKind": "query",
-    "text": "query GetInvitationQuery {\n  getInvitations {\n    sentInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n    }\n    receivedInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n    }\n  }\n}\n"
+    "text": "query GetInvitationQuery {\n  getInvitations {\n    sentInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n      id\n    }\n    receivedInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n      id\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'fbb9c2b83a90a60aa6aed81904c592d5';
+(node as any).hash = 'de94fb7ffc920ba551309be408ecb102';
 export default node;
