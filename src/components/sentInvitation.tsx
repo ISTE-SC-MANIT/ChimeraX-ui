@@ -6,14 +6,18 @@ import query from "../components/relay/queries/GetInvitationQuery"
 
 
 interface Props{
-  refetchRef:any
+  refetchRef:any,
+  send:boolean
 }
 
-const SendInvitation:React.FC<Props> =({refetchRef})=>{
+const SendInvitation:React.FC<Props> =({refetchRef,send})=>{
     const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
-    refetchRef.current = {
-      retry
-  }
+    
+
+  React.useEffect(()=>{
+
+retry()
+  },[send])
     if(isLoading){
         return <CircularProgress disableShrink />;
     }
