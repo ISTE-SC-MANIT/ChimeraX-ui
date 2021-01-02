@@ -2,6 +2,7 @@ import * as React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Image from 'next/image'
+import * as yup from "yup"
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -19,6 +20,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRouter } from 'next/router';
 import { authenticate } from '../components/utils';
 import { IconButton } from '@material-ui/core';
+import { Formik, Form, Field, FieldProps } from 'formik';
 
 
 const SigninButton = withStyles((theme) => ({
@@ -83,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid currentColor',
     borderRadius: '50px',
   },
+  field:{
+marginTop:theme.spacing(4)
+  },
   imageButton: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -135,6 +140,22 @@ export default function SignInSide() {
     const [openPass,setOpenPass]=React.useState(false)
     const router = useRouter()
 
+    const initialValues = {
+      password: "",
+      email: "",
+    }
+
+    const validationSchema = yup.object({
+      
+      email: yup
+          .string()
+          .email("Provide a valid Email ID")
+          .required("Email cannot be empty"),
+          password:yup.string().min(6,"Password must be minimum of 6 characters")          .required("Email cannot be empty")
+     
+  
+  });
+
     const getStep =(step:"REGISTER"|"PAYMENT"|"CHOOSE_TEAM"|"TEST")=>{
       switch(step)
     {
@@ -174,6 +195,16 @@ export default function SignInSide() {
       sendGoogleToken(response.tokenId);
     }
 
+
+    const handleLocalLogin =(values:typeof initialValues)=>{
+axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`,{...values}).then((response)=>{
+  authenticate(response,()=>{
+    router.push(getStep(response.data.user.step))
+})}).catch((error) => {
+  return error;
+})};
+    
+
     return (
       <>
         {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
@@ -197,9 +228,15 @@ export default function SignInSide() {
               <Typography component="h1" variant="h2">
                 Log In
               </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  margin="normal"
+              {/* <form className={classes.form} noValidate> */}
+              <Formik
+                onSubmit={(values) =>  handleLocalLogin(values)}
+                validationSchema={validationSchema}
+                initialValues={initialValues}>
+                  <Form aria-label="Sign up form" id="sign-up-form">
+                
+                {/* <TextField
+                 
                   required
                   fullWidth
                   id="email"
@@ -208,18 +245,50 @@ export default function SignInSide() {
                   autoComplete="email"
                   autoFocus
                   variant="outlined"
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  variant="outlined"
-                />
+                /> */}
+                 <Field name="email" >
+                                        {({
+                                            field,
+                                            meta,
+                                        }: FieldProps<typeof initialValues["email"]>) => (
+                                                <TextField
+                                                    fullWidth
+                                                    id="name-input"
+                                                    label="Email Address"
+                                                    required
+                                                    {...field}
+                                                    error={!!(meta.touched && meta.error)}
+                                                    helperText={meta.touched ? meta.error : ""}
+                                                    variant="outlined"
+                                                    // className={classes.field}
+                                                    margin="normal"
+                                                   
+                                                    
+                                                />
+                                            )}
+                  </Field>
+                  <Field name="password" className={classes.field}>
+                                        {({
+                                            field,
+                                            meta,
+                                        }: FieldProps<typeof initialValues["password"]>) => (
+                                                <TextField
+                                                    fullWidth
+                                                    id="password-input"
+                                                    label="Password"
+                                                    required
+                                                    {...field}
+                                                    error={!!(meta.touched && meta.error)}
+                                                    helperText={meta.touched ? meta.error : ""}
+                                                    variant="outlined"
+                                                    // className={classes.field}
+                                                    margin="normal"
+                                                   type="password"
+                                                    
+                                                />
+                                            )}
+                  </Field>
+                
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
@@ -286,8 +355,9 @@ export default function SignInSide() {
                     </Grid> */}
 
                   </Grid>
-                </Box>
-              </form>
+                </Box></Form>
+                </Formik>
+              {/* </form> */}
             </div>
           </Grid>
         </Grid>

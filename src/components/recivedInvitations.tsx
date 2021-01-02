@@ -4,9 +4,11 @@ import { useQuery } from "relay-hooks"
 import { GetInvitationQuery } from "../__generated__/GetInvitationQuery.graphql"
 import query from "../components/relay/queries/GetInvitationQuery"
 
+interface Props{
+  refetchRef:any
+}
 
-
-const ReceivedInvitation:React.FC =()=>{
+const ReceivedInvitation:React.FC<Props> =({refetchRef})=>{
     const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
     
     if(isLoading){

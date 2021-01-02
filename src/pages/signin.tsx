@@ -11,12 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors';
+import * as yup from "yup"
 import axios from "axios"
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { IconButton } from '@material-ui/core';
+import { Formik, Form, Field, FieldProps } from 'formik';
 
 const LoginButton = withStyles((theme) => ({
   root: {
@@ -137,50 +138,35 @@ export default function SignInSide() {
     const handleChange = (field:string)=>(e:any)=>{
         setFormData({ ...formData, [field]: e.target.value });
     }
+    const initialValues = {
+      password: "",
+      email: "",
+    }
 
-    const handleSubmit = (e:any)=>{
-        e.preventDefault();
+    const validationSchema = yup.object({
+      
+      email: yup
+          .string()
+          .email("Provide a valid Email ID")
+          .required("Email cannot be empty"),
+          password:yup.string().min(6,"Password must be minimum of 6 characters")          .required("Email cannot be empty")
+     
+  
+  });
+
+    const handleSubmit = (values:typeof initialValues)=>{
+        
         setFormData({...formData,text:"Submitting ....."})
 
-        fetch(`http://localhost:8080/api/register`, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              //...values,
-                     email:formData.email,
-          password:formData.password
-            }),
-          })
-            .then((response) => {
-            //   return response.json();
-         return response.json()
-            }).then((body)=>   authenticate(body,()=>{
-                router.push("/register")
-            }))
-            .catch((error) => {
-              return error;
-            });
-    //     axios
-    //     .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`, {
-         
-    //       email:formData.email,
-    //       password:formData.password
-    //     })
-    //     .then((res) => {
-    //       setFormData({
-    //         ...formData,
-           
-    //         email: "",
-           
-    //         password: "",
-    //         text: "Submitted",
-    //       });
-    // }
-    //)
+        axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`,{...values}).then((response)=>{
+          authenticate(response,()=>{
+            router.push("/dashboard/register")
+        })}).catch((error) => {
+          return error;
+        })
+   
 }
+
 
     return (
       <Grid container component="main" className={classes.root}>
@@ -192,31 +178,54 @@ export default function SignInSide() {
             <Typography component="h1" variant="h2">
               Sign In
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                variant="outlined"
-                onChange={handleChange("email")}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type={visible?"string":"password"}
-                id="password"
-                autoComplete="current-password"
-                variant="outlined"
-                onChange={handleChange("password")}
-              />
+            <Formik
+                onSubmit={(values) =>  handleSubmit(values)}
+                validationSchema={validationSchema}
+                initialValues={initialValues}>
+                    <Form aria-label="login up form" id="log-in-form">
+                    <Field name="email" >
+                                        {({
+                                            field,
+                                            meta,
+                                        }: FieldProps<typeof initialValues["email"]>) => (
+                                                <TextField
+                                                    fullWidth
+                                                    id="name-input"
+                                                    label="Email Address"
+                                                    required
+                                                    {...field}
+                                                    error={!!(meta.touched && meta.error)}
+                                                    helperText={meta.touched ? meta.error : ""}
+                                                    variant="outlined"
+                                                    // className={classes.field}
+                                                    margin="normal"
+                                                   
+                                                    
+                                                />
+                                            )}
+                  </Field>
+                  <Field name="password" >
+                                        {({
+                                            field,
+                                            meta,
+                                        }: FieldProps<typeof initialValues["password"]>) => (
+                                                <TextField
+                                                    fullWidth
+                                                    id="password-input"
+                                                    label="Password"
+                                                    required
+                                                    {...field}
+                                                    error={!!(meta.touched && meta.error)}
+                                                    helperText={meta.touched ? meta.error : ""}
+                                                    variant="outlined"
+                                                    // className={classes.field}
+                                                    margin="normal"
+                                                   type="password"
+                                                    
+                                                />
+                                            )}
+                  </Field>
+                
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
@@ -231,7 +240,7 @@ export default function SignInSide() {
               >
               {formData.text}
               </Button>
-<Button onClick={()=>setVisible(!visible)}>Toogle Password</Button>
+
               <Box mt={5}>
                 {' '}
                 <Typography align="center" variant="h6">
@@ -257,7 +266,9 @@ export default function SignInSide() {
                   </Grid>
                 </Grid>
               </Box>
-            </form>
+              </Form>
+              </Formik>
+            {/* </form> */}
           </div>
         </Grid>
 

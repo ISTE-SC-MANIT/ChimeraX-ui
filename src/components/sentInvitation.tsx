@@ -5,10 +5,15 @@ import { GetInvitationQuery } from "../__generated__/GetInvitationQuery.graphql"
 import query from "../components/relay/queries/GetInvitationQuery"
 
 
+interface Props{
+  refetchRef:any
+}
 
-const SendInvitation:React.FC =()=>{
+const SendInvitation:React.FC<Props> =({refetchRef})=>{
     const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
-    
+    refetchRef.current = {
+      retry
+  }
     if(isLoading){
         return <CircularProgress disableShrink />;
     }
@@ -27,8 +32,9 @@ const SendInvitation:React.FC =()=>{
                           primary={invitation.receiversName}
                           secondary={invitation.receiversEmail}
                         />
-                        <ListItemSecondaryAction><Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp;
-                        <Button variant="outlined" color="primary">Reject</Button>
+                        <ListItemSecondaryAction>
+                          {/* <Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp; */}
+                        <Button variant="outlined" color="primary">Delete</Button>
                         </ListItemSecondaryAction>
                       </ListItem>)
                 })}
