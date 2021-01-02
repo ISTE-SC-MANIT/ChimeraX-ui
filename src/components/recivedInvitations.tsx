@@ -26,8 +26,8 @@ const ReceivedInvitation:React.FC<Props> =({refetchRef})=>{
                             
                         </ListItemAvatar>
                         <ListItemText
-                          primary={invitation.receiversName}
-                          secondary={invitation.receiversEmail}
+                          primary={invitation.sendersName}
+                          secondary={invitation.sendersEmail}
                         />
                         <ListItemSecondaryAction><Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp;
                         <Button variant="outlined" color="primary">Reject</Button>
