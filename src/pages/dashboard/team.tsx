@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       //   flexGrow: 1,
       height: '100vh',
-      margin:'0px',
+      margin: '0px',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -41,10 +41,17 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '30%',
       height: '10%',
       marginLeft: theme.spacing(8),
+
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '40%',
+      },
     },
+   
     Head_title: {
       textAlign: 'center',
       margin: 'auto',
+      color: '#001144',
+      fontFamily : 'sans-serif',
     },
     invitation_button: {
       marginLeft: theme.spacing(4),
@@ -55,8 +62,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: '50%',
       marginBottom: theme.spacing(2),
     },
-    tab:{
-      overflow:'scroll',
+    tab: {
+      overflow: 'scroll',
     },
   })
 );
@@ -121,18 +128,23 @@ retry()
       </AppBar>
       <Grid container component="main">
         <Grid item xs={12} sm={12} md={7} lg={8}>
-          <Box mt={6} ml={2}>
+          <Box mt={6} ml={2} mb={4}>
             <Grid container justify="flex-start" alignItems="center">
-              <Grid item md={4} lg={4}>
+              <Grid item xs={12} md={4} lg={4} alignItems="center">
                 <Box>
                   <img src="/dashboard.png" className={classes.dashboardImg}></img>
                 </Box>
               </Grid>
               <Grid item xs={12} sm={12} md={8} lg={8}>
-                <Box mt={6} className={classes.Head_title}>
-  <Typography variant="h4"> Hello {viewer.name}</Typography>
+                <Box>
+                  <Typography  variant="h4" className={classes.Head_title}>
+                    Hello, {viewer.name}
+                  </Typography>
 
-                  <Typography variant="h6"> Welcome to your Chimera dashboard</Typography>
+                  <Typography  className={classes.Head_title}>
+   
+                    Welcome to your Chimera dashboard
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -140,11 +152,11 @@ retry()
           <Box ml={4} mt={2}>
             <Box display="flex">
               <Radio
-                checked={radio==="A"}
+                checked={radio === 'A'}
                 value="A"
                 name="radio-button-demo"
                 inputProps={{ 'aria-label': 'A' }}
-                onClick={()=>setRadio("A")}
+                onClick={() => setRadio('A')}
               />
               <div>
                 <Typography variant="h6">Play as an Individual</Typography>
@@ -153,11 +165,11 @@ retry()
             </Box>
             <Box display="flex" mt={2}>
               <Radio
-                checked={radio==="B"}
+                checked={radio === 'B'}
                 value="B"
                 name="radio-button-demo"
                 inputProps={{ 'aria-label': 'B' }}
-                onClick={()=>setRadio("B")}
+                onClick={() => setRadio('B')}
               />
 
               <ListItemText
