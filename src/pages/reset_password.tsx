@@ -7,7 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import { Formik, Form, Field, FieldProps } from 'formik';
+import * as yup from 'yup';
 import axios from 'axios';
+import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function reset_pass (){
 const classes = useStyles();
-const [formData,setFormData]=React.useState({New_Password:"",Confirm_Password:"",})
+const [formData,setFormData]=React.useState({newPassword:"",confirmPassword:"",})
+ const router = useRouter();
 
   const handleChange = (field: string) => (e: any) => {
     setFormData({ ...formData, [field]: e.target.value });
@@ -39,17 +42,35 @@ const [formData,setFormData]=React.useState({New_Password:"",Confirm_Password:""
       const handleSubmit = (values: typeof initialValues) => {
        verify(values);
 
+         axios
+           .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/resetpassword`, { ...values })
+           .then((response) => {
+             authenticate(response, () => {
+               router.push('/login');
+             });
+           })
+           .catch((error) => {
+             return error;
+           });
+   
+
       };
 
       const initialValues = {
-        New_Password: '',
-        Confirm_Password: '',
+        newPassword: '',
+        confirmPassword: '',
       };
 
-
-      function verify (values){
+       const validationSchema = yup.object({
+        
+         newPassword: yup
+           .string()
+           .min(6, 'Password must be minimum of 6 characters')
+           
+       });
+      function verify (values:typeof initialValues){
          
-          if(values.New_Password!=values.Confirm_Password)
+          if(values.newPassword!=values.confirmPassword)
             alert("password doesnt match");
                 
             else
@@ -71,7 +92,7 @@ const [formData,setFormData]=React.useState({New_Password:"",Confirm_Password:""
 
 return (
   <Grid container component="main" className={classes.root}>
-    <Grid item xs={12} sm={8} >
+    <Grid item xs={12} sm={8}>
       <Box mt={5} className={classes.title}>
         <Typography align="center" component="span" variant="h3" color="inherit">
           Reset Your Password
@@ -85,13 +106,17 @@ return (
       </Box>
     </Grid>
     <Grid item xs={12} sm={8} component={Paper} elevation={0} square>
-      <Formik onSubmit={(values) => handleSubmit(values)} initialValues={initialValues}>
+      <Formik
+        onSubmit={(values) => handleSubmit(values)}
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+      >
         <Form aria-label="reset_password_form" id="reset_password_form" className={classes.form}>
-          <Field name="New_Password">
-            {({ field, meta }: FieldProps<typeof initialValues['New_Password']>) => (
+          <Field name="newPassword">
+            {({ field, meta }: FieldProps<typeof initialValues['newPassword']>) => (
               <TextField
                 fullWidth
-                id="New_Password-input"
+                id="newPassword-input"
                 label="New Password"
                 required
                 {...field}
@@ -104,11 +129,11 @@ return (
               />
             )}
           </Field>
-          <Field name="Confirm_Password">
-            {({ field, meta }: FieldProps<typeof initialValues['Confirm_Password']>) => (
+          <Field name="confirmPassword">
+            {({ field, meta }: FieldProps<typeof initialValues['confirmPassword']>) => (
               <TextField
                 fullWidth
-                id="Confirm_Password-input"
+                id="confirmPassword-input"
                 label="Confirm Password"
                 required
                 {...field}
