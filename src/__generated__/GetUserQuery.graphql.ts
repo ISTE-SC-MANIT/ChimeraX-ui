@@ -9,7 +9,7 @@ export type GetUserQueryResponse = {
         readonly _id: string | null;
         readonly name: string;
         readonly email: string;
-        readonly id: string;
+        readonly id: string | null;
         readonly phone: string;
         readonly registered: boolean;
         readonly strategy: string;

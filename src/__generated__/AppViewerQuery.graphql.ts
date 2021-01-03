@@ -8,7 +8,7 @@ export type AppViewerQueryResponse = {
     readonly viewer: {
         readonly _id: string | null;
         readonly name: string;
-        readonly id: string;
+        readonly id: string | null;
         readonly email: string;
         readonly phone: string;
         readonly registered: boolean;

@@ -7,22 +7,24 @@ export type GetInvitationQueryVariables = {};
 export type GetInvitationQueryResponse = {
     readonly getInvitations: {
         readonly sentInvitations: ReadonlyArray<{
+            readonly _id: string | null;
+            readonly id: string | null;
             readonly sendersId: string;
             readonly sendersName: string;
             readonly sendersEmail: string;
             readonly receiversId: string;
             readonly receiversName: string;
             readonly receiversEmail: string;
-            readonly id: string;
         }>;
         readonly receivedInvitations: ReadonlyArray<{
+            readonly _id: string | null;
+            readonly id: string | null;
             readonly sendersId: string;
             readonly sendersName: string;
             readonly sendersEmail: string;
             readonly receiversId: string;
             readonly receiversName: string;
             readonly receiversEmail: string;
-            readonly id: string;
         }>;
     };
 };
@@ -37,22 +39,24 @@ export type GetInvitationQuery = {
 query GetInvitationQuery {
   getInvitations {
     sentInvitations {
+      _id
+      id
       sendersId
       sendersName
       sendersEmail
       receiversId
       receiversName
       receiversEmail
-      id
     }
     receivedInvitations {
+      _id
+      id
       sendersId
       sendersName
       sendersEmail
       receiversId
       receiversName
       receiversEmail
-      id
     }
   }
 }
@@ -60,6 +64,20 @@ query GetInvitationQuery {
 
 const node: ConcreteRequest = (function(){
 var v0 = [
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "_id",
+    "storageKey": null
+  },
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "id",
+    "storageKey": null
+  },
   {
     "alias": null,
     "args": null,
@@ -100,13 +118,6 @@ var v0 = [
     "args": null,
     "kind": "ScalarField",
     "name": "receiversEmail",
-    "storageKey": null
-  },
-  {
-    "alias": null,
-    "args": null,
-    "kind": "ScalarField",
-    "name": "id",
     "storageKey": null
   }
 ],
@@ -161,14 +172,14 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "fb39586148c8d7cea453cbbc738244c9",
+    "cacheID": "2a3c3ed8348922faf38ca2fb91d74e21",
     "id": null,
     "metadata": {},
     "name": "GetInvitationQuery",
     "operationKind": "query",
-    "text": "query GetInvitationQuery {\n  getInvitations {\n    sentInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n      id\n    }\n    receivedInvitations {\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n      id\n    }\n  }\n}\n"
+    "text": "query GetInvitationQuery {\n  getInvitations {\n    sentInvitations {\n      _id\n      id\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n    }\n    receivedInvitations {\n      _id\n      id\n      sendersId\n      sendersName\n      sendersEmail\n      receiversId\n      receiversName\n      receiversEmail\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'de94fb7ffc920ba551309be408ecb102';
+(node as any).hash = '3c66142cbc8d617025a611f7a31da3f0';
 export default node;

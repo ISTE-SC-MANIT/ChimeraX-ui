@@ -13,7 +13,7 @@ export type DeleteInvitationMutationVariables = {
 export type DeleteInvitationMutationResponse = {
     readonly deleteInvitation: {
         readonly _id: string | null;
-        readonly id: string;
+        readonly id: string | null;
         readonly sendersId: string;
         readonly sendersName: string;
         readonly sendersEmail: string;

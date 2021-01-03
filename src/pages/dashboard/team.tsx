@@ -60,12 +60,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Team:React.FC<ComponentProps>=({environment})=> {
+const Team:React.FC<ComponentProps>=({environment,viewer})=> {
   const classes = useStyles();
   const [tab,setTab] =React.useState(0)
   const [receiver,setReceiver]=React.useState<any>(null)
   const [send,setSend]=React.useState(false)
+  const [rendered,setRendered]=React.useState(false)
   const refetchRef = React.useRef<any>(null)
+  const [radio,setRadio ] =React.useState<"A"|"B">("A") 
+
+  const {data,error,retry,isLoading}=useQuery<GetUserQuery>(query)
+
+  if(isLoading && !rendered){
+   return <h1>Loading</h1>
+  }
+
+  
+
+  let dummyUsers= data?.getSingleUsers
 
   const handleSendInvitation=()=>{
     console.log(receiver)
@@ -74,10 +86,14 @@ const Team:React.FC<ComponentProps>=({environment})=> {
       receiverEmail:receiver.email,
       receiverName:receiver.name
     }
-    SendInvitationMutation(environment,receiverInput,{onCompleted:()=>{
+    SendInvitationMutation(environment,receiverInput,{onCompleted:(res)=>{
       console.log("registered")
       console.log(refetchRef.current)
+      setReceiver(null)
+      setRendered(true)
       setSend(!send)
+retry()
+
       refetchRef.current && refetchRef.current.retry()
       
               },onError:(err)=>{console.log(err)}})
@@ -86,13 +102,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
-  const {data,error,retry,isLoading}=useQuery<GetUserQuery>(query)
 
-  if(isLoading){
-   return <h1>Loading</h1>
-  }
-
-  const dummyUsers= data.getSingleUsers
 
   return (
     <div className={classes.root}>
@@ -118,7 +128,7 @@ const Team:React.FC<ComponentProps>=({environment})=> {
               </Grid>
               <Grid item xs={12} sm={12} md={8} lg={8}>
                 <Box mt={6} className={classes.Head_title}>
-                  <Typography variant="h4"> Hello CoderBite</Typography>
+  <Typography variant="h4"> Hello {viewer.name}</Typography>
 
                   <Typography variant="h6"> Welcome to your Chimera dashboard</Typography>
                 </Box>
@@ -128,10 +138,11 @@ const Team:React.FC<ComponentProps>=({environment})=> {
           <Box ml={4} mt={2}>
             <Box display="flex">
               <Radio
-                checked={false}
-                value="a"
+                checked={radio==="A"}
+                value="A"
                 name="radio-button-demo"
                 inputProps={{ 'aria-label': 'A' }}
+                onClick={()=>setRadio("A")}
               />
               <div>
                 <Typography variant="h6">Play as an Individual</Typography>
@@ -140,10 +151,11 @@ const Team:React.FC<ComponentProps>=({environment})=> {
             </Box>
             <Box display="flex" mt={2}>
               <Radio
-                checked={true}
-                value="a"
+                checked={radio==="B"}
+                value="B"
                 name="radio-button-demo"
-                inputProps={{ 'aria-label': 'A' }}
+                inputProps={{ 'aria-label': 'B' }}
+                onClick={()=>setRadio("B")}
               />
 
               <ListItemText
@@ -217,9 +229,9 @@ const Team:React.FC<ComponentProps>=({environment})=> {
             </Tabs>
             <Divider />
             {tab === 0 ? (
-              <SendInvitation refetchRef={refetchRef} send={send} />
+              <SendInvitation refetchRef={refetchRef} send={send} environment={environment} />
             ) : (
-              <ReceivedInvitation refetchRef={refetchRef} />
+              <ReceivedInvitation refetchRef={refetchRef} environment={environment} />
             )}
           </Paper>
         </Grid>

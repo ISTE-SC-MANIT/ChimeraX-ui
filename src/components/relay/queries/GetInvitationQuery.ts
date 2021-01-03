@@ -4,22 +4,26 @@ const GetInvitationQuery = graphql`
     query GetInvitationQuery {
         getInvitations {
            sentInvitations{
+               _id
+               id,
                sendersId
                sendersName
                sendersEmail
                receiversId
                receiversName
                receiversEmail
-               id
+             
            }
            receivedInvitations{
+               _id
+               id
             sendersId
                sendersName
                sendersEmail
                receiversId
                receiversName
                receiversEmail
-               id
+           
            }
 
         }

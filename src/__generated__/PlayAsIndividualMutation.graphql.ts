@@ -9,7 +9,7 @@ export type PlayAsIndividualMutationVariables = {};
 export type PlayAsIndividualMutationResponse = {
     readonly playAsIndividual: {
         readonly _id: string | null;
-        readonly id: string;
+        readonly id: string | null;
         readonly teamLeadersId: string;
         readonly invitationId: string;
         readonly teamHelpersId: string | null;

@@ -16,7 +16,7 @@ export type RegisterUserMutationVariables = {
 export type RegisterUserMutationResponse = {
     readonly registerUser: {
         readonly name: string;
-        readonly id: string;
+        readonly id: string | null;
         readonly email: string;
         readonly phone: string;
         readonly college: string | null;

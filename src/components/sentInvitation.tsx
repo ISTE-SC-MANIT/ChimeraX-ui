@@ -1,19 +1,23 @@
 import React from "react"
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Button, CircularProgress } from "@material-ui/core"
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Button, CircularProgress, Tooltip } from "@material-ui/core"
 import { useQuery } from "relay-hooks"
 import { GetInvitationQuery } from "../__generated__/GetInvitationQuery.graphql"
 import query from "../components/relay/queries/GetInvitationQuery"
 import IconButton from '@material-ui/core/IconButton';
 //import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteInvitationMutation from "../components/relay/mutations/DeleteInvitationMutation"
+import { DeleteInvitationInput } from "../__generated__/DeleteInvitationMutation.graphql"
+import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment"
 //import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 interface Props{
   refetchRef:any,
-  send:boolean
+  send:boolean,
+  environment:RelayModernEnvironment
 }
 
-const SendInvitation:React.FC<Props> =({refetchRef,send})=>{
+const SendInvitation:React.FC<Props> =({refetchRef,send,environment})=>{
     const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
     
 
@@ -25,11 +29,17 @@ retry()
         return <CircularProgress disableShrink />;
     }
 
-    const sentInvitations = data.getInvitations.sentInvitations
+    const handleDelete = (id:string)=>{
+      const input:DeleteInvitationInput={invitationId:id}
+      DeleteInvitationMutation(environment,input,id,{onCompleted:()=>{console.log("Deleted")},onError:(err)=>{console.log(err)}})
+    }
+
+    const sentInvitations = data?.getInvitations?.sentInvitations
 
     return <>
     <List>
       {sentInvitations.map((invitation)=>{
+        if(Boolean(invitation))
                     return (
                       <ListItem>
                         <ListItemAvatar>
@@ -41,12 +51,16 @@ retry()
                         />
                         <ListItemSecondaryAction>
                           {/* <Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp; */}
-                          <IconButton color="secondary" aria-label="delete">
+                          <Tooltip title="Delete Invitation"><IconButton color="secondary" aria-label="delete" onClick={()=>handleDelete(invitation._id)}>
                             <DeleteIcon />
                           </IconButton>
+                          </Tooltip>
                         </ListItemSecondaryAction>
                       </ListItem>
                     );
+                    else{
+                      return null
+                    }
                 })}
       </List>
     </>

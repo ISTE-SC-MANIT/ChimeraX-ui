@@ -14,7 +14,7 @@ const mutation = graphql`
     mutation DeleteInvitationMutation($input: DeleteInvitationInput!) {
         deleteInvitation(deleteInvitationInput: $input) {
             _id,
-            id,
+         id,
             sendersId,
             sendersName,
             sendersEmail,

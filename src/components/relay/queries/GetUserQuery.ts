@@ -6,7 +6,7 @@ const GetUserQuery = graphql`
             _id
             name
             email
-            id
+        id
             phone
             registered
             strategy

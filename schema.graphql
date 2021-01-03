@@ -15,7 +15,7 @@ input DeleteInvitationInput {
 
 type Invitation {
   _id: String
-  id: String!
+  id: String
   sendersId: String!
   sendersName: String!
   sendersEmail: String!
@@ -80,7 +80,7 @@ enum Step {
 
 type Team {
   _id: String
-  id: String!
+  id: String
   teamLeadersId: String!
   invitationId: String!
   teamHelpersId: String
@@ -99,7 +99,7 @@ enum TeamStatus {
 
 type User {
   _id: String
-  id: String!
+  id: String
   password: String!
   name: String!
   email: String!

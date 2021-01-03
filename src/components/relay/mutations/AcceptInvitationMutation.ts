@@ -13,7 +13,7 @@ const mutation = graphql`
     mutation AcceptInvitationMutation($input: AcceptInvitationInput!) {
         acceptInvitation(acceptInvitationInput: $input) {
             _id,
-            id,
+       id,
             teamLeadersId,
             invitationId,
             teamHelpersId,

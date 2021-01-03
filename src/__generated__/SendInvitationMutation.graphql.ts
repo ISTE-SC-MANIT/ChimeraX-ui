@@ -16,7 +16,7 @@ export type SendInvitationMutationResponse = {
     readonly sendInvitation: {
         readonly _id: string | null;
         readonly sendersId: string;
-        readonly id: string;
+        readonly id: string | null;
         readonly sendersName: string;
         readonly sendersEmail: string;
         readonly receiversName: string;

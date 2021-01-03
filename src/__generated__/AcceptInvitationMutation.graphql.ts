@@ -15,7 +15,7 @@ export type AcceptInvitationMutationVariables = {
 export type AcceptInvitationMutationResponse = {
     readonly acceptInvitation: {
         readonly _id: string | null;
-        readonly id: string;
+        readonly id: string | null;
         readonly teamLeadersId: string;
         readonly invitationId: string;
         readonly teamHelpersId: string | null;
