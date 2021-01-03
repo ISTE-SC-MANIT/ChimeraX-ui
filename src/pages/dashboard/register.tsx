@@ -12,6 +12,7 @@ import * as yup from "yup"
 import { cities } from "../../components/cities";
 import  RegisterUserMutation  from "../../components/relay/mutations/RegisterUserMutation";
 import { UserInput } from "../../__generated__/RegisterUserMutation.graphql";
+import CustomDrawer from "../../components/customDrawer";
 
 
 
@@ -186,6 +187,8 @@ router.push("/dashboard/team")
 
     return (
       <div className={classes.root} id="reg">
+
+        <CustomDrawer name={"Devansh"} username={"Devansh"}/>
         <Box>
             <ListItem className={classes.heading}>
                 <ListItemText primary={"Registration"} primaryTypographyProps={{ variant: "h4", align: "center" }}

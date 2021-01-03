@@ -9,6 +9,10 @@ input AcceptInvitationInput {
   receiverId: String!
 }
 
+input CreateOrderInput {
+  teamName: String!
+}
+
 input DeleteInvitationInput {
   invitationId: String!
 }
@@ -42,12 +46,24 @@ type Mutation {
   acceptInvitation(acceptInvitationInput: AcceptInvitationInput!): Team!
   deleteInvitation(deleteInvitationInput: DeleteInvitationInput!): Invitation!
   playAsIndividual: Team!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
+  payOrder(payOrderInput: PayOrderInput!): Team!
+}
+
+type Order {
+  id: String!
+  amount: Float!
+  currency: String!
 }
 
 """payment status of team"""
 enum PaymentStatus {
   PAID
   UNPAID
+}
+
+input PayOrderInput {
+  paymentId: String!
 }
 
 type Query {
