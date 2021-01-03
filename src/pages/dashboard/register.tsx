@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: '0px',
       padding: '0px',
       boxSizing: 'border-box',
-      paddingBottom: "6px"
+      paddingBottom: '6px',
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -69,13 +69,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(3),
     },
     paper: {
-      width: '80%',
+      width: '50%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginBottom: theme.spacing(4),
       padding: theme.spacing(2),
+      borderRadius: '25px',
       [theme.breakpoints.down('md')]: {
-        width: '98%',
+        width: '96%',
       },
     },
     textField: {
@@ -97,14 +98,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonGroup: {
       // float: "right",
-      width: '300px',
-      marginLeft: 'auto',
+      width: 'fit-content',
+      margin: 'auto',
       //marginTop: theme.spacing(4)
     },
     heading: {
-      color: "white",
+      color: 'white',
       marginBottom: theme.spacing(4),
       paddingTop: '40px',
+    },
+    subHeading: {
+      color: '#001831',
+      fontSize: '1.2rem',
+    },
+    details: {
+      textAlign: "center",
     },
     center: {
       width: 'fit-content',
@@ -187,189 +195,187 @@ router.push("/dashboard/team")
     return (
       <div className={classes.root} id="reg">
         <Box>
-            <ListItem className={classes.heading}>
-                <ListItemText primary={"Registration"} primaryTypographyProps={{ variant: "h4", align: "center" }}
-                    secondary={"Register now to experience the fun-packed workshop planned ahead for you by ISTE!  "}
-                    secondaryTypographyProps={{ align: "center" }}
-                />
-            </ListItem>
+          <ListItem className={classes.heading}>
+            <ListItemText
+              primary={'Registration'}
+              primaryTypographyProps={{ variant: 'h4', align: 'center' }}
+              secondary={`Register now to experience the fun-packed workshop planned ahead for you by ISTE!`}
+              secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
+            />
+          </ListItem>
 
+          <Formik
+            onSubmit={(values) => handleSubmit(values)}
+            validationSchema={validationSchema}
+            initialValues={initialValues}
+          >
+            {({ values, setValues }) => (
+              <Form aria-label="Sign up form" id="sign-up-form">
+                <Box>
+                  <Paper elevation={4} className={classes.paper}>
+                    <ListItem className={classes.details}>
+                      <ListItemText
+                        primary={'Personal Details'}
+                        primaryTypographyProps={{ variant: 'h6' }}
+                        secondary={
+                          'Please fill these details carefully, you will be informed about details of workshops through these details'
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <Field name="name">
+                        {({ field, meta }: FieldProps<typeof initialValues['name']>) => (
+                          <TextField
+                            fullWidth
+                            id="name-input"
+                            label="Name"
+                            required
+                            {...field}
+                            error={!!(meta.touched && meta.error)}
+                            helperText={meta.touched ? meta.error : ''}
+                            variant="outlined"
+                            size="small"
+                            className={classes.textField}
+                          />
+                        )}
+                      </Field>
+                    </ListItem>
+                    <ListItem>
+                      <Field name="email">
+                        {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                          <TextField
+                            fullWidth
+                            id="name-input"
+                            label="Email"
+                            required
+                            {...field}
+                            error={!!(meta.touched && meta.error)}
+                            helperText={meta.touched ? meta.error : ''}
+                            variant="outlined"
+                            size="small"
+                            className={classes.textField}
+                            disabled
+                          />
+                        )}
+                      </Field>
+                    </ListItem>
+                    <ListItem>
+                      <Field name="college">
+                        {({ field, meta }: FieldProps<typeof initialValues['college']>) => (
+                          <TextField
+                            fullWidth
+                            id="name-input"
+                            label="College"
+                            required
+                            {...field}
+                            error={!!(meta.touched && meta.error)}
+                            helperText={meta.touched ? meta.error : ''}
+                            variant="outlined"
+                            size="small"
+                            className={classes.textField}
+                          />
+                        )}
+                      </Field>
+                    </ListItem>
+                    <ListItem>
+                      <Field name="phone">
+                        {({ field, meta }: FieldProps<typeof initialValues['phone']>) => (
+                          <TextField
+                            fullWidth
+                            id="name-input"
+                            label="Mobile no."
+                            required
+                            {...field}
+                            error={!!(meta.touched && meta.error)}
+                            helperText={meta.touched ? meta.error : ''}
+                            variant="outlined"
+                            size="small"
+                            className={classes.textField}
+                          />
+                        )}
+                      </Field>
+                    </ListItem>
+                    <ListItem>
+                      <Field name="state">
+                        {({ field, meta }: FieldProps<typeof initialValues['phone']>) => (
+                          // <TextField
+                          //     fullWidth
+                          //     id="name-input"
+                          //     label="Mobile no."
+                          //     required
+                          //     {...field}
+                          //     error={!!(meta.touched && meta.error)}
+                          //     helperText={meta.touched ? meta.error : ""}
+                          //     variant="outlined"
+                          //     size="small"
+                          //     className={classes.textField}
+                          // />
+                          <Autocomplete
+                            id="combo-box-demo"
+                            options={cities}
+                            getOptionLabel={(option) => `${option.name} , ${option.state}`}
+                            style={{ width: '98%' }}
+                            renderInput={
+                              (params) => (
+                                <TextField
+                                  {...params}
+                                  fullWidth
+                                  id="name-input"
+                                  label="City"
+                                  required
+                                  {...field}
+                                  error={!!(meta.touched && meta.error)}
+                                  helperText={meta.touched ? meta.error : ''}
+                                  variant="outlined"
+                                  size="small"
+                                  className={classes.textField}
+                                />
+                              )
+                              // <TextField {...params} label="Combo box" variant="outlined" />
+                            }
+                          />
+                        )}
+                      </Field>
+                    </ListItem>
 
+                    <Box className={classes.center}>
+                      <ListItem>
+                        <ListItemIcon>
+                          <Checkbox
+                            color="primary"
+                            checked={terms}
+                            onChange={() => {
+                              setTerms(!terms);
+                            }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <>
+                              I agree to the{' '}
+                              <Link onClick={() => router.push('terms')}>Terms & Conditions</Link>{' '}
+                              of ISTE-SC-MANIT{' '}
+                            </>
+                          }
+                        />
+                      </ListItem>
+                    </Box>
 
-            <Formik
-                onSubmit={(values) =>  handleSubmit(values)}
-                validationSchema={validationSchema}
-                initialValues={initialValues}>
-
-                {({ values, setValues }) =>
-
-                    (<Form aria-label="Sign up form" id="sign-up-form">
-
-                        <Box>
-                            <Paper elevation={4} className={classes.paper}>
-                                <ListItem>
-                                    <ListItemText primary={"Personal Details"} primaryTypographyProps={{ variant: "h6" }}
-                                        secondary={"Please fill these details carefully, you will be informed about details of workshops through these details"}
-                                    />
-                                </ListItem>
-                                <ListItem>
-
-                                    <Field name="name">
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["name"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="Name"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    className={classes.textField}
-                                                />
-                                            )}
-                                    </Field>
-                                </ListItem>
-                                <ListItem>
-                                    <Field name="email">
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["email"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="Email"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    className={classes.textField}
-                                                    disabled
-                                                />
-                                            )}
-                                    </Field>
-                                </ListItem>
-                                <ListItem>
-
-                                    <Field name="college">
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["college"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="College"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    className={classes.textField}
-                                                />
-                                            )}
-                                    </Field>
-                                </ListItem>
-                                <ListItem>
-
-                                    <Field name="phone">
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["phone"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="Mobile no."
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    className={classes.textField}
-                                                />
-                                            )}
-                                    </Field>
-
-                                </ListItem>
-                                <ListItem>
-                                    <Field name="state">
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["phone"]>) => (
-                                                // <TextField
-                                                //     fullWidth
-                                                //     id="name-input"
-                                                //     label="Mobile no."
-                                                //     required
-                                                //     {...field}
-                                                //     error={!!(meta.touched && meta.error)}
-                                                //     helperText={meta.touched ? meta.error : ""}
-                                                //     variant="outlined"
-                                                //     size="small"
-                                                //     className={classes.textField}
-                                                // />
-                                                <Autocomplete
-                                                    id="combo-box-demo"
-                                                    options={cities}
-                                                    getOptionLabel={(option) => `${option.name} , ${option.state}`}
-                                                    style={{ width: "98%" }}
-                                                    renderInput={(params) =>
-                                                        <TextField
-                                                            {...params}
-                                                            fullWidth
-                                                            id="name-input"
-                                                            label="City"
-                                                            required
-                                                            {...field}
-                                                            error={!!(meta.touched && meta.error)}
-                                                            helperText={meta.touched ? meta.error : ""}
-                                                            variant="outlined"
-                                                            size="small"
-                                                            className={classes.textField}
-                                                        />
-                                                        // <TextField {...params} label="Combo box" variant="outlined" />
-                                                    }
-                                                />
-                                            )}
-                                    </Field>
-
-                                </ListItem>
-
-
-                                
-                                <Box className={classes.center}>
-                                    <ListItem >
-                                        <ListItemIcon>
-                                            <Checkbox color="primary"
-                                                checked={terms}
-                                                onChange={() => { setTerms(!terms) }}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText primary={<>I agree to the  <Link onClick={() => router.push("terms")}>
-                                            Terms & Conditions
-  </Link> of ISTE-SC-MANIT </>} />
-                                    </ListItem>
-                                </Box>
-
-                                <Box className={classes.buttonGroup}>
-
-                                    <Button type="submit" color="primary" variant="contained" className={classes.button} >Proceed</Button>
-                                </Box>
-                            </Paper>
-                        </Box>
-                    </Form>)}
-            </Formik>
+                    <Box className={classes.buttonGroup}>
+                      <Button
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                        className={classes.button}
+                      >
+                        Proceed
+                      </Button>
+                    </Box>
+                  </Paper>
+                </Box>
+              </Form>
+            )}
+          </Formik>
         </Box>
       </div>
     );
