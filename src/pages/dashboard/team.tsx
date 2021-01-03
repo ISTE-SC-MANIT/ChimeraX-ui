@@ -16,6 +16,7 @@ import SendInvitation from '../../components/sentInvitation';
 import { InvitationInput } from '../../__generated__/SendInvitationMutation.graphql';
 import SendInvitationMutation from "../../components/relay/mutations/SendInvitationMutation"
 import {ComponentProps} from "../_app"
+import CustomDrawer from '../../components/customDrawer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -113,6 +114,7 @@ retry()
 
   return (
     <div className={classes.root}>
+       <CustomDrawer name={"Devansh"} username={"Devansh"}/>
       <AppBar position="sticky">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -196,7 +198,7 @@ retry()
                   <span>
                     <Avatar alt="Remy Sharp" src="/dummy.png" />
                   </span>
-                  &nbsp; {option.name} {option.email}
+                  &nbsp; {option.name} ({option.email})
                 </React.Fragment>
               )}
               style={{ width: 400 }}

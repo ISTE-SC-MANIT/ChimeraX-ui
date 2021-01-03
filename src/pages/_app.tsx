@@ -22,6 +22,7 @@ import orange from "@material-ui/core/colors/orange";
 import { Environment, QueryRenderer } from "react-relay";
 import { makeEnvironment } from "../components/relay/environment";
 import { AppViewerQuery, AppViewerQueryResponse } from "../__generated__/AppViewerQuery.graphql";
+import { themeProps, defaultPrimary, defaultSecondary, defaultMode, themeContext, toggleMode } from "../components/theme";
 
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -101,23 +102,35 @@ const MyApp = ({
 
 
     const [currentTheme, setCurrentTheme] = React.useState(() =>
-        createMuiTheme({
-
-            palette: {
-                primary: {
-                    main: "#3997F5",
-                },
-
-                type: "light",
+    createMuiTheme({
+        props: themeProps,
+        palette: {
+            primary: {
+                main: defaultPrimary,
             },
-        })
-    );
+            secondary: {
+                main: defaultSecondary,
+            },
+            type: defaultMode,
+        },
+    })
+);
 
     /* Error reporting */
 
     return (
         <ThemeProvider theme={currentTheme}>
             <CssBaseline />
+            <themeContext.Provider
+                    value={{
+                        mode: currentTheme.palette.type,
+                        primary: currentTheme.palette.primary.main,
+                        secondary: currentTheme.palette.secondary.main,
+                        toggleMode: () => toggleMode(setCurrentTheme),
+                        updateColors: () => {
+                            /* Do nothing */
+                        },
+                    }}>
 
             {routeChange && (
                 <LinearProgress
@@ -146,7 +159,7 @@ const MyApp = ({
                             }} />
                 }
 
-
+</themeContext.Provider>
         </ThemeProvider>
     );
 };
