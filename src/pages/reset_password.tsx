@@ -43,7 +43,7 @@ const [formData,setFormData]=React.useState({newPassword:"",confirmPassword:"",}
        verify(values);
 
          axios
-           .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/resetpassword`, { ...values })
+           .put(`${process.env.NEXT_PUBLIC_BACKEND}/api/resetpassword`, { ...values })
            .then((response) => {
              authenticate(response, () => {
                router.push('/login');
