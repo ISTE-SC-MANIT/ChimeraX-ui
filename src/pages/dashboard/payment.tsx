@@ -8,27 +8,45 @@ import Grid from '@material-ui/core/Grid';
 import CreateOrder from "../../components/relay/mutations/CreateOrderMutation"
 import PayOrder from "../../components/relay/mutations/PayOrderMutation"
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, ListItem, ListItemAvatar, ListItemText, Divider, List, TextField } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  Checkbox,
+  Link,
+  ListItemText,
+  Divider,
+  List,
+  TextField,
+} from '@material-ui/core';
 import Image from 'next/image';
 import { ComponentProps } from '../_app';
 import { loadScript } from '../../components/utils';
 import { CreateOrderMutationResponse } from '../../__generated__/CreateOrderMutation.graphql';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    minHeight: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url('/Vector3.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: `#3997F5`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: "60vh",
+      backgroundColor:
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -53,14 +71,54 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  heading:{
-      width:"fit-content",
-      marginLeft:"auto",
-      marginRight:"auto",
-      marginTop:theme.spacing(2)
-  }
+  heading: {
+    textAlign: 'center',
+    width: 'fit-content',
+    margin: 'auto',
+    marginTop: theme.spacing(2),
+  },
+  input: {
+    width: '50%',
+    marginLeft: 20,
+  },
+  box: {
+    paddingLeft: 20,
+    marginBottom: 6,
+  },
+  lastBox: {
+    paddingLeft: 20,
+    marginBottom: 12,
+  },
+  button: {
+    width: 'fit-content',
+    margin: 'auto',
+  },
+  listItem: {
+    marginBottom: 0,
+  },
 }));
-
+const VectorImg = (classes) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  if (mobile) {
+    return (
+      <Box className={classes.vector}>
+        <Image
+          src='/payment.png'
+          alt="logo"
+          className={classes.imageV}
+          width={window.innerWidth}
+          height={window.innerWidth / 1.46}
+        />
+      </Box>
+    );
+  }
+  return (
+    <Box className={classes.vector}>
+      <Image src="/payment.png" alt="logo" className={classes.imageV} width={460} height={315} />
+    </Box>
+  );
+};
 const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
   const classes = useStyles();
 
@@ -127,8 +185,8 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
 }
 
   return (
-   <div className={classes.root}>
-    <AppBar position="sticky">
+    <div className={classes.root}>
+      <AppBar position="sticky">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
@@ -139,99 +197,144 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
           <Button color="inherit">Log out</Button>
         </Toolbar>
       </AppBar>
-       <Grid container component="main" >
-      
-      <Grid item xs={12} sm={8} md={5} >
+      <Grid container component="main">
+        <Grid item xs={12} sm={8} md={6}>
           <Box className={classes.heading}>
-      <Typography variant="h3"> Payment for Chimera-X 2021</Typography>
-      </Box>
+            <Typography variant="h4"> Payment for Chimera-X 2021</Typography>
+          </Box>
 
-      <Box>
-          <List>
-      <ListItem alignItems="flex-start">
- 
-        <ListItemText
-          primary="1. Enter your team name"
-          secondary={
-            <React.Fragment>
-                {"You / your team will be recognized with team name "}
-            </React.Fragment>
-          }
-        
-        primaryTypographyProps={{variant:"h6"}}
-        />
-      </ListItem>
-      </List>
-      {/* <Divider variant="inset" component="li" /> */}
-      </Box>
-      <Box>
-      <TextField
-                                                    fullWidth
-                                                    id="password-input"
-                                                    label="Enter Team Name"
-                                                    required
- 
-                                                    variant="outlined"
-                                                    // className={classes.field}
-                                                    margin="normal"
-                                                 
-                                                    
-                                                />
-      </Box>
-      <Divider></Divider>
+          <Box>
+            <List>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  className={classes.listItem}
+                  primary="Enter your team name"
+                  secondary={
+                    <React.Fragment>
+                      {'You / your team will be recognized with Team name '}
+                    </React.Fragment>
+                  }
+                  primaryTypographyProps={{ variant: 'h6' }}
+                />
+              </ListItem>
+            </List>
+            {/* <Divider variant="inset" component="li" /> */}
+          </Box>
+          <Box>
+            <TextField
+              // fullWidth
+              className={classes.input}
+              size="small"
+              id="password-input"
+              label="Enter Team Name"
+              required
+              variant="outlined"
+              margin="normal"
+            />
+          </Box>
+          <Divider></Divider>
 
-      <ListItem alignItems="flex-start">
- 
- <ListItemText
-   primary="2. Verify your team details"
-   secondary={
-     <React.Fragment>
-         {"Check your team details, if anything looks wrong contact us"}
-     </React.Fragment>
-   }
- 
- primaryTypographyProps={{variant:"h6"}}
- />
-</ListItem>
-<Box display="flex">
-<Typography> <b>Team Status :-</b> &nbsp;</Typography>
-<Typography> Team </Typography>
-</Box>
-<Box display="flex">
-<Typography><b> Team Leader :-</b> &nbsp;</Typography>
-<Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
-</Box>
-<Box display="flex">
-<Typography><b> Team Helper :- </b>&nbsp;</Typography>
-<Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
-</Box>
-<Box display="flex">
-<Typography><b> Registration fess :- </b>&nbsp;</Typography>
-<Typography> ₹ 100 /- only </Typography>
-</Box>
+          <ListItem alignItems="flex-start">
+            <ListItemText
+              primary="Verify your team details"
+              secondary={
+                <React.Fragment>
+                  {'Check your team details, if anything looks wrong contact us'}
+                </React.Fragment>
+              }
+              primaryTypographyProps={{ variant: 'h6' }}
+            />
+          </ListItem>
+          <Box display="flex" className={classes.box}>
+            <Typography>
+              {' '}
+              <b>Team Status :</b> &nbsp;
+            </Typography>
+            <Typography> Team </Typography>
+          </Box>
+          <Box display="flex" className={classes.box}>
+            <Typography>
+              <b> Team Leader :</b> &nbsp;
+            </Typography>
+            <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
+          </Box>
+          <Box display="flex" className={classes.lastBox}>
+            <Typography>
+              <b> Team Helper :</b>&nbsp;
+            </Typography>
+            <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
+          </Box>
 
-<Divider></Divider>
+          <Divider></Divider>
 
-<ListItem alignItems="flex-start">
-
-<ListItemText
-primary="3. Complete your payment"
-secondary={
-<React.Fragment>
-   {"Check your team details, if anything looks wrong contact us"}
-</React.Fragment>
-}
-
-primaryTypographyProps={{variant:"h6"}}
-/>
-</ListItem>
-
-
-<Button color="primary" variant="contained" onClick ={handleRazorpay}>Proceed for payment</Button>
+          <ListItem alignItems="flex-start">
+            <ListItemText
+              primary="Complete your payment"
+              secondary={
+                <React.Fragment>
+                  {'Check your team details, if anything looks wrong contact us'}
+                </React.Fragment>
+              }
+              primaryTypographyProps={{ variant: 'h6' }}
+            />
+          </ListItem>
+          <Box>
+            <img src="/razorpay.png" width="180px" className={classes.box} />
+          </Box>
+          <Box>
+            <Grid container className={classes.box} alignItems="center">
+              <Grid item xs={6}>
+                <Typography variant="h6">
+                  <b>AMOUNT</b>&nbsp;
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h6">
+                  <b> ₹ 100 </b>
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container alignItems="center">
+              <Grid item xs={12}>
+                <Box>
+                  <ListItem>
+                    <ListItemIcon>
+                      <Checkbox color="primary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <>
+                          I agree to the <Link>Terms & Conditions</Link> of ISTE-SC-MANIT{' '}
+                        </>
+                      }
+                    />
+                  </ListItem>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box className={classes.box}>
+                  <Button color="primary" variant="contained" onClick={handleRazorpay}>
+                    Proceed for payment
+                  </Button>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          sm={4}
+          md={6}
+          className={classes.image}
+          justify="center"
+          alignItems="flex-end"
+        >
+          <VectorImg classes={classes} />
+        </Grid>
       </Grid>
-      <Grid item xs={false} sm={4} md={7}  />
-      
-    </Grid></div >
+    </div>
   );
 }
 
