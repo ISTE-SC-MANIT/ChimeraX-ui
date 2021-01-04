@@ -83,11 +83,11 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     paddingLeft: 20,
-    marginBottom: 6,
+    marginBottom: "8px",
   },
   lastBox: {
     paddingLeft: 20,
-    marginBottom: 12,
+    marginBottom: "5px",
   },
   button: {
     width: 'fit-content',
@@ -115,7 +115,7 @@ const VectorImg = (classes) => {
   }
   return (
     <Box className={classes.vector}>
-      <Image src="/payment.png" alt="logo" className={classes.imageV} width={460} height={315} />
+      <Image src="/payment.png" alt="logo" className={classes.imageV} width={500} height={394} />
     </Box>
   );
 };
