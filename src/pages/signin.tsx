@@ -39,17 +39,17 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: `url('/Vector2.png')`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundColor: 'white',
+    // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    [theme.breakpoints.down('xs')]: {
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    },
+    // [theme.breakpoints.down('xs')]: {
+    //   backgroundColor:
+    //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    // },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -110,6 +110,12 @@ const useStyles = makeStyles((theme) => ({
   logoIcon: {
     border: '2px solid black',
     borderRadius: '50px',
+  },
+  loginBtn: {
+    marginBottom: '10px',
+    [theme.breakpoints.up('md')]: {
+      marginBottom: '100px',
+    },
   },
 }));
 const VectorImg = (classes) => {
@@ -179,95 +185,86 @@ export default function SignInSide() {
               Sign In
             </Typography>
             <Formik
-                onSubmit={(values) =>  handleSubmit(values)}
-                validationSchema={validationSchema}
-                initialValues={initialValues}>
-                    <Form aria-label="login up form" id="log-in-form">
-                    <Field name="email" >
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["email"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="Email Address"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    // className={classes.field}
-                                                    margin="normal"
-                                                   
-                                                    
-                                                />
-                                            )}
-                  </Field>
-                  <Field name="password" >
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["password"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="password-input"
-                                                    label="Password"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    // className={classes.field}
-                                                    margin="normal"
-                                                   type="password"
-                                                    
-                                                />
-                                            )}
-                  </Field>
-                
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                className={classes.submit}
-                color="primary"
-              
-              >
-              {formData.text}
-              </Button>
+              onSubmit={(values) => handleSubmit(values)}
+              validationSchema={validationSchema}
+              initialValues={initialValues}
+            >
+              <Form aria-label="login up form" id="log-in-form">
+                <Field name="email">
+                  {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                    <TextField
+                      fullWidth
+                      id="name-input"
+                      label="Email Address"
+                      required
+                      {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ''}
+                      variant="outlined"
+                      // className={classes.field}
+                      margin="normal"
+                    />
+                  )}
+                </Field>
+                <Field name="password">
+                  {({ field, meta }: FieldProps<typeof initialValues['password']>) => (
+                    <TextField
+                      fullWidth
+                      id="password-input"
+                      label="Password"
+                      required
+                      {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ''}
+                      variant="outlined"
+                      // className={classes.field}
+                      margin="normal"
+                      type="password"
+                    />
+                  )}
+                </Field>
 
-              <Box mt={5}>
-                {' '}
-                <Typography align="center" variant="h6">
-                  Or Sign in with other social platforms
-                </Typography>
-              </Box>
-              <Box>
-                <Grid container justify="center" alignItems="center">
-                  <Grid item>
-                    <IconButton>
-                      <img
-                        src="/google-logo.png"
-                        alt="google"
-                        height={70}
-                        className={classes.logoIcon}
-                      />
-                    </IconButton>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className={classes.submit}
+                  color="primary"
+                >
+                  {formData.text}
+                </Button>
+
+                <Box mt={5}>
+                  {' '}
+                  <Typography align="center" variant="subtitle1">
+                    Or Sign in with other social platforms
+                  </Typography>
+                </Box>
+                <Box>
+                  <Grid container justify="center" alignItems="center">
+                    <Grid item>
+                      <IconButton>
+                        <img
+                          src="/google-logo.png"
+                          alt="google"
+                          height={60}
+                          className={classes.logoIcon}
+                        />
+                      </IconButton>
+                    </Grid>
+                    <Grid item>
+                      <IconButton>
+                        <img src="/fb-logo.png" alt="fb" height={60} className={classes.logoIcon} />
+                      </IconButton>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <IconButton>
-                      <img src="/fb-logo.png" alt="fb" height={70} className={classes.logoIcon} />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Box>
+                </Box>
               </Form>
-              </Formik>
+            </Formik>
             {/* </form> */}
           </div>
         </Grid>
@@ -283,7 +280,7 @@ export default function SignInSide() {
               One of us?
             </Typography>
           </Box>
-          <Box component="span">
+          <Box className={classes.loginBtn}>
             <Grid container justify="center" alignItems="center">
               <LoginButton>Log In</LoginButton>
             </Grid>

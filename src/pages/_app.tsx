@@ -102,19 +102,35 @@ const MyApp = ({
 
 
     const [currentTheme, setCurrentTheme] = React.useState(() =>
-    createMuiTheme({
+      createMuiTheme({
+        typography: {
+          fontFamily: [
+            'Montserrat',
+            'Roboto',
+            'sans-serif',
+            'Arial',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+          ].join(','),
+        },
         props: themeProps,
         palette: {
-            primary: {
-                main: defaultPrimary,
-            },
-            secondary: {
-                main: defaultSecondary,
-            },
-            type: defaultMode,
+          primary: {
+            main: defaultPrimary,
+          },
+          secondary: {
+            main: defaultSecondary,
+          },
+          type: defaultMode,
         },
-    })
-);
+      })
+    );
 
     /* Error reporting */
 

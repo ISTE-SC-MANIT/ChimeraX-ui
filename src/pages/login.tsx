@@ -43,16 +43,17 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: `url('/vector.png')`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundColor: 'white',
+      // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
     [theme.breakpoints.down('xs')]: {
-      backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      minHeight: '100vh',
+      // backgroundColor:
+        // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
   },
   paper: {
@@ -85,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid currentColor',
     borderRadius: '50px',
   },
-  field:{
-marginTop:theme.spacing(4)
+  field: {
+    marginTop: theme.spacing(4),
   },
   imageButton: {
     alignItems: 'center',
@@ -111,6 +112,12 @@ marginTop:theme.spacing(4)
   logoIcon: {
     border: '2px solid black',
     borderRadius: '50px',
+  },
+  signinBtn: {
+    marginBottom: '10px',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '100px',
+    },
   },
 }));
 const VectorImg = (classes) => {
@@ -213,7 +220,7 @@ axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`,{...values}).then((res
             <Box className={classes.logo}>
               <Image src="/chimerax.png" alt="logo" width={400} height={104} />
             </Box>
-            <Box component="span">
+            <Box className={classes.signinBtn}>
               <Grid container justify="center" alignItems="center">
                 <SigninButton>Sign In</SigninButton>
               </Grid>
@@ -230,12 +237,12 @@ axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`,{...values}).then((res
               </Typography>
               {/* <form className={classes.form} noValidate> */}
               <Formik
-                onSubmit={(values) =>  handleLocalLogin(values)}
+                onSubmit={(values) => handleLocalLogin(values)}
                 validationSchema={validationSchema}
-                initialValues={initialValues}>
-                  <Form aria-label="Sign up form" id="sign-up-form">
-                
-                {/* <TextField
+                initialValues={initialValues}
+              >
+                <Form aria-label="Sign up form" id="sign-up-form">
+                  {/* <TextField
                  
                   required
                   fullWidth
@@ -246,117 +253,106 @@ axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`,{...values}).then((res
                   autoFocus
                   variant="outlined"
                 /> */}
-                 <Field name="email" >
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["email"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="name-input"
-                                                    label="Email Address"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    // className={classes.field}
-                                                    margin="normal"
-                                                   
-                                                    
-                                                />
-                                            )}
+                  <Field name="email">
+                    {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                      <TextField
+                        fullWidth
+                        id="name-input"
+                        label="Email Address"
+                        required
+                        {...field}
+                        error={!!(meta.touched && meta.error)}
+                        helperText={meta.touched ? meta.error : ''}
+                        variant="outlined"
+                        // className={classes.field}
+                        margin="normal"
+                      />
+                    )}
                   </Field>
                   <Field name="password" className={classes.field}>
-                                        {({
-                                            field,
-                                            meta,
-                                        }: FieldProps<typeof initialValues["password"]>) => (
-                                                <TextField
-                                                    fullWidth
-                                                    id="password-input"
-                                                    label="Password"
-                                                    required
-                                                    {...field}
-                                                    error={!!(meta.touched && meta.error)}
-                                                    helperText={meta.touched ? meta.error : ""}
-                                                    variant="outlined"
-                                                    // className={classes.field}
-                                                    margin="normal"
-                                                   type="password"
-                                                    
-                                                />
-                                            )}
-                  </Field>
-                
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  className={classes.submit}
-                  color="primary"
-                >
-                  Log In
-                </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link onClick={() => setOpenPass(true)} variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Box mt={5}>
-                  {' '}
-                  <Typography align="center" variant="h6">
-                    Or Log in with other social platforms
-                  </Typography>
-                </Box>
-                <Box>
-                  <Grid container justify="center" alignItems="center">
-                    <Grid item ></Grid>
-                    <GoogleLogin
-                  clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
-                  onSuccess={responseGoogle}
-                  onFailure={responseGoogle}
-                  cookiePolicy={"single_host_origin"}
-                  render={(renderProps) => (
-                    // <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                    //     <Avatar alt="google" src="/google.png" className={classes.large} />
-                    //   </Button>
-                    <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        <img
-                          src="/google-logo.png"
-                          alt="google"
-                          height={70}
-                          className={classes.logoIcon}
-                        />
-                      </IconButton>
+                    {({ field, meta }: FieldProps<typeof initialValues['password']>) => (
+                      <TextField
+                        fullWidth
+                        id="password-input"
+                        label="Password"
+                        required
+                        {...field}
+                        error={!!(meta.touched && meta.error)}
+                        helperText={meta.touched ? meta.error : ''}
+                        variant="outlined"
+                        // className={classes.field}
+                        margin="normal"
+                        type="password"
+                      />
                     )}
-                ></GoogleLogin>
+                  </Field>
 
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    className={classes.submit}
+                    color="primary"
+                  >
+                    Log In
+                  </Button>
+                  <Grid container>
+                    <Grid item xs>
+                      <Link onClick={() => setOpenPass(true)} variant="body2">
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link href="#" variant="body2">
+                        {"Don't have an account? Sign Up"}
+                      </Link>
+                    </Grid>
+                  </Grid>
+                  <Box mt={5}>
+                    {' '}
+                    <Typography align="center" variant="subtitle1">
+                      Or Log in with other social platforms
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Grid container justify="center" alignItems="center">
+                      <Grid item></Grid>
+                      <GoogleLogin
+                        clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                        render={(renderProps) => (
+                          // <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                          //     <Avatar alt="google" src="/google.png" className={classes.large} />
+                          //   </Button>
+                          <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                            <img
+                              src="/google-logo.png"
+                              alt="google"
+                              height={60}
+                              className={classes.logoIcon}
+                            />
+                          </IconButton>
+                        )}
+                      ></GoogleLogin>
 
-                     
-                    {/* <Grid item>
+                      {/* <Grid item>
                       
                     </Grid> */}
-                    {/* <Grid item>
+                      {/* <Grid item>
                       <IconButton>
-                        <img src="/fb-logo.png" alt="fb" height={70} className={classes.logoIcon} />
+                        <img src="/fb-logo.png" alt="fb" height={60} className={classes.logoIcon} />
                       </IconButton>
                     </Grid> */}
-
-                  </Grid>
-                </Box></Form>
-                </Formik>
+                    </Grid>
+                  </Box>
+                </Form>
+              </Formik>
               {/* </form> */}
             </div>
           </Grid>
