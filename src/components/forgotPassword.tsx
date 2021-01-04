@@ -25,9 +25,13 @@ const FormDialog: React.FC<Props> = ({ open, onClose }) => {
         const initialValues = {
         email: '',
         };
-      
+      const handleChange = (field: string) => (e: any) => {
+          setFormData({ ...formData, [field]: e.target.value });}
+
+
      const handleSubmit = (values:typeof initialValues) => {
-       setFormData({ ...formData });
+        setFormData({ ...formData });
+         onClose();
 
        axios
          .put(`${process.env.NEXT_PUBLIC_BACKEND}/api/forgotpassword`, { ...values })
@@ -52,12 +56,7 @@ const FormDialog: React.FC<Props> = ({ open, onClose }) => {
 
     return (
       <div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          
-          aria-labelledby="form-dialog-title"
-        >
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title"> Forgot Password ?</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -65,37 +64,35 @@ const FormDialog: React.FC<Props> = ({ open, onClose }) => {
               redirect you to update pass word page.
             </DialogContentText>
 
-             <Formik
-                onSubmit={(values) => handleSubmit(values)}
-                initialValues={initialValues}
-            >
+            <Formik onSubmit={(values) => handleSubmit(values)} initialValues={initialValues}>
               <Form id="myform">
                 <Field name="email">
-            {({ field, meta }: FieldProps<typeof initialValues['email']>) => 
-            ( <TextField
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Email Address"
-                  type="email"
-                  fullWidth
-                />)}
+                  {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                    <TextField
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      required
+                      {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ''}
+                      variant="outlined"
+                      // className={classes.field}
+                      margin="normal"
+                      type="email"
+                    />
+                  )}
                 </Field>
-             
 
-        
-          
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button type="submit" color="primary">
-              Submit
-            </Button>
-         
-             </Form>
+                <Button onClick={handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
+              </Form>
             </Formik>
-         
-            </DialogContent>
+          </DialogContent>
         </Dialog>
       </div>
     );

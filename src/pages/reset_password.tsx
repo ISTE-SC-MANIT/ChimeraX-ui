@@ -11,6 +11,8 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
+import queryString from 'query-string';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,13 +37,35 @@ export default function reset_pass (){
 const classes = useStyles();
 const [formData,setFormData]=React.useState({newPassword:"",confirmPassword:"",})
  const router = useRouter();
+<script>
+  console.log(window.location);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const handleChange = (field: string) => (e: any) => {
     setFormData({ ...formData, [field]: e.target.value });
   };
       const handleSubmit = (values: typeof initialValues) => {
        verify(values);
-
+          
          axios
            .put(`${process.env.NEXT_PUBLIC_BACKEND}/api/resetpassword`, { ...values })
            .then((response) => {
