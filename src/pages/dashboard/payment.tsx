@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   image: {
+    minHeight: '91vh',
     backgroundImage: `url('/Vector3.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: `#3997F5`,
     },
     [theme.breakpoints.down('xs')]: {
-      minHeight: "60vh",
+      minHeight: '60vh',
       backgroundColor:
         theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
@@ -83,11 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   box: {
     paddingLeft: 20,
-    marginBottom: "8px",
-  },
-  lastBox: {
-    paddingLeft: 20,
-    marginBottom: "5px",
+    marginBottom: theme.spacing(2),
   },
   button: {
     width: 'fit-content',
@@ -95,6 +92,11 @@ const useStyles = makeStyles((theme) => ({
   },
   listItem: {
     marginBottom: 0,
+  },
+  leftGrid: {
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: theme.spacing(8),
+    },
   },
 }));
 const VectorImg = (classes) => {
@@ -198,12 +200,12 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
         </Toolbar>
       </AppBar>
       <Grid container component="main">
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
           <Box className={classes.heading}>
             <Typography variant="h4"> Payment for Chimera-X 2021</Typography>
           </Box>
 
-          <Box ml={6}>
+          <Box>
             <List>
               <ListItem alignItems="flex-start">
                 <ListItemText
@@ -220,7 +222,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             </List>
             {/* <Divider variant="inset" component="li" /> */}
           </Box>
-          <Box ml={6}>
+          <Box>
             <TextField
               // fullWidth
               className={classes.input}
@@ -233,7 +235,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             />
           </Box>
           <Divider></Divider>
-          <Box ml={6}>
+          <Box>
             <ListItem  alignItems="flex-start">
               <ListItemText
                 primary="Verify your team details"
@@ -246,20 +248,20 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
               />
             </ListItem>
           </Box>
-          <Box ml={6} display="flex" className={classes.box}>
+          <Box display="flex" className={classes.box}>
             <Typography>
               {' '}
               <b>Team Status :</b> &nbsp;
             </Typography>
             <Typography> Team </Typography>
           </Box>
-          <Box ml={6} display="flex" className={classes.box}>
+          <Box display="flex" className={classes.box}>
             <Typography>
               <b> Team Leader :</b> &nbsp;
             </Typography>
             <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
           </Box>
-          <Box ml={6} display="flex" className={classes.lastBox}>
+          <Box display="flex" className={classes.box}>
             <Typography>
               <b> Team Helper :</b>&nbsp;
             </Typography>
@@ -267,7 +269,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
           </Box>
 
           <Divider></Divider>
-                <Box ml={6}>
+                <Box>
           <ListItem alignItems="flex-start">
             <ListItemText
               primary="Complete your payment"
@@ -280,10 +282,10 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             />
           </ListItem>
           </Box>
-          <Box ml={6}>
+          <Box>
             <img src="/razorpay.png" width="180px" className={classes.box} />
           </Box>
-          <Box ml={8}>
+          <Box>
             <Grid container className={classes.box} alignItems="center">
               <Grid item xs={6}>
                 <Typography variant="h6">
