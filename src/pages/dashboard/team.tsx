@@ -70,12 +70,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Team:React.FC<ComponentProps>=({environment,viewer})=> {
   const classes = useStyles();
-  const [tab,setTab] =React.useState(0)
-  const [receiver,setReceiver]=React.useState<any>(null)
-  const [send,setSend]=React.useState(false)
-  const [rendered,setRendered]=React.useState(false)
-  const refetchRef = React.useRef<any>(null)
-  const [radio,setRadio ] =React.useState<"A"|"B">("A") 
+  const [tab,setTab] =React.useState(0);
+  const [receiver,setReceiver]=React.useState<any>(null);
+  const [send,setSend]=React.useState(false);
+  const [rendered,setRendered]=React.useState(false);
+  const refetchRef = React.useRef<any>(null);
+  const [radio,setRadio ] =React.useState<"A"|"B">("A");
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   const {data,error,retry,isLoading}=useQuery<GetUserQuery>(query)
 
@@ -114,10 +123,16 @@ retry()
 
   return (
     <div className={classes.root}>
-       <CustomDrawer name={"Devansh"} username={"Devansh"}/>
+      <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} />
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerOpen}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
@@ -137,12 +152,11 @@ retry()
               </Grid>
               <Grid item xs={12} sm={12} md={8} lg={8}>
                 <Box>
-                  <Typography  variant="h4" className={classes.Head_title}>
+                  <Typography variant="h4" className={classes.Head_title}>
                     Hello, {viewer.name}
                   </Typography>
 
-                  <Typography  className={classes.Head_title}>
-   
+                  <Typography className={classes.Head_title}>
                     Welcome to your Chimera dashboard
                   </Typography>
                 </Box>
