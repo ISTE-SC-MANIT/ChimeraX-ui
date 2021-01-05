@@ -203,7 +203,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             <Typography variant="h4"> Payment for Chimera-X 2021</Typography>
           </Box>
 
-          <Box>
+          <Box ml={6}>
             <List>
               <ListItem alignItems="flex-start">
                 <ListItemText
@@ -220,7 +220,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             </List>
             {/* <Divider variant="inset" component="li" /> */}
           </Box>
-          <Box>
+          <Box ml={6}>
             <TextField
               // fullWidth
               className={classes.input}
@@ -233,32 +233,33 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
             />
           </Box>
           <Divider></Divider>
-
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary="Verify your team details"
-              secondary={
-                <React.Fragment>
-                  {'Check your team details, if anything looks wrong contact us'}
-                </React.Fragment>
-              }
-              primaryTypographyProps={{ variant: 'h6' }}
-            />
-          </ListItem>
-          <Box display="flex" className={classes.box}>
+          <Box ml={6}>
+            <ListItem  alignItems="flex-start">
+              <ListItemText
+                primary="Verify your team details"
+                secondary={
+                  <React.Fragment>
+                    {'Check your team details, if anything looks wrong contact us'}
+                  </React.Fragment>
+                }
+                primaryTypographyProps={{ variant: 'h6' }}
+              />
+            </ListItem>
+          </Box>
+          <Box ml={6} display="flex" className={classes.box}>
             <Typography>
               {' '}
               <b>Team Status :</b> &nbsp;
             </Typography>
             <Typography> Team </Typography>
           </Box>
-          <Box display="flex" className={classes.box}>
+          <Box ml={6} display="flex" className={classes.box}>
             <Typography>
               <b> Team Leader :</b> &nbsp;
             </Typography>
             <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
           </Box>
-          <Box display="flex" className={classes.lastBox}>
+          <Box ml={6} display="flex" className={classes.lastBox}>
             <Typography>
               <b> Team Helper :</b>&nbsp;
             </Typography>
@@ -266,7 +267,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
           </Box>
 
           <Divider></Divider>
-
+                <Box ml={6}>
           <ListItem alignItems="flex-start">
             <ListItemText
               primary="Complete your payment"
@@ -278,10 +279,11 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
               primaryTypographyProps={{ variant: 'h6' }}
             />
           </ListItem>
-          <Box>
+          </Box>
+          <Box ml={6}>
             <img src="/razorpay.png" width="180px" className={classes.box} />
           </Box>
-          <Box>
+          <Box ml={8}>
             <Grid container className={classes.box} alignItems="center">
               <Grid item xs={6}>
                 <Typography variant="h6">
