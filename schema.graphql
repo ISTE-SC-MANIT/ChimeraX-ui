@@ -13,6 +13,14 @@ input CreateOrderInput {
   teamName: String!
 }
 
+input CreateQuestionInput {
+  question: String!
+  questionType: String!
+  answer: String!
+  questionNumber: Float!
+  questionAssets: String
+}
+
 input DeleteInvitationInput {
   invitationId: String!
 }
@@ -40,6 +48,12 @@ type InvitationResponse {
   receivedInvitations: [Invitation!]!
 }
 
+type Member {
+  userId: String!
+  name: String!
+  email: String!
+}
+
 type Mutation {
   registerUser(userInfo: UserInput!): User!
   sendInvitation(invitationInput: InvitationInput!): Invitation!
@@ -48,6 +62,8 @@ type Mutation {
   playAsIndividual: Team!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   payOrder(payOrderInput: PayOrderInput!): Team!
+  createQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  submitQuiz(submitQuizInput: SubmitQuizInput!): Team!
 }
 
 type Order {
@@ -70,6 +86,46 @@ type Query {
   viewer: User!
   getInvitations: InvitationResponse!
   getSingleUsers: [User!]!
+  getQuestions: [Question!]!
+  getTeamDetails: TeamResponse!
+}
+
+type Question {
+  _id: String
+  id: String
+  question: String!
+  questionAssets: String!
+  answer: String!
+  questionNo: Float!
+  questionType: QuestionType!
+}
+
+input QuestionAnswer {
+  questionId: String!
+  answer: String!
+  questionNumber: Float!
+}
+
+type QuestionResponse {
+  responses: [QuestionResponseItem!]!
+}
+
+type QuestionResponseItem {
+  questionId: String!
+  answer: String!
+  questionNumber: Float!
+}
+
+"""type of question"""
+enum QuestionType {
+  TEXT
+  IMAGE
+}
+
+"""tells wether quiz is submitted or not"""
+enum QuizStatus {
+  SUBMITTED
+  NOT_SUBMITTED
 }
 
 """role of user in team"""
@@ -77,6 +133,7 @@ enum Role {
   TEAM_LEADER
   TEAM_HELPER
   NOT_INITIALIZED
+  ADMIN
 }
 
 """status of invitation"""
@@ -94,6 +151,10 @@ enum Step {
   TEST
 }
 
+input SubmitQuizInput {
+  responses: [QuestionAnswer!]!
+}
+
 type Team {
   _id: String
   id: String
@@ -104,6 +165,14 @@ type Team {
   city: String
   teamStatus: TeamStatus!
   status: PaymentStatus!
+  quizStatus: QuizStatus!
+  score: Float!
+  response: QuestionResponse!
+}
+
+type TeamResponse {
+  teamLeader: Member!
+  teamHelper: Member
 }
 
 """tells wether player is individual or team"""
