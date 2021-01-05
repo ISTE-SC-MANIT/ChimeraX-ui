@@ -17,16 +17,32 @@ import { InvitationInput } from '../../__generated__/SendInvitationMutation.grap
 import SendInvitationMutation from "../../components/relay/mutations/SendInvitationMutation"
 import {ComponentProps} from "../_app"
 import CustomDrawer from '../../components/customDrawer';
+import VerticalStepper from '../../components/VerticalStepper';
+import { themeContext } from '../../components/theme';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      //   flexGrow: 1,
-      height: '100vh',
-      margin: '0px',
+      margin: 0,
+      padding: 0,
+      boxSizing: 'border-box',
+    },
+    leftGrid: {
+      [theme.breakpoints.up('sm')]: {
+        paddingLeft: theme.spacing(8),
+      },
+    },
+    header: {
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: theme.spacing(3),
+      },
+    },
+    radioBtn: {
+      margin: 10,
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      // marginRight: theme.spacing(2),
     },
     title: {
       flexGrow: 1,
@@ -35,27 +51,28 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
     },
     container: {
-      height: '93vh',
-    },
-    dashboardImg: {
-      width: '30%',
-      height: '10%',
-      marginLeft: theme.spacing(8),
-
+      height: window.outerHeight + 150,
       [theme.breakpoints.down('sm')]: {
-        marginLeft: '40%',
+        height: 'auto',
       },
     },
-   
+    dashboardImg: {
+      width: '80%',
+      [theme.breakpoints.down('sm')]: {
+        width: '40%',
+      },
+    },
+
     Head_title: {
-      textAlign: 'center',
-      margin: 'auto',
-      color: '#001144',
-      fontFamily : 'sans-serif',
+      fontSize: '2.4rem',
+      // textAlign: 'center',
+      // margin: 'auto',
     },
     invitation_button: {
-      marginLeft: theme.spacing(4),
-      size: 'small',
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(1),
+      marginBottom: "6px",
+      marginTop: "6px",
     },
     proceed_button: {
       marginTop: theme.spacing(4),
@@ -109,11 +126,10 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
       setReceiver(null)
       setRendered(true)
       setSend(!send)
-retry()
-
-      refetchRef.current && refetchRef.current.retry()
-      
-              },onError:(err)=>{console.log(err)}})
+    retry()
+     refetchRef.current && refetchRef.current.retry()
+    },
+    onError:(err)=>{console.log(err)}})
   }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -142,30 +158,24 @@ retry()
         </Toolbar>
       </AppBar>
       <Grid container component="main">
-        <Grid item xs={12} sm={12} md={7} lg={8}>
-          <Box mt={6} ml={2} mb={4}>
+        <Grid item xs={12} md={8} className={classes.leftGrid}>
+          <Box mt={5} mb={5} className={classes.header}>
             <Grid container justify="flex-start" alignItems="center">
-              <Grid item xs={12} md={4} lg={4} alignItems="center">
-                <Box>
-                  <img src="/dashboard.png" className={classes.dashboardImg}></img>
-                </Box>
+              <Grid item sm={4} alignItems="center">
+                <img src="/dashboard.png" className={classes.dashboardImg}></img>
               </Grid>
-              <Grid item xs={12} sm={12} md={8} lg={8}>
-                <Box>
-                  <Typography variant="h4" className={classes.Head_title}>
-                    Hello, {viewer.name}
-                  </Typography>
-
-                  <Typography className={classes.Head_title}>
-                    Welcome to your Chimera dashboard
-                  </Typography>
-                </Box>
+              <Grid item sm={8}>
+                <Typography variant="h4" className={classes.Head_title}>
+                  <b>Hello, {viewer.name}</b>
+                </Typography>
+                <Typography>Welcome to your Chimera dashboard</Typography>
               </Grid>
             </Grid>
           </Box>
-          <Box ml={4} mt={2}>
+          <Box>
             <Box display="flex">
               <Radio
+                className={classes.radioBtn}
                 checked={radio === 'A'}
                 value="A"
                 name="radio-button-demo"
@@ -177,70 +187,75 @@ retry()
                 <Typography>You will be the one man army of your team</Typography>
               </div>
             </Box>
-            <Box display="flex" mt={2}>
+            <Box display="flex">
               <Radio
+                className={classes.radioBtn}
                 checked={radio === 'B'}
                 value="B"
                 name="radio-button-demo"
                 inputProps={{ 'aria-label': 'B' }}
                 onClick={() => setRadio('B')}
               />
-
-              <ListItemText
-                primary={'Play as a Team'}
-                primaryTypographyProps={{ variant: 'h6' }}
-                secondary={'Choose your team mate and play together'}
-              />
+              <div>
+                <Typography variant="h6">Play as a Team</Typography>
+                <Typography>Choose your teammate and play together</Typography>
+              </div>
             </Box>
           </Box>
-
-          <Box display="flex" mt={2} ml={6}>
-            <Typography variant="body1">Send Invitation to your team mate</Typography>
+          <Box ml={8}>
+            <Box display="flex">
+              <Typography variant="body1">Send Invitation to your team mate</Typography>
+            </Box>
+            <Box display="flex">
+              <Autocomplete
+                id="combo-box-demo"
+                //@ts-ignore
+                options={dummyUsers}
+                value={receiver}
+                onChange={(event: any, newValue: any) => {
+                  setReceiver(newValue);
+                }}
+                getOptionLabel={(option) => `${option.name} ${option.email}`}
+                renderOption={(option) => (
+                  <React.Fragment>
+                    <span>
+                      <Avatar alt="Remy Sharp" src="/dummy.png"/>
+                    </span>
+                    &nbsp; {option.name} ({option.email})
+                  </React.Fragment>
+                )}
+                style={{ width: 400 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search Team Member"
+                    variant="outlined"
+                    size="small"
+                  />
+                )}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={receiver === null}
+                onClick={handleSendInvitation}
+                className={classes.invitation_button}
+              >
+                Send{' '}
+              </Button>
+            </Box>
           </Box>
-          <Box display="flex" mt={2} ml={6}>
-            <Autocomplete
-              id="combo-box-demo"
-              //@ts-ignore
-              options={dummyUsers}
-              value={receiver}
-              onChange={(event: any, newValue: any) => {
-                setReceiver(newValue);
-              }}
-              getOptionLabel={(option) => `${option.name} ${option.email}`}
-              renderOption={(option) => (
-                <React.Fragment>
-                  <span>
-                    <Avatar alt="Remy Sharp" src="/dummy.png" />
-                  </span>
-                  &nbsp; {option.name} ({option.email})
-                </React.Fragment>
-              )}
-              style={{ width: 400 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Search Team Member" variant="outlined" size="small" />
-              )}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={receiver === null}
-              onClick={handleSendInvitation}
-              className={classes.invitation_button}
-            >
-              Send
+            <Button variant="contained" color="primary" disabled className={classes.proceed_button}>
+              PROCEED{' '}
             </Button>
+          <Box>
+            <VerticalStepper />
           </Box>
-
-          <Button variant="contained" color="primary" className={classes.proceed_button}>
-            PROCEED{' '}
-          </Button>
         </Grid>
         <Grid
           item
           xs={12}
-          sm={12}
-          md={5}
-          lg={4}
+          md={4}
           //   component={Paper} elevation={6} square
         >
           <Paper elevation={6} className={classes.container}>
