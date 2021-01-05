@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
     Drawer,
     Divider,
@@ -49,10 +49,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: "hidden",
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.down("xs")]: {
-            width: 0,
-        },
+        width: 0,
     },
     mobileMenu: {
         position: "fixed",
@@ -68,12 +65,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 
 interface DrawerProps {
-    name: string,
-    username: string
+  name: string;
+  username: string;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
-    const [open, setOpen] = React.useState(false);
+const CustomDrawer: React.FC<DrawerProps> = ({ name, username, open, setOpen }) => {
+    // const [open, setOpen] = React.useState(false);
     const classes = useStyles({ open });
     const router = useRouter()
     const icons = [
@@ -109,13 +108,6 @@ const CustomDrawer: React.FC<DrawerProps> = ({ name, username }) => {
 
     return (
         <>
-            <Hidden smUp>
-                <IconButton
-                    onClick={() => setOpen(true)}
-                    className={classes.mobileMenu}>
-                    <MenuIcon />
-                </IconButton>
-            </Hidden>
             <Drawer
                 variant="permanent"
                 className={clsx(classes.drawer, {
