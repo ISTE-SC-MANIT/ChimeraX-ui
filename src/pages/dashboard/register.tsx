@@ -15,11 +15,6 @@ import { UserInput } from "../../__generated__/RegisterUserMutation.graphql";
 import CustomDrawer from "../../components/customDrawer";
 
 
-
-
-
-
-
 const validationSchema = yup.object({
     name: yup
         .string()
@@ -140,63 +135,38 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-
-
-
-
-
 const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment }) => {
 
-    
-
-    const classes = useStyles()
-    const router = useRouter()
-const [terms, setTerms] = React.useState<boolean>(false)
+  const classes = useStyles()
+  const router = useRouter()
+  const [terms, setTerms] = React.useState<boolean>(false)
    
-    // const theme = useTheme()
-    // const matches = useMediaQuery(theme.breakpoints.down('md'));
+  // const theme = useTheme()
+  // const matches = useMediaQuery(theme.breakpoints.down('md'));
 
-
-    const initialValues = {
-        name: "",
-        email: viewer.email,
-        college: "",
-        phone: "", year: 1,
-        
-    
-    
+  const initialValues = {
+    name: "",
+    email: viewer.email,
+    college: "",
+    phone: "", year: 1,
+  }
+  const handleSubmit = (values:typeof initialValues)=>{
+    const userInput:UserInput={
+        name:values.name,
+        phone:values.phone,
+        year:values.year,
+        college:values.college
     }
-
-
-    const handleSubmit = (values:typeof initialValues)=>{
-        const userInput:UserInput={
-            name:values.name,
-            phone:values.phone,
-            year:values.year,
-            college:values.college
-        }
-        RegisterUserMutation(environment,userInput,{onCompleted:()=>{
-console.log("registered")
-router.push("/dashboard/team")
-
-        },onError:(err)=>{console.log(err)}})
-    }
-    
-
-
-
-
-
-
-
-
-
+    RegisterUserMutation(environment,userInput,{onCompleted:()=>{
+      console.log("registered")
+      router.push("/dashboard/team")
+    },
+    onError:(err)=>{console.log(err)}})
+  }
 
     return (
       <div className={classes.root} id="reg">
-
-        <CustomDrawer name={"Devansh"} username={"Devansh"}/>
+        {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Box>
           <ListItem className={classes.heading}>
             <ListItemText

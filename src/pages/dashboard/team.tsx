@@ -71,8 +71,8 @@ const useStyles = makeStyles((theme: Theme) =>
     invitation_button: {
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(1),
-      marginBottom: "6px",
-      marginTop: "6px",
+      marginBottom: '6px',
+      marginTop: '6px',
     },
     proceed_button: {
       marginTop: theme.spacing(4),

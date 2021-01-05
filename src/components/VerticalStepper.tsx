@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     resetContainer: {
       padding: theme.spacing(3),
     },
-  }),
+  })
 );
 
 function getSteps() {
