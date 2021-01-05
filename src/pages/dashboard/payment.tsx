@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   image: {
-    minHeight: '91vh',
     backgroundImage: `url('/Vector3.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
@@ -76,7 +75,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     width: 'fit-content',
     margin: 'auto',
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
   },
   input: {
     width: '50%',
@@ -202,7 +202,9 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
       <Grid container component="main">
         <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
           <Box className={classes.heading}>
-            <Typography variant="h4"> Payment for Chimera-X 2021</Typography>
+            <Typography variant="h4">
+              <b>Payment for Chimera-X 2021</b>
+            </Typography>
           </Box>
 
           <Box>
@@ -236,7 +238,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
           </Box>
           <Divider></Divider>
           <Box>
-            <ListItem  alignItems="flex-start">
+            <ListItem alignItems="flex-start">
               <ListItemText
                 primary="Verify your team details"
                 secondary={
@@ -263,24 +265,19 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
           </Box>
           <Box display="flex" className={classes.box}>
             <Typography>
-              <b> Team Helper :</b>&nbsp;
+              <b> Team Helper :</b> &nbsp;
             </Typography>
             <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
           </Box>
 
           <Divider></Divider>
-                <Box>
-          <ListItem alignItems="flex-start">
-            <ListItemText
-              primary="Complete your payment"
-              secondary={
-                <React.Fragment>
-                  {'Check your team details, if anything looks wrong contact us'}
-                </React.Fragment>
-              }
-              primaryTypographyProps={{ variant: 'h6' }}
-            />
-          </ListItem>
+          <Box>
+            <ListItem alignItems="flex-start">
+              <ListItemText
+                primary="Complete your payment"
+                primaryTypographyProps={{ variant: 'h6' }}
+              />
+            </ListItem>
           </Box>
           <Box>
             <img src="/razorpay.png" width="180px" className={classes.box} />
