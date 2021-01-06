@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { IconButton } from '@material-ui/core';
 import { Formik, Form, Field, FieldProps } from 'formik';
+import { ComponentProps } from './_app';
 
 const LoginButton = withStyles((theme) => ({
   root: {
@@ -124,169 +125,175 @@ const VectorImg = (classes) => {
   if (mobile) {
     return (
       <Box className={classes.vector}>
-        <Image src="/signin.png" alt="logo" className={classes.imageV} width={window.innerWidth} height={window.innerWidth/1.25} />
+        <Image src="/signin.png" alt="logo" className={classes.imageV} width={window.innerWidth} height={window.innerWidth / 1.25} />
       </Box>
     );
   }
   return (
-      <Box className={classes.vector}>
-        <Image src="/signin.png" alt="logo" className={classes.imageV} width={460} height={367} />
-      </Box>
+    <Box className={classes.vector}>
+      <Image src="/signin.png" alt="logo" className={classes.imageV} width={460} height={367} />
+    </Box>
   );
 };
-export default function SignInSide() {
-    const classes = useStyles();
-    const [formData,setFormData]=React.useState({email:"",password:"",text:"Sign In"})
-    
-    const [visible,setVisible]=React.useState(false)
-    const router = useRouter()
-    
-    const handleChange = (field:string)=>(e:any)=>{
-        setFormData({ ...formData, [field]: e.target.value });
-    }
-    const initialValues = {
-      password: "",
-      email: "",
-    }
+const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }) => {
+  const classes = useStyles();
+  const [formData, setFormData] = React.useState({ email: "", password: "", text: "Sign In" })
 
-    const validationSchema = yup.object({
-      
-      email: yup
-          .string()
-          .email("Provide a valid Email ID")
-          .required("Email cannot be empty"),
-          password:yup.string().min(6,"Password must be minimum of 6 characters")          .required("Email cannot be empty")
-     
-  
+  const [visible, setVisible] = React.useState(false)
+  const router = useRouter()
+
+  const handleChange = (field: string) => (e: any) => {
+    setFormData({ ...formData, [field]: e.target.value });
+  }
+  const initialValues = {
+    password: "",
+    email: "",
+  }
+
+  const validationSchema = yup.object({
+
+    email: yup
+      .string()
+      .email("Provide a valid Email ID")
+      .required("Email cannot be empty"),
+    password: yup.string().min(6, "Password must be minimum of 6 characters").required("Email cannot be empty")
+
+
   });
 
-    const handleSubmit = (values:typeof initialValues)=>{
-        
-        setFormData({...formData,text:"Submitting ....."})
+  const handleSubmit = (values: typeof initialValues) => {
 
-        axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`,{...values}).then((response)=>{
-          authenticate(response,()=>{
-            router.push("/dashboard/register")
-        })}).catch((error) => {
-          return error;
-        })
-   
-}
+    setFormData({ ...formData, text: "Submitting ....." })
+
+    axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/register`, { ...values }).then((response) => {
+      authenticate(response, () => {
+        router.push("/dashboard/register")
+      })
+      setSuccessMessage("Successfully signed in")
+
+    }).catch((error) => {
+      setErrorMessage(error.response.data.errors)
+      return error;
+    })
+
+  }
 
 
-    return (
-      <Grid container component="main" className={classes.root}>
-        <Grid item xs={12} sm={6} component={Paper} elevation={0} square>
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h2">
-              Sign In
+  return (
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={12} sm={6} component={Paper} elevation={0} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h2">
+            Sign In
             </Typography>
-            <Formik
-              onSubmit={(values) => handleSubmit(values)}
-              validationSchema={validationSchema}
-              initialValues={initialValues}
-            >
-              <Form aria-label="login up form" id="log-in-form">
-                <Field name="email">
-                  {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
-                    <TextField
-                      fullWidth
-                      id="name-input"
-                      label="Email Address"
-                      required
-                      {...field}
-                      error={!!(meta.touched && meta.error)}
-                      helperText={meta.touched ? meta.error : ''}
-                      variant="outlined"
-                      // className={classes.field}
-                      margin="normal"
-                    />
-                  )}
-                </Field>
-                <Field name="password">
-                  {({ field, meta }: FieldProps<typeof initialValues['password']>) => (
-                    <TextField
-                      fullWidth
-                      id="password-input"
-                      label="Password"
-                      required
-                      {...field}
-                      error={!!(meta.touched && meta.error)}
-                      helperText={meta.touched ? meta.error : ''}
-                      variant="outlined"
-                      // className={classes.field}
-                      margin="normal"
-                      type="password"
-                    />
-                  )}
-                </Field>
+          <Formik
+            onSubmit={(values) => handleSubmit(values)}
+            validationSchema={validationSchema}
+            initialValues={initialValues}
+          >
+            <Form aria-label="login up form" id="log-in-form">
+              <Field name="email">
+                {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                  <TextField
+                    fullWidth
+                    id="name-input"
+                    label="Email Address"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ''}
+                    variant="outlined"
+                    // className={classes.field}
+                    margin="normal"
+                  />
+                )}
+              </Field>
+              <Field name="password">
+                {({ field, meta }: FieldProps<typeof initialValues['password']>) => (
+                  <TextField
+                    fullWidth
+                    id="password-input"
+                    label="Password"
+                    required
+                    {...field}
+                    error={!!(meta.touched && meta.error)}
+                    helperText={meta.touched ? meta.error : ''}
+                    variant="outlined"
+                    // className={classes.field}
+                    margin="normal"
+                    type="password"
+                  />
+                )}
+              </Field>
 
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  className={classes.submit}
-                  color="primary"
-                >
-                  {formData.text}
-                </Button>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className={classes.submit}
+                color="primary"
+              >
+                {formData.text}
+              </Button>
 
-                <Box mt={5}>
-                  {' '}
-                  <Typography align="center" variant="subtitle1">
-                    Or Sign in with other social platforms
+              <Box mt={5}>
+                {' '}
+                <Typography align="center" variant="subtitle1">
+                  Or Sign in with other social platforms
                   </Typography>
-                </Box>
-                <Box>
-                  <Grid container justify="center" alignItems="center">
-                    <Grid item>
-                      <IconButton>
-                        <img
-                          src="/google-logo.png"
-                          alt="google"
-                          height={60}
-                          className={classes.logoIcon}
-                        />
-                      </IconButton>
-                    </Grid>
-                    <Grid item>
+              </Box>
+              <Box>
+                <Grid container justify="center" alignItems="center">
+                  <Grid item>
+                    <IconButton>
+                      <img
+                        src="/google-logo.png"
+                        alt="google"
+                        height={60}
+                        className={classes.logoIcon}
+                      />
+                    </IconButton>
+                  </Grid>
+                  {/* <Grid item>
                       <IconButton>
                         <img src="/fb-logo.png" alt="fb" height={60} className={classes.logoIcon} />
                       </IconButton>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Form>
-            </Formik>
-            {/* </form> */}
-          </div>
-        </Grid>
-
-        <Grid item xs={false} sm={6} className={classes.image}>
-          <Box className={classes.logo}>
-            <Typography
-              component="span"
-              variant="h3"
-              color="inherit"
-              className={classes.imageTitle2}
-            >
-              One of us?
-            </Typography>
-          </Box>
-          <Box className={classes.loginBtn}>
-            <Grid container justify="center" alignItems="center">
-              <LoginButton>Log In</LoginButton>
-            </Grid>
-          </Box>
-          <VectorImg classes={classes} />
-        </Grid>
+                    </Grid> */}
+                </Grid>
+              </Box>
+            </Form>
+          </Formik>
+          {/* </form> */}
+        </div>
       </Grid>
-    );
+
+      <Grid item xs={false} sm={6} className={classes.image}>
+        <Box className={classes.logo}>
+          <Typography
+            component="span"
+            variant="h3"
+            color="inherit"
+            className={classes.imageTitle2}
+          >
+            One of us?
+            </Typography>
+        </Box>
+        <Box className={classes.loginBtn}>
+          <Grid container justify="center" alignItems="center">
+            <LoginButton onClick={() => router.push("/")}>Log In</LoginButton>
+          </Grid>
+        </Box>
+        <VectorImg classes={classes} />
+      </Grid>
+    </Grid>
+  );
 }
+
+export default SignIn

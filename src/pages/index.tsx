@@ -1,34 +1,367 @@
-import React from 'react';
-import { NextPage } from 'next';
-import { Card, CardHeader } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles'
+import * as React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Image from 'next/image'
+import * as yup from "yup"
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { GoogleLogin, GoogleLoginResponse } from "react-google-login";
+import axios from "axios"
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import FormDialog from '../components/forgotPassword';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useRouter } from 'next/router';
+import { authenticate } from '../components/utils';
+import { IconButton } from '@material-ui/core';
+import { Formik, Form, Field, FieldProps } from 'formik';
+import { ComponentProps } from './_app';
 
-const useStyles = makeStyles(() => ({
-  section: {
-    minHeight: '100vh',
-    backgroundColor: '#1db2b7',
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23cc0000' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23aa0000' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23d6002b' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23b10022' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23d9004b' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23b2003d' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23d3006c' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23ac0057' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23c4008c' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%239e0071' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23aa00aa' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23880088' points='943 900 1210 900 971 687'/%3E%3C/svg%3E")`,
-    backgroundAttachment: `fixed`,
-    backgroundSize: `cover`,
+
+const SigninButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText('#3997F5'),
+    backgroundColor: '#3997F5',
+    border: '2px solid white',
+    borderRadius: '50px',
+    padding: '10px 20px',
+    '&:hover': {
+      backgroundColor: '#1976D2',
+    },
+  },
+}))(Button);
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: `url('/vector.png')`,
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'white',
+    // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: `#3997F5`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      minHeight: '100vh',
+      // backgroundColor:
+      // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    },
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: '#3997F5',
+  },
+  form: {
+    width: '100%', // Fix IE11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
   logo: {
-    height: 50,
-    width: 50,
+    // backgroundImage: `url('/chimerax.png')`,
+    width: '80%',
+    height: '200px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: theme.spacing(5),
+  },
+  imageTitle: {
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px `,
+    border: '2px solid currentColor',
+    borderRadius: '50px',
+  },
+  field: {
+    marginTop: theme.spacing(4),
+  },
+  imageButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: theme.palette.common.white,
+  },
+  vector: {
+    width: '100%',
+    marginTop: theme.spacing(4),
+  },
+  imageV: {
+    width: '100% !important',
+  },
+  customButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  base: {
+    width: '80%',
+    marginTop: theme.spacing(2),
+  },
+  logoIcon: {
+    border: '2px solid black',
+    borderRadius: '50px',
+  },
+  signinBtn: {
+    marginBottom: '10px',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '100px',
+    },
   },
 }));
-const Page: NextPage = () => {
-  const classes = useStyles();
-
+const VectorImg = (classes) => {
+  const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
+  if (mobile) {
+    return (
+      <Box className={classes.vector}>
+        <Image
+          src="/login.png"
+          alt="logo"
+          className={classes.imageV}
+          width={window.innerWidth}
+          height={window.innerWidth / 1.45}
+        />
+      </Box>
+    );
+  }
   return (
-    <section className={classes.section}>
-      <Card>
-        <CardHeader title={<>ChimeraX</>}></CardHeader>
-      </Card>
-    </section>
+    <Box className={classes.vector}>
+      <Image src="/login.png" alt="logo" className={classes.imageV} width={500} height={345} />
+    </Box>
   );
 };
 
-export default Page;
+const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }) => {
+  const classes = useStyles();
+  const [openPass, setOpenPass] = React.useState(false)
+  const [pending, setPending] = React.useState(false)
+  const router = useRouter()
+
+  const initialValues = {
+    password: "",
+    email: "",
+  }
+
+  const validationSchema = yup.object({
+
+    email: yup
+      .string()
+      .email("Provide a valid Email ID")
+      .required("Email cannot be empty"),
+    password: yup.string().min(6, "Password must be minimum of 6 characters").required("Password cannot be empty")
+
+
+  });
+
+  const getStep = (step: "REGISTER" | "PAYMENT" | "CHOOSE_TEAM" | "TEST") => {
+    switch (step) {
+      case "REGISTER":
+        return "/dashboard/register"
+        break;
+      case "PAYMENT":
+        return "/dashboard/payment"
+        break;
+      case "CHOOSE_TEAM":
+        return "/dashboard/team"
+        break;
+      case "TEST":
+        return "/dashboard/test"
+        break;
+    }
+  }
+
+  const sendGoogleToken = (tokenId) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/googlelogin`, {
+        idToken: tokenId,
+      })
+      .then((response) => {
+        authenticate(response, () => {
+          router.push(getStep(response.data.user.step))
+        })
+
+      })
+      .catch((error) => {
+        setErrorMessage(error)
+        return error;
+      });
+  };
+
+  const responseGoogle = (response: GoogleLoginResponse) => {
+    console.log(response);
+    sendGoogleToken(response.tokenId);
+  }
+
+
+  const handleLocalLogin = (values: typeof initialValues) => {
+    setPending(true)
+    axios.post(`${process.env.NEXT_PUBLIC_BACKEND}/api/login`, { ...values }).then((response) => {
+      console.log(response)
+
+      authenticate(response, () => {
+        router.push(getStep(response.data.user.step))
+      })
+      setSuccessMessage("Success fully logged in")
+      setPending(false)
+    }).catch((error) => {
+      // console.log(error.response.data)
+      setErrorMessage(error.response.data.errors)
+      setPending(false)
+      return error;
+    })
+  };
+
+
+  return (
+    <>
+      {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
+      <Grid container component="main" className={classes.root}>
+        <Grid item xs={false} sm={6} className={classes.image}>
+          <Box className={classes.logo}>
+            <Image src="/chimerax.png" alt="logo" width={400} height={104} />
+          </Box>
+          <Box className={classes.signinBtn}>
+            <Grid container justify="center" alignItems="center">
+              <SigninButton onClick={() => { router.push("/signin") }}>Sign In</SigninButton>
+            </Grid>
+          </Box>
+          <VectorImg classes={classes} />
+        </Grid>
+        <Grid item xs={12} sm={6} component={Paper} elevation={0} square>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h2">
+              Log In
+              </Typography>
+            {/* <form className={classes.form} noValidate> */}
+            <Formik
+              onSubmit={(values) => handleLocalLogin(values)}
+              validationSchema={validationSchema}
+              initialValues={initialValues}
+            >
+              <Form aria-label="Sign up form" id="sign-up-form">
+
+                <Field name="email">
+                  {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                    <TextField
+                      fullWidth
+                      id="name-input"
+                      label="Email Address"
+                      required
+                      {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ''}
+                      variant="outlined"
+                      // className={classes.field}
+                      margin="normal"
+                    />
+                  )}
+                </Field>
+                <Field name="password" className={classes.field}>
+                  {({ field, meta }: FieldProps<typeof initialValues['password']>) => (
+                    <TextField
+                      fullWidth
+                      id="password-input"
+                      label="Password"
+                      required
+                      {...field}
+                      error={!!(meta.touched && meta.error)}
+                      helperText={meta.touched ? meta.error : ''}
+                      variant="outlined"
+                      margin="normal"
+                      type="password"
+                    />
+                  )}
+                </Field>
+
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  className={classes.submit}
+                  color="primary"
+                >
+                  Log In
+                  </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link onClick={() => setOpenPass(true)} variant="body2">
+                      Forgot password?
+                      </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link onClick={() => router.push("/signin")} variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Box mt={5}>
+                  {' '}
+                  <Typography align="center" variant="subtitle1">
+                    Or Log in with other social platforms
+                    </Typography>
+                </Box>
+                <Box>
+                  <Grid container justify="center" alignItems="center">
+                    <Grid item></Grid>
+                    <GoogleLogin
+                      clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+                      onSuccess={responseGoogle}
+                      onFailure={responseGoogle}
+                      cookiePolicy={'single_host_origin'}
+                      render={(renderProps) => (
+                        // <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        //     <Avatar alt="google" src="/google.png" className={classes.large} />
+                        //   </Button>
+                        <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                          <img
+                            src="/google-logo.png"
+                            alt="google"
+                            height={60}
+                            className={classes.logoIcon}
+                          />
+                        </IconButton>
+                      )}
+                    ></GoogleLogin>
+
+                    {/* <Grid item>
+                      
+                    </Grid> */}
+                    {/* <Grid item>
+                      <IconButton>
+                        <img src="/fb-logo.png" alt="fb" height={60} className={classes.logoIcon} />
+                      </IconButton>
+                    </Grid> */}
+                  </Grid>
+                </Box>
+              </Form>
+            </Formik>
+            {/* </form> */}
+          </div>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+export default Login
