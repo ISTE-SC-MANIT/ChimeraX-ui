@@ -19,7 +19,8 @@ import {ComponentProps} from "../_app"
 import CustomDrawer from '../../components/customDrawer';
 import VerticalStepper from '../../components/VerticalStepper';
 import { themeContext } from '../../components/theme';
-
+import { useRouter } from 'next/dist/client/router';
+import cookie from 'js-cookie';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -135,7 +136,11 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
-
+  const router = useRouter();
+  const logoutHandle = () => {
+    cookie.remove('authorization');
+    router.push('/');
+  };
 
   return (
     <div className={classes.root}>
@@ -154,7 +159,7 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
           <Typography variant="h6" className={classes.title}>
             Chimera-X
           </Typography>
-          <Button color="inherit">Log out</Button>
+          <Button color="inherit" onClick={logoutHandle}>Log out</Button>
         </Toolbar>
       </AppBar>
       <Grid container component="main">
