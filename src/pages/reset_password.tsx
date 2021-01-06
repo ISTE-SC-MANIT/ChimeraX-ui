@@ -59,7 +59,7 @@ export default function reset_pass() {
       })
       .then((response) => {
         authenticate(response, () => {
-          router.push('/login');
+          router.push('/index');
         });
       })
       .catch((error) => {
@@ -93,9 +93,7 @@ export default function reset_pass() {
         </Box>
 
         <Box className={classes.title}>
-          <Typography align="center" component="span" variant="h4" color="inherit">
-            User Name/User ID
-          </Typography>
+          
         </Box>
       </Grid>
       <Grid item xs={12} sm={8} component={Paper} elevation={0} square>
