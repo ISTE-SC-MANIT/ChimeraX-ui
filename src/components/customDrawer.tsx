@@ -150,6 +150,9 @@ const CustomDrawer: React.FC<DrawerProps> = ({
           >
             <Avatar>{name.charAt(0)}</Avatar>
             <Fade in={open}>
+              <Typography variant="subtitle2">{name}</Typography>
+            </Fade>
+            <Fade in={open}>
               <Typography variant="subtitle2">{username}</Typography>
             </Fade>
           </Box>

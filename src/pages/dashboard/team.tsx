@@ -1,12 +1,8 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { Grid, Paper, Tabs, Tab, Box, Divider, Radio, ListItemText, TextField, Avatar, List, ListItem, ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
+import { Grid, Paper, Tabs, Tab, Box, Divider, Radio, TextField, Avatar } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useQuery } from 'relay-hooks';
 import query from "../../components/relay/queries/GetUserQuery"
@@ -18,10 +14,10 @@ import SendInvitationMutation from "../../components/relay/mutations/SendInvitat
 import {ComponentProps} from "../_app"
 import CustomDrawer from '../../components/customDrawer';
 import VerticalStepper from '../../components/VerticalStepper';
-import { themeContext } from '../../components/theme';
 import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
 import Navbar from '../../components/Navbar'
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -103,14 +99,6 @@ const Team: React.FC<ComponentProps> = ({
   const [radio, setRadio] = React.useState<'A' | 'B'>('A');
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const { data, error, retry, isLoading } = useQuery<GetUserQuery>(query);
 
   if (isLoading && !rendered) {
@@ -154,14 +142,18 @@ const Team: React.FC<ComponentProps> = ({
   return (
     <div className={classes.root}>
       <CustomDrawer
-        name={'Devansh'}
-        username={'Devansh'}
+        name={viewer.name}
+        username={viewer.email}
         open={open}
         setOpen={setOpen}
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <Navbar setOpen={setOpen} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} />
+      <Navbar
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <Grid container component="main">
         <Grid item xs={12} md={8} className={classes.leftGrid}>
           <Box mt={5} mb={5} className={classes.header}>
@@ -271,8 +263,20 @@ const Team: React.FC<ComponentProps> = ({
               // textColor="primary"
               variant="fullWidth"
             >
-              <Tab label="Sent Invitations" />
-              <Tab label="Received Invitations" />
+              <Tab
+                label={
+                  <Badge badgeContent={4} color="secondary">
+                    Sent Invitations
+                  </Badge>
+                }
+              />
+              <Tab
+                label={
+                  <Badge badgeContent={3} color="secondary">
+                    Received Invitations
+                  </Badge>
+                }
+              />
               classsName={classes.tab}
             </Tabs>
             <Divider />

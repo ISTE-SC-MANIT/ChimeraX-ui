@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  noSelect: {
+    userSelect: 'none',
+  },
 }));
 
 
@@ -190,7 +193,7 @@ const QuestionComponent: React.FC<Props> = ({
               Question {question.questionNo}
             </DialogTitle>
             <DialogContent dividers>
-              <Typography gutterBottom>{question.question}</Typography>
+              <Typography gutterBottom className={classes.noSelect}>{question.question}</Typography>
 
               <Box>
                 <TextField
