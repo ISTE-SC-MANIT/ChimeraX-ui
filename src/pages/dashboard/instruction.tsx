@@ -15,10 +15,9 @@ import {
 } from '@material-ui/core';
 
 import { useRouter } from 'next/dist/client/router';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-
-
-
+import Navbar from '../../components/Navbar';
+import CustomDrawer from '../../components/customDrawer';
+import { ComponentProps } from '../_app';
 
 
 
@@ -27,13 +26,13 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       // flexGrow: 1,
-      backgroundColor: '#3997F5',
+      backgroundColor: '',
       minHeight: '100vh',
       margin: 'auto',
       padding: 'auto',
      paddingBottom: '6px',
      [theme.breakpoints.up('md')]: {
-        width: '75%',}
+        width: '100%',}
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -97,12 +96,34 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const instructions=()=>{
-     const classes = useStyles();
-     const router = useRouter();
+const instructions: React.FC<ComponentProps> = ({
+  environment,
+  viewer,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
+  const classes = useStyles();
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
 
+  const quizHandle = () => { router.push('/dashboard/test') };
+
+  
   return (
     <div className={classes.root}>
+      <CustomDrawer
+        name={''}
+        username={''}
+        open={open}
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
+      <Navbar
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <Grid container>
         {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Grid container alignItems="center" justify="center">
@@ -162,7 +183,9 @@ const instructions=()=>{
         </Grid>
         <Grid container spacing={0} alignItems="center" justify="center">
           <Box mt={4} mb={4} className="classes.button">
-            <Button variant="outlined" >Start Quiz</Button>
+            <Button onClick={quizHandle} variant="outlined">
+              Start Quiz
+            </Button>
           </Box>
         </Grid>
       </Grid>
