@@ -9,6 +9,7 @@ import {
     Paper,
 
 } from "@material-ui/core";
+import MuiAlert from '@material-ui/lab/Alert';
 import "regenerator-runtime/runtime";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useRouter, Router } from "next/router";
@@ -40,28 +41,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-export type Details = {
-    orderId: string,
-    dataStructure: boolean | null,
-    dataScience: boolean | null,
-    workshopA: boolean | null,
-    workshopB: boolean | null,
-    name: string | null,
-    college: string | null,
-    email: string | null,
-    phone: string | null,
-    success: boolean,
-    discountPercentage: string | null,
-    amount: string | null,
-    discountValue: string | null
-} | null
+
 
 export interface ComponentProps {
-    environment:Environment
-    viewer:AppViewerQueryResponse["viewer"]
-    refetch:()=>void
+    environment: Environment
+    viewer: AppViewerQueryResponse["viewer"]
+    refetch: () => void,
+    setSuccessMessage: (message: string) => void,
+    setErrorMessage: (message: string) => void
 }
 
+
+function Alert(props: any) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const MyApp = ({
     Component,
@@ -71,25 +64,30 @@ const MyApp = ({
     pageProps: any;
 }) => {
 
+
+    const [success, setSuccess] = React.useState(false)
+    const [errors, setError] = React.useState(false)
+    const [successMsg, setSuccessMsg] = React.useState("")
+    const [errorMsg, setErrorMsg] = React.useState("")
     const router = useRouter();
     const classes = useStyles();
     const paths = router.route.split("/");
     const first = paths[1];
-    
+
     const isProtectedRoute = React.useMemo(() => {
-        return first === "dashboard" 
-    }, [first, ]);
+        return first === "dashboard"
+    }, [first,]);
 
 
     const environment: Environment | null = React.useMemo(() => {
-        if (first === "dashboard" )
+        if (first === "dashboard")
             return makeEnvironment();
         return null;
-    }, [first, ]);
+    }, [first,]);
 
     /* Page loading animation */
     const [routeChange, setRouteChange] = React.useState<boolean>(false);
-    const [details, setDetails] = React.useState<Details>(null);
+
     Router.events.on("routeChangeStart", () => {
         setRouteChange(true);
     });
@@ -97,40 +95,51 @@ const MyApp = ({
     Router.events.on("routeChangeError", () => setRouteChange(false));
     const [loading, setLoading] = React.useState<boolean>(false);
 
-    const payment = (a: Details) => setDetails(a)
-
-
-
     const [currentTheme, setCurrentTheme] = React.useState(() =>
-      createMuiTheme({
-        typography: {
-          fontFamily: [
-            'Montserrat',
-            'Roboto',
-            'sans-serif',
-            'Arial',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-          ].join(','),
-        },
-        props: themeProps,
-        palette: {
-          primary: {
-            main: defaultPrimary,
-          },
-          secondary: {
-            main: defaultSecondary,
-          },
-          type: defaultMode,
-        },
-      })
+        createMuiTheme({
+            typography: {
+                fontFamily: [
+                    'Montserrat',
+                    'Roboto',
+                    'sans-serif',
+                    'Arial',
+                    '-apple-system',
+                    'BlinkMacSystemFont',
+                    '"Segoe UI"',
+                    'Roboto',
+                    '"Helvetica Neue"',
+                    '"Apple Color Emoji"',
+                    '"Segoe UI Emoji"',
+                    '"Segoe UI Symbol"',
+                ].join(','),
+            },
+            props: themeProps,
+            palette: {
+                primary: {
+                    main: defaultPrimary,
+                },
+                secondary: {
+                    main: defaultSecondary,
+                },
+                type: defaultMode,
+            },
+        })
     );
+
+    const handleClose = (event?: React.SyntheticEvent,) => {
+        setSuccess(false);
+        setError(false)
+    };
+
+    const setSuccessMessage = (msg: string) => {
+        setSuccessMsg(msg)
+        setSuccess(true)
+    }
+
+    const setErrorMessage = (msg: string) => {
+        setErrorMsg(msg)
+        setError(true)
+    }
 
     /* Error reporting */
 
@@ -138,27 +147,37 @@ const MyApp = ({
         <ThemeProvider theme={currentTheme}>
             <CssBaseline />
             <themeContext.Provider
-                    value={{
-                        mode: currentTheme.palette.type,
-                        primary: currentTheme.palette.primary.main,
-                        secondary: currentTheme.palette.secondary.main,
-                        toggleMode: () => toggleMode(setCurrentTheme),
-                        updateColors: () => {
-                            /* Do nothing */
-                        },
-                    }}>
+                value={{
+                    mode: currentTheme.palette.type,
+                    primary: currentTheme.palette.primary.main,
+                    secondary: currentTheme.palette.secondary.main,
+                    toggleMode: () => toggleMode(setCurrentTheme),
+                    updateColors: () => {
+                        /* Do nothing */
+                    },
+                }}>
 
-            {routeChange && (
-                <LinearProgress
-                    color="secondary"
-                    className={classes.linearLoading}
-                />
-            )}
+                {routeChange && (
+                    <LinearProgress
+                        color="secondary"
+                        className={classes.linearLoading}
+                    />
+                )}
 
+                {!isProtectedRoute ? <><Component {...pageProps} setSuccessMessage={setSuccessMessage}
+                    setErrorMessage={setErrorMessage} />
+                    <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success">
+                            {successMsg}
+                        </Alert>
+                    </Snackbar>
+                    <Snackbar open={errors} autoHideDuration={6000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error">
+                            {errorMsg}
+                        </Alert>
+                    </Snackbar>
 
-
-            {/* <Component payment={payment} details={details} {...pageProps} /> */}
-            {!isProtectedRoute ? <Component {...pageProps} /> :
+                </> :
                     <QueryRenderer<AppViewerQuery>
                         environment={environment}
                         query={query}
@@ -166,16 +185,33 @@ const MyApp = ({
                         render={
                             ({ error, props, retry }: { error: Error, props: AppViewerQueryResponse, retry: () => void }) => {
                                 if (error) {
-                                    // showNotification("Please login to Continue", "error")
-                                    console.log(error)
+                                    setErrorMessage("Please log in to continue")
+                                    router.push("/")
                                     return null
                                 } else if (props) {
-                                    return <Component {...pageProps} viewer={props.viewer} refetch={retry} environment={environment} />
+                                    return <><Component {...pageProps}
+                                        viewer={props.viewer}
+                                        refetch={retry}
+                                        environment={environment}
+                                        setSuccessMessage={setSuccessMessage}
+                                        setErrorMessage={setErrorMessage}
+                                    />
+                                        <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+                                            <Alert onClose={handleClose} severity="success">
+                                                {successMsg}
+                                            </Alert>
+                                        </Snackbar>
+                                        <Snackbar open={errors} autoHideDuration={6000} onClose={handleClose}>
+                                            <Alert onClose={handleClose} severity="error">
+                                                {errorMsg}
+                                            </Alert>
+                                        </Snackbar>
+                                    </>
                                 } else { return <h1>Loading</h1> }
                             }} />
                 }
 
-</themeContext.Provider>
+            </themeContext.Provider>
         </ThemeProvider>
     );
 };
