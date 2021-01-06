@@ -166,19 +166,22 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
 
   });
 
-  const getStep = (step: "REGISTER" | "PAYMENT" | "CHOOSE_TEAM" | "TEST") => {
+  const getStep = (step: "REGISTER" | "PAYMENT" | "CHOOSE_TEAM" | "INSTRUCTION"|"TEST") => {
     switch (step) {
-      case "REGISTER":
-        return "/dashboard/register"
+      case 'REGISTER':
+        return '/dashboard/register';
         break;
-      case "PAYMENT":
-        return "/dashboard/payment"
+      case 'PAYMENT':
+        return '/dashboard/payment';
         break;
-      case "CHOOSE_TEAM":
-        return "/dashboard/team"
+      case 'CHOOSE_TEAM':
+        return '/dashboard/team';
         break;
-      case "TEST":
-        return "/dashboard/test"
+      case 'INSTRUCTION':
+        return '/dashboard/instruction';
+        break;
+      case 'TEST':
+        return '/dashboard/test';
         break;
     }
   }
