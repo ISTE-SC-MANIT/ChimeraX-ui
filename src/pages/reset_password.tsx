@@ -13,7 +13,7 @@ import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
 
-import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
+// import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 
 let resetPasswordLink;
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +59,7 @@ export default function reset_pass() {
       })
       .then((response) => {
         authenticate(response, () => {
-          router.push('/index');
+          router.push('/');
         });
       })
       .catch((error) => {
