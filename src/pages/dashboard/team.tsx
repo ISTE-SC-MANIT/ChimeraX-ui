@@ -21,6 +21,7 @@ import VerticalStepper from '../../components/VerticalStepper';
 import { themeContext } from '../../components/theme';
 import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
+import Navbar from '../../components/Navbar'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -159,25 +160,7 @@ const Team: React.FC<ComponentProps> = ({
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerOpen}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Chimera-X
-          </Typography>
-          <Button color="inherit" onClick={logoutHandle}>
-            Log out
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Navbar setOpen={setOpen} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} />
       <Grid container component="main">
         <Grid item xs={12} md={8} className={classes.leftGrid}>
           <Box mt={5} mb={5} className={classes.header}>

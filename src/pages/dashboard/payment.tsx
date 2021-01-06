@@ -27,6 +27,8 @@ import { ComponentProps } from '../_app';
 import { loadScript } from '../../components/utils';
 import { CreateOrderMutationResponse } from '../../__generated__/CreateOrderMutation.graphql';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import CustomDrawer from '../../components/customDrawer';
+import Navbar from '../../components/Navbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -128,6 +130,7 @@ const Payment: React.FC<ComponentProps> = ({
   setErrorMessage,
 }) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   const handleSuccess = (res: CreateOrderMutationResponse) => {
     const { name, email, phone } = viewer;
@@ -192,17 +195,19 @@ const Payment: React.FC<ComponentProps> = ({
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Chimera-X
-          </Typography>
-          <Button color="inherit">Log out</Button>
-        </Toolbar>
-      </AppBar>
+      <CustomDrawer
+        name={'Devansh'}
+        username={'Devansh'}
+        open={open}
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
+      <Navbar
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <Grid container component="main">
         <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
           <Box className={classes.heading}>
