@@ -15,9 +15,11 @@ import { useRouter } from 'next/router';
 interface Props {
   open: boolean;
   onClose: () => void;
+  setSuccessMessage: (message: string) => void;
+  setErrorMessage: (message: string) => void;
 }
 
-const FormDialog: React.FC<Props> = ({ open, onClose }) => {
+const FormDialog: React.FC<Props> = ({ open, onClose, setErrorMessage, setSuccessMessage }) => {
   // const [open, setOpen] = React.useState(false);
   const [formData, setFormData] = React.useState({ email: '' });
   const router = useRouter();
@@ -36,11 +38,10 @@ const FormDialog: React.FC<Props> = ({ open, onClose }) => {
     axios
       .put(`${process.env.NEXT_PUBLIC_BACKEND}/api/forgotpassword`, { ...values })
       .then((response) => {
-        authenticate(response, () => {
-          console.log('working');
-        });
+        setSuccessMessage('Reset Link has been sent to your mail');
       })
       .catch((error) => {
+        setErrorMessage(error.response.data.errors);
         return error;
       });
   };

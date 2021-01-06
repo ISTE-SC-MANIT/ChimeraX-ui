@@ -87,7 +87,7 @@ const DialogActions = withStyles((theme: Theme) => ({
 
 interface Props {
     question: GetQuestionsQueryResponse["getQuestions"][0],
-    answer: QuestionAnswer[] | [],
+    answer: QuestionAnswer[],
     setAnswers: React.Dispatch<React.SetStateAction<QuestionAnswer[] | []>>
     reviewedAnswers: string[] | [],
     visitedAnswers: string[] | [],

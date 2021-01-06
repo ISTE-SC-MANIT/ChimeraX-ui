@@ -196,12 +196,12 @@ const MyApp = ({
                                         setSuccessMessage={setSuccessMessage}
                                         setErrorMessage={setErrorMessage}
                                     />
-                                        <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
+                                        <Snackbar open={success} autoHideDuration={3000} onClose={handleClose}>
                                             <Alert onClose={handleClose} severity="success">
                                                 {successMsg}
                                             </Alert>
                                         </Snackbar>
-                                        <Snackbar open={errors} autoHideDuration={6000} onClose={handleClose}>
+                                        <Snackbar open={errors} autoHideDuration={3000} onClose={handleClose}>
                                             <Alert onClose={handleClose} severity="error">
                                                 {errorMsg}
                                             </Alert>

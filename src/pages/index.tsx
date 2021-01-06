@@ -227,7 +227,7 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
 
   return (
     <>
-      {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} />}
+      {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage}/>}
       <Grid container component="main" className={classes.root}>
         <Grid item xs={false} sm={6} className={classes.image}>
           <Box className={classes.logo}>

@@ -11,59 +11,79 @@ import { DeleteInvitationInput } from "../__generated__/DeleteInvitationMutation
 import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment"
 //import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-interface Props{
-  refetchRef:any,
-  send:boolean,
-  environment:RelayModernEnvironment
+interface Props {
+  refetchRef: any;
+  send: boolean;
+  environment: RelayModernEnvironment;
+  setSuccessMessage: (message: string) => void;
+  setErrorMessage: (message: string) => void;
 }
 
-const SendInvitation:React.FC<Props> =({refetchRef,send,environment})=>{
-    const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
-    
+const SendInvitation: React.FC<Props> = ({
+  refetchRef,
+  send,
+  environment,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
+  const { data, error, retry, isLoading } = useQuery<GetInvitationQuery>(query);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
+    retry();
+  }, [send]);
+  if (isLoading) {
+    return <CircularProgress disableShrink />;
+  }
 
-retry()
-  },[send])
-    if(isLoading){
-        return <CircularProgress disableShrink />;
-    }
+  const handleDelete = (id: string) => {
+    const input: DeleteInvitationInput = { invitationId: id };
+    DeleteInvitationMutation(environment, input, id, {
+      onCompleted: () => {
+        setSuccessMessage('Deleted');
+      },
+      onError: (err) => {
+        setErrorMessage(err.message);
+      },
+    });
+  };
 
-    const handleDelete = (id:string)=>{
-      const input:DeleteInvitationInput={invitationId:id}
-      DeleteInvitationMutation(environment,input,id,{onCompleted:()=>{console.log("Deleted")},onError:(err)=>{console.log(err)}})
-    }
+  const sentInvitations = data?.getInvitations?.sentInvitations;
 
-    const sentInvitations = data?.getInvitations?.sentInvitations
-
-    return <>
-    <List>
-      {sentInvitations.map((invitation)=>{
-        if(Boolean(invitation))
-                    return (
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar alt="Remy Sharp" src="/dummy.png" />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={invitation.receiversName}
-                          secondary={invitation.receiversEmail}
-                        />
-                        <ListItemSecondaryAction>
-                          {/* <Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp; */}
-                          <Tooltip title="Delete Invitation"><IconButton color="secondary" aria-label="delete" onClick={()=>handleDelete(invitation._id)}>
-                            <DeleteIcon />
-                          </IconButton>
-                          </Tooltip>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
-                    else{
-                      return null
-                    }
-                })}
+  return (
+    <>
+      <List>
+        {sentInvitations.map((invitation) => {
+          if (Boolean(invitation))
+            return (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/dummy.png" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={invitation.receiversName}
+                  secondary={invitation.receiversEmail}
+                />
+                <ListItemSecondaryAction>
+                  {/* <Button variant="contained" color="primary">Confirm</Button>&nbsp;&nbsp; */}
+                  <Tooltip title="Delete Invitation">
+                    <IconButton
+                      color="secondary"
+                      aria-label="delete"
+                      onClick={() => handleDelete(invitation._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          else {
+            return null;
+          }
+        })}
       </List>
     </>
-}
+  );
+};
 
 export default SendInvitation

@@ -121,53 +121,60 @@ const VectorImg = (classes) => {
     </Box>
   );
 };
-const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
+const Payment: React.FC<ComponentProps> = ({
+  viewer,
+  environment,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
   const classes = useStyles();
 
-  const handleSuccess = (res:CreateOrderMutationResponse)=>{
-    const { name, email, phone } = viewer
-
+  const handleSuccess = (res: CreateOrderMutationResponse) => {
+    const { name, email, phone } = viewer;
 
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
       currency: res.createOrder.currency,
       amount: res.createOrder.amount,
-      order_id:  res.createOrder.id,
+      order_id: res.createOrder.id,
       name: 'ISTE SC MANIT',
       description: 'Payment for chimera x',
-    
-      handler: function (response) {
-        PayOrder(environment,
-          {paymentId:response.razorpay_payment_id},
-          {onCompleted:()=>console.log("COmpleted"),
-          onError:()=>console.log("Error")})
-          
 
+      handler: function (response) {
+        PayOrder(
+          environment,
+          { paymentId: response.razorpay_payment_id },
+          { onCompleted: () => setSuccessMessage('Payment Successful'), onError: () => setErrorMessage('Payment Failed')}
+        );
       },
       prefill: {
-          name,
-          email,
-          mobile: phone
-      }
-  }
-  const _window = window as any
-  const paymentObject = new _window.Razorpay(options)
-  paymentObject.open()
-  }
-
+        name,
+        email,
+        mobile: phone,
+      },
+    };
+    const _window = window as any;
+    const paymentObject = new _window.Razorpay(options);
+    paymentObject.open();
+  };
 
   const handleRazorpay = async () => {
-
-
-
-    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
 
     if (!res) {
-        alert('Razorpay SDK failed to load. Are you online?')
-        return
+      alert('Razorpay SDK failed to load. Are you online?');
+      setErrorMessage('Payment Failed');
+      return;
     }
 
-    CreateOrder(environment,{teamName:""},{onCompleted:(res)=>handleSuccess(res),onError:()=>console.log("Error")})
+    CreateOrder(
+      environment,
+      { teamName: '' },
+      {
+        onCompleted: (res) => handleSuccess(res),
+        onError: () => setErrorMessage('Payment Failed'),
+      }
+    );
 
     // const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/razorpay`, {
     //     method: 'POST', headers: {
@@ -181,10 +188,7 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
     // }).then((t) =>
     //     t.json()
     // )
-
-
-
-}
+  };
 
   return (
     <div className={classes.root}>
@@ -337,6 +341,6 @@ const Payment: React.FC<ComponentProps>=({viewer,environment})=> {
       </Grid>
     </div>
   );
-}
+};
 
 export default Payment

@@ -11,33 +11,46 @@ import { useRouter } from 'next/router';
 
 
 
-interface Props{
-name:string,
-userId:string,
-invitationId:string,
-open:boolean,
-handleClose:()=>void,
-environment:any
+interface Props {
+  name: string;
+  userId: string;
+  invitationId: string;
+  open: boolean;
+  handleClose: () => void;
+  environment: any;
+  setSuccessMessage: (message: string) => void;
+  setErrorMessage: (message: string) => void;
+}
+const AcceptInvitation: React.FC<Props> = ({
+  name,
+  userId,
+  invitationId,
+  environment,
+  open,
+  handleClose,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
+  const router = useRouter();
 
-}
-const AcceptInvitation:React.FC<Props>= ({name,userId,invitationId,environment,open,handleClose})=> {
- 
-const router = useRouter()
-  
-const handleSubmit =()=>{
-    const input:AcceptInvitationInput={
-        invitationId,
-        receiverId:userId
-    }
-    AcceptInvitationMutation(environment,input,{onCompleted :()=>{
-    router.push("/dashboard/payment")
-    }, onError:(err)=>{console.log(err)}})
-}
-  
+  const handleSubmit = () => {
+    const input: AcceptInvitationInput = {
+      invitationId,
+      receiverId: userId,
+    };
+    AcceptInvitationMutation(environment, input, {
+      onCompleted: () => {
+        setSuccessMessage('Teammate Selected');
+        router.push('/dashboard/payment');
+      },
+      onError: (err) => {
+        setErrorMessage(err.message);
+      },
+    });
+  };
 
   return (
     <div>
-      
       <Dialog
         open={open}
         onClose={handleClose}
@@ -47,7 +60,8 @@ const handleSubmit =()=>{
         <DialogTitle id="alert-dialog-title">{`Accept Invitation from ${name}?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please make sure as soon as you will accept the Invitation you will lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
+            Please make sure as soon as you will accept the Invitation you will lorem ipsum lorem
+            ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -61,7 +75,7 @@ const handleSubmit =()=>{
       </Dialog>
     </div>
   );
-}
+};
 
 
 export default AcceptInvitation

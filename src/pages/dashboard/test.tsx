@@ -8,10 +8,6 @@ const Team:React.FC =()=>{
     return (
     <>
         <Timer/>
-        {/* <Button variant="contained" color="primary">
-            START QUIZ
-            
-        </Button> */}
     </>
     )
 }

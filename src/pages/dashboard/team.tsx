@@ -86,14 +86,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Team:React.FC<ComponentProps>=({environment,viewer})=> {
+const Team: React.FC<ComponentProps> = ({
+  environment,
+  viewer,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
   const classes = useStyles();
-  const [tab,setTab] =React.useState(0);
-  const [receiver,setReceiver]=React.useState<any>(null);
-  const [send,setSend]=React.useState(false);
-  const [rendered,setRendered]=React.useState(false);
+  const [tab, setTab] = React.useState(0);
+  const [receiver, setReceiver] = React.useState<any>(null);
+  const [send, setSend] = React.useState(false);
+  const [rendered, setRendered] = React.useState(false);
   const refetchRef = React.useRef<any>(null);
-  const [radio,setRadio ] =React.useState<"A"|"B">("A");
+  const [radio, setRadio] = React.useState<'A' | 'B'>('A');
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -104,34 +109,36 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
     setOpen(false);
   };
 
-  const {data,error,retry,isLoading}=useQuery<GetUserQuery>(query)
+  const { data, error, retry, isLoading } = useQuery<GetUserQuery>(query);
 
-  if(isLoading && !rendered){
-   return <h1>Loading</h1>
+  if (isLoading && !rendered) {
+    return <h1>Loading</h1>;
   }
 
-  
+  let dummyUsers = data?.getSingleUsers;
 
-  let dummyUsers= data?.getSingleUsers
-
-  const handleSendInvitation=()=>{
-    console.log(receiver)
-    const receiverInput:InvitationInput ={
-      receiverId:receiver._id,
-      receiverEmail:receiver.email,
-      receiverName:receiver.name
-    }
-    SendInvitationMutation(environment,receiverInput,{onCompleted:(res)=>{
-      console.log("registered")
-      console.log(refetchRef.current)
-      setReceiver(null)
-      setRendered(true)
-      setSend(!send)
-    retry()
-     refetchRef.current && refetchRef.current.retry()
-    },
-    onError:(err)=>{console.log(err)}})
-  }
+  const handleSendInvitation = () => {
+    console.log(receiver);
+    const receiverInput: InvitationInput = {
+      receiverId: receiver._id,
+      receiverEmail: receiver.email,
+      receiverName: receiver.name,
+    };
+    SendInvitationMutation(environment, receiverInput, {
+      onCompleted: (res) => {
+        setSuccessMessage('Invitation Sent');
+        console.log(refetchRef.current);
+        setReceiver(null);
+        setRendered(true);
+        setSend(!send);
+        retry();
+        refetchRef.current && refetchRef.current.retry();
+      },
+      onError: (err) => {
+        setErrorMessage('Something went wrong Please try again later!');
+      },
+    });
+  };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -144,7 +151,14 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
 
   return (
     <div className={classes.root}>
-      <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} />
+      <CustomDrawer
+        name={'Devansh'}
+        username={'Devansh'}
+        open={open}
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <AppBar position="sticky">
         <Toolbar>
           <IconButton
@@ -159,7 +173,9 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
           <Typography variant="h6" className={classes.title}>
             Chimera-X
           </Typography>
-          <Button color="inherit" onClick={logoutHandle}>Log out</Button>
+          <Button color="inherit" onClick={logoutHandle}>
+            Log out
+          </Button>
         </Toolbar>
       </AppBar>
       <Grid container component="main">
@@ -224,7 +240,7 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
                 renderOption={(option) => (
                   <React.Fragment>
                     <span>
-                      <Avatar alt="Remy Sharp" src="/dummy.png"/>
+                      <Avatar alt="Remy Sharp" src="/dummy.png" />
                     </span>
                     &nbsp; {option.name} ({option.email})
                   </React.Fragment>
@@ -250,9 +266,9 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
               </Button>
             </Box>
           </Box>
-            <Button variant="contained" color="primary" disabled className={classes.proceed_button}>
-              PROCEED{' '}
-            </Button>
+          <Button variant="contained" color="primary" disabled className={classes.proceed_button}>
+            PROCEED{' '}
+          </Button>
           <Box>
             <VerticalStepper />
           </Box>
@@ -277,15 +293,26 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
             </Tabs>
             <Divider />
             {tab === 0 ? (
-              <SendInvitation refetchRef={refetchRef} send={send} environment={environment} />
+              <SendInvitation
+                refetchRef={refetchRef}
+                send={send}
+                environment={environment}
+                setSuccessMessage={setSuccessMessage}
+                setErrorMessage={setErrorMessage}
+              />
             ) : (
-              <ReceivedInvitation refetchRef={refetchRef} environment={environment} />
+              <ReceivedInvitation
+                refetchRef={refetchRef}
+                environment={environment}
+                setSuccessMessage={setSuccessMessage}
+                setErrorMessage={setErrorMessage}
+              />
             )}
           </Paper>
         </Grid>
       </Grid>
     </div>
   );
-}
+};
 
  export default Team

@@ -12,6 +12,7 @@ import axios from 'axios';
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import queryString from 'query-string';
+import { ComponentProps } from './_app';
 
 // import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function reset_pass() {
+const Team: React.FC<ComponentProps> = ({ setSuccessMessage,  setErrorMessage}) => {
   const classes = useStyles();
   const [formData, setFormData] = React.useState({ newpassword: '', confirmPassword: '' });
   const router = useRouter();
@@ -59,10 +60,12 @@ export default function reset_pass() {
       })
       .then((response) => {
         authenticate(response, () => {
+          setSuccessMessage('Password changed successfully');
           router.push('/');
         });
       })
       .catch((error) => {
+        setErrorMessage('Something went wrong Please try again later!');
         return error;
       });
   };
@@ -92,9 +95,7 @@ export default function reset_pass() {
           </Typography>
         </Box>
 
-        <Box className={classes.title}>
-          
-        </Box>
+        <Box className={classes.title}></Box>
       </Grid>
       <Grid item xs={12} sm={8} component={Paper} elevation={0} square>
         <Formik
@@ -152,4 +153,4 @@ export default function reset_pass() {
       </Grid>
     </Grid>
   );
-}
+};

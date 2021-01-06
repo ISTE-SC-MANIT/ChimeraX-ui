@@ -5,9 +5,6 @@ import { Box, Typography, ListItem, ListItemText, TextField, Paper, Divider, Tab
 import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
 import { useRouter } from "next/dist/client/router";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import { Details } from "../_app";
-
 import * as yup from "yup"
 import { cities } from "../../components/cities";
 import  RegisterUserMutation  from "../../components/relay/mutations/RegisterUserMutation";
@@ -135,7 +132,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment }) => {
+const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment, setSuccessMessage, setErrorMessage }) => {
 
   const classes = useStyles()
   const router = useRouter()
@@ -158,10 +155,12 @@ const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment }) => {
         college:values.college
     }
     RegisterUserMutation(environment,userInput,{onCompleted:()=>{
-      console.log("registered")
+      setSuccessMessage('Registered Successfully');
       router.push("/dashboard/team")
     },
-    onError:(err)=>{console.log(err)}})
+    onError:(err)=>{
+      setErrorMessage('Something went wrong Please try again later!')
+    }})
   }
 
     return (

@@ -69,105 +69,117 @@ interface DrawerProps {
   username: string;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setSuccessMessage: (message: string) => void;
+  setErrorMessage: (message: string) => void;
 }
 
-const CustomDrawer: React.FC<DrawerProps> = ({ name, username, open, setOpen }) => {
-    // const [open, setOpen] = React.useState(false);
-    const classes = useStyles({ open });
-    const router = useRouter()
-    const icons = [
-        {
-            label: "Contest",
-            icon: <GamepadIcon />,
-            onClick: () => { router.push("/protectedPages/dashboard") }
-        },
-        {
-            label: "Dashboard",
-            icon: <DashboardIcon />,
-            onClick: () => { router.push("/protectedPages/dashboard") }
-        },
-        {
-            label: "Update Info",
-            icon: <InfoIcon />,
-            onClick: () => { router.push("/protectedPages/updateProfile") }
-        },
-        {
-            label: "Leader-Board",
-            icon: <ImportantDevicesIcon />,
-            onClick: () => { router.push("/protectedPages/dashboard") }
-        },
-        {
-            label: "Log Out",
-            icon: <ExitToAppIcon />,
-            onClick: () => {
-                cookie.remove("authorization")
-                router.push("/")
-            }
-        },
-    ];
+const CustomDrawer: React.FC<DrawerProps> = ({
+  name,
+  username,
+  open,
+  setOpen,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
+  // const [open, setOpen] = React.useState(false);
+  const classes = useStyles({ open });
+  const router = useRouter();
+  const icons = [
+    {
+      label: 'Contest',
+      icon: <GamepadIcon />,
+      onClick: () => {
+        router.push('/protectedPages/dashboard');
+      },
+    },
+    {
+      label: 'Dashboard',
+      icon: <DashboardIcon />,
+      onClick: () => {
+        router.push('/protectedPages/dashboard');
+      },
+    },
+    {
+      label: 'Update Info',
+      icon: <InfoIcon />,
+      onClick: () => {
+        router.push('/protectedPages/updateProfile');
+      },
+    },
+    {
+      label: 'Leader-Board',
+      icon: <ImportantDevicesIcon />,
+      onClick: () => {
+        router.push('/protectedPages/dashboard');
+      },
+    },
+    {
+      label: 'Log Out',
+      icon: <ExitToAppIcon />,
+      onClick: () => {
+        setSuccessMessage('Logged out');
+        cookie.remove('authorization');
+        router.push('/');
+      },
+    },
+  ];
 
-    return (
-        <>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx(classes.paper, {
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}>
-                <div>
-                    <Box
-                        paddingTop={2}
-                        paddingBottom={2}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        flexDirection="column">
-                        <Avatar>{name.charAt(0)}</Avatar>
-                        <Fade in={open}>
-                            <Typography variant="subtitle2">{username}</Typography>
-                        </Fade>
-                    </Box>
-                    <Divider />
-                    <List>
-                        {icons.map((icon, index) => (
-                            <ListItem button key={index} onClick={icon.onClick}>
-                                <ListItemIcon>{icon.icon}</ListItemIcon>
-                                <ListItemText primary={icon.label} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider />
-                </div>
-                <div>
-                    <Fade in={open}>
-                        <Box
-                            paddingBottom={2}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center">
-                            <ThemeToggleButton />
-                        </Box>
-                    </Fade>
-                    <Divider />
-                    <Box
-                        height={50}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center">
-                        <IconButton onClick={() => setOpen((o) => !o)}>
-                            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                        </IconButton>
-                    </Box>
-                </div>
-            </Drawer>
-        </>
-    );
+  return (
+    <>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
+        })}
+        classes={{
+          paper: clsx(classes.paper, {
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          }),
+        }}
+      >
+        <div>
+          <Box
+            paddingTop={2}
+            paddingBottom={2}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+          >
+            <Avatar>{name.charAt(0)}</Avatar>
+            <Fade in={open}>
+              <Typography variant="subtitle2">{username}</Typography>
+            </Fade>
+          </Box>
+          <Divider />
+          <List>
+            {icons.map((icon, index) => (
+              <ListItem button key={index} onClick={icon.onClick}>
+                <ListItemIcon>{icon.icon}</ListItemIcon>
+                <ListItemText primary={icon.label} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+        </div>
+        <div>
+          <Fade in={open}>
+            <Box paddingBottom={2} display="flex" alignItems="center" justifyContent="center">
+              <ThemeToggleButton />
+            </Box>
+          </Fade>
+          <Divider />
+          <Box height={50} display="flex" alignItems="center" justifyContent="center">
+            <IconButton onClick={() => setOpen((o) => !o)}>
+              {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </Box>
+        </div>
+      </Drawer>
+    </>
+  );
 };
 
 export default CustomDrawer;

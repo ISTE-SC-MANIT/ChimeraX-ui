@@ -11,74 +11,102 @@ import AcceptInvitation from "./acceptInvitation"
 import DeleteInvitationMutation from "../components/relay/mutations/DeleteInvitationMutation"
 import { DeleteInvitationInput } from "../__generated__/DeleteInvitationMutation.graphql"
 //import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-interface Props{
-  refetchRef:any,
-  environment:RelayModernEnvironment
+interface Props {
+  refetchRef: any;
+  environment: RelayModernEnvironment;
+  setSuccessMessage: (message: string) => void;
+  setErrorMessage: (message: string) => void;
 }
 
-const ReceivedInvitation:React.FC<Props> =({refetchRef,environment})=>{
-    const {data,error,retry,isLoading}=useQuery<GetInvitationQuery>(query)
+const ReceivedInvitation: React.FC<Props> = ({
+  refetchRef,
+  environment,
+  setSuccessMessage,
+  setErrorMessage,
+}) => {
+  const { data, error, retry, isLoading } = useQuery<GetInvitationQuery>(query);
 
-    const [details,setDetails]=React.useState({userId:"",invitationId:"",name:""})
-    const [open,setOpen] = React.useState(false)
-const handleClose =()=>setOpen(false)
+  const [details, setDetails] = React.useState({ userId: '', invitationId: '', name: '' });
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
 
-    if(isLoading){
-        return <CircularProgress disableShrink />;
-    }
+  if (isLoading) {
+    return <CircularProgress disableShrink />;
+  }
 
-    const handleDelete = (id:string)=>{
-      const input:DeleteInvitationInput={invitationId:id}
-      DeleteInvitationMutation(environment,input,id,{onCompleted:()=>{console.log("Deleted")},onError:(err)=>{console.log(err)}})
-    }
+  const handleDelete = (id: string) => {
+    const input: DeleteInvitationInput = { invitationId: id };
+    DeleteInvitationMutation(environment, input, id, {
+      onCompleted: () => {
+        setSuccessMessage('Deleted');
+      },
+      onError: (err) => {
+        setErrorMessage(err.message);
+      },
+    });
+  };
 
-    const sentInvitations = data.getInvitations.receivedInvitations
+  const sentInvitations = data.getInvitations.receivedInvitations;
 
-    return <>
-    <AcceptInvitation
-     environment={environment}
-      name={details.name} 
-      invitationId={details.invitationId} 
-      userId={details.userId}
-      open={open}
-      handleClose ={handleClose}
+  return (
+    <>
+      <AcceptInvitation
+        environment={environment}
+        name={details.name}
+        invitationId={details.invitationId}
+        userId={details.userId}
+        open={open}
+        handleClose={handleClose}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
       />
-    <List>
-      {sentInvitations.map((invitation)=>{
-        if(Boolean(invitation))
-                    return (
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar alt="Remy Sharp" src="/dummy.png" />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={invitation.sendersName}
-                          secondary={invitation.sendersEmail}
-                        />
-                        <ListItemSecondaryAction>
-                          <Tooltip title="Accept Invitation">
-                          <IconButton color="primary" aria-label="Check" onClick={()=>{
-                            setDetails({userId:invitation.sendersId,
-                              name:invitation.sendersName,
-                              invitationId:invitation._id})
-                              setOpen(true)
-                          }}>
-                            <CheckIcon />
-                          </IconButton>
-                          </Tooltip>
-                          &nbsp;&nbsp;
-                          <Tooltip title="Reject Invitation">
-                          <IconButton color="secondary" aria-label="delete" onClick={()=>handleDelete(invitation._id)}>
-                            <DeleteIcon />
-                          </IconButton>
-                          </Tooltip>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
-                    else return null
-                })}
+      <List>
+        {sentInvitations.map((invitation) => {
+          if (Boolean(invitation))
+            return (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/dummy.png" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={invitation.sendersName}
+                  secondary={invitation.sendersEmail}
+                />
+                <ListItemSecondaryAction>
+                  <Tooltip title="Accept Invitation">
+                    <IconButton
+                      color="primary"
+                      aria-label="Check"
+                      onClick={() => {
+                        setDetails({
+                          userId: invitation.sendersId,
+                          name: invitation.sendersName,
+                          invitationId: invitation._id,
+                        });
+                        setOpen(true);
+                      }}
+                    >
+                      <CheckIcon />
+                    </IconButton>
+                  </Tooltip>
+                  &nbsp;&nbsp;
+                  <Tooltip title="Reject Invitation">
+                    <IconButton
+                      color="secondary"
+                      aria-label="delete"
+                      onClick={() => handleDelete(invitation._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          else return null;
+        })}
       </List>
     </>
-}
+  );
+};
 
 export default ReceivedInvitation
