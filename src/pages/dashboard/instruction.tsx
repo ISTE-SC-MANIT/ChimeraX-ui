@@ -144,37 +144,47 @@ const instructions: React.FC<ComponentProps> = ({
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
+                  <ListItemText>1) The test will begin at __, and end at __</ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  <ListItemIcon></ListItemIcon>
+                  <ListItemText>2) There can be a maximum of 2 members in a team.</ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  <ListItemIcon></ListItemIcon>
                   <ListItemText>
-                    "There is no one who loves pain itself, who seeks after it and wants to have it,
-                    simply because it is pain..."
+                    3) The quiz will automatically submit once the timer runs out
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
                   <ListItemText>
-                    "There is no one who loves pain itself, who seeks after it and wants to have it,
-                    simply because it is pain..."
+                    4) Replacement of any participant of a team is not allowed after registration.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
                   <ListItemText>
-                    "There is no one who loves pain itself, who seeks after it and wants to have it,
-                    simply because it is pain..."
+                    5) Make sure to save your answers whenever a question is attempted
                   </ListItemText>
-                </ListItem>{' '}
+                </ListItem>
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
                   <ListItemText>
-                    "There is no one who loves pain itself, who seeks after it and wants to have it,
-                    simply because it is pain..."
+                    6) Each correct question gets __ marks and no marks are deducted for a wrong
+                    answer
                   </ListItemText>
-                </ListItem>{' '}
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon></ListItemIcon>
+                  <ListItemText>7) There are 30 questions, all are compulsory</ListItemText>
+                </ListItem>
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
                   <ListItemText>
-                    "There is no one who loves pain itself, who seeks after it and wants to have it,
-                    simply because it is pain..."
+                    8) Questions marked for review are marked in blue, questions whose answers are
+                    saved are marked in green and unsaved answers to questions are marked in red to
+                    help u keep track
                   </ListItemText>
                 </ListItem>
               </List>
