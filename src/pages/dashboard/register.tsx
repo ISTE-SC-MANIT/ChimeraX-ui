@@ -171,7 +171,7 @@ const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment, setSuc
             <ListItemText
               primary={'Registration'}
               primaryTypographyProps={{ variant: 'h4', align: 'center' }}
-              secondary={`Register now to experience the fun-packed workshop planned ahead for you by ISTE!`}
+              secondary={`Register now to be a part of ISTE's multi city quiz competition: ChimeraX`}
               secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
             />
           </ListItem>
@@ -190,7 +190,7 @@ const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment, setSuc
                         primary={'Personal Details'}
                         primaryTypographyProps={{ variant: 'h6' }}
                         secondary={
-                          'Please fill these details carefully, you will be informed about details of workshops through these details'
+                          'Please fill these details carefully, you will be informed about ChimeraX through these details'
                         }
                       />
                     </ListItem>

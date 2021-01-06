@@ -219,7 +219,7 @@ const Payment: React.FC<ComponentProps> = ({
                   primary="Enter your team name"
                   secondary={
                     <React.Fragment>
-                      {'You / your team will be recognized with Team name '}
+                      {'You / your team will be recognized by your Team name '}
                     </React.Fragment>
                   }
                   primaryTypographyProps={{ variant: 'h6' }}
@@ -269,7 +269,7 @@ const Payment: React.FC<ComponentProps> = ({
           </Box>
           <Box display="flex" className={classes.box}>
             <Typography>
-              <b> Team Helper :</b> &nbsp;
+              <b> Paired With :</b> &nbsp;
             </Typography>
             <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
           </Box>

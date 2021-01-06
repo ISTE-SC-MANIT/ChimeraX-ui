@@ -23,7 +23,7 @@ const Timer:React.FC = ()=>{
     })
     return <> <Typography component="h1" variant="h5">
     { time.minute === 0 && time.seconds === 0
-                    ? <>Busted!</>
+                    ? <>Time's Up!</>
                     : <>Time Remaining: {time.minute}:{time.seconds < 10 ? `0${time.seconds}` : time.seconds}</>
                 }
   </Typography> 
