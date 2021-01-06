@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(8),
       position: 'relative',
       borderRadius: "50%",
-      cursor: "pointer"
+      cursor: "pointer",
+      display: 'flex',
+      flexWrap: 'wrap',
     },
     box: {
       position: "absolute",
@@ -78,10 +80,10 @@ const QuestionPanel: React.FC<Props> = ({ questions,
         <ListItemText primary={"Questions"} secondary={"Click on question number to view question"} primaryTypographyProps={{ variant: "h6" }} />
       </Box>
       <Grid container spacing={1}>
-        <Grid container item xs={12} spacing={2}>
+        <Grid container item spacing={2}>
           {questions.map((question) => {
             return (
-              <Grid item xs={2}>
+              <Grid item>
                 <Paper className={classes.paper} elevation={6}
                   style={{
                     backgroundColor: getColor(question.questionNo, question.id).background,

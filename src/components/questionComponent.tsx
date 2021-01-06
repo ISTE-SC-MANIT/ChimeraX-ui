@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
-import { Box, TextField, Tooltip } from '@material-ui/core';
+import { Box, Grid, TextField, Tooltip } from '@material-ui/core';
 import { GetQuestionsQueryResponse } from '../__generated__/GetQuestionsQuery.graphql';
 import { QuestionAnswer } from '../__generated__/SubmitQuizMutation.graphql';
 
@@ -24,22 +24,35 @@ const styles = (theme: Theme) =>
             top: theme.spacing(1),
             color: theme.palette.grey[500],
         },
-        box: {
-
-        }
     });
 
 
 const useStyles = makeStyles((theme) => ({
-    box: {
-        width: "80%",
-        border: `3px solid ${theme.palette.divider}`,
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-        WebkitTransform: "translate(-50%, -50%)"
-    }
+  root: {
+    margin: 0,
+    padding: 0,
+    boxSizing: 'border-box',
+    minHeight: '100vh',
+  },
+  box: {
+    width: '80%',
+    border: `3px solid ${theme.palette.divider}`,
+  },
+  dialogActions: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  nextBtn: {
+    // marginRight: 'auto',
+    [theme.breakpoints.down('lg')]: {
+      margin: theme.spacing(1),
+    },
+  },
+  reviewBtn: {
+    [theme.breakpoints.down('md')]: {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 
@@ -170,54 +183,78 @@ const QuestionComponent: React.FC<Props> = ({
 
 
     return (
-        <div>
+      <div>
+        <Grid container justify="center" alignItems="center" className={classes.root}>
+          <Box className={classes.box}>
+            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+              Question {question.questionNo}
+            </DialogTitle>
+            <DialogContent dividers>
+              <Typography gutterBottom>{question.question}</Typography>
 
-            <Box className={classes.box}>
-                <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Question {question.questionNo}
-                </DialogTitle>
-                <DialogContent dividers>
-                    <Typography gutterBottom>
-                        {question.question}
-                    </Typography>
-
-                    <Box>
-                        <TextField
-                            label="Answer"
-                            onChange={(e) => { setLocalState(e.target.value) }}
-                            value={localState}
-                        />
-                    </Box>
-                </DialogContent>
-                <DialogActions><Box style={{ marginRight: "auto" }}>
-                    <Box>
-                        <Button onClick={handlePrevious} variant="contained" color="primary" disabled={currentQuestion.questionNo===1}>
-                            Previous
-          </Button>&nbsp;&nbsp;&nbsp;<Button onClick={handleNext} variant="contained" color="primary" disabled={currentQuestion.questionNo===30}>
-                            Next
-          </Button>&nbsp;&nbsp;&nbsp;<Button onClick={handleReview} variant="contained" color="primary">
-                            {isMarkedForReview() ? "Un-mark for review" : "mark for review"}
-                        </Button>
-
-                    </Box>
-
+              <Box>
+                <TextField
+                  fullWidth
+                  multiline
+                  label="Answer"
+                  onChange={(e) => {
+                    setLocalState(e.target.value);
+                  }}
+                  value={localState}
+                />
+              </Box>
+            </DialogContent>
+            <DialogActions className={classes.dialogActions}>
+              <Box style={{ marginRight: 'auto' }} className={classes.nextBtn}>
+                <Box>
+                  <Button
+                    onClick={handlePrevious}
+                    variant="contained"
+                    color="primary"
+                    disabled={currentQuestion.questionNo === 1}
+                  >
+                    Previous
+                  </Button>
+                  &nbsp;&nbsp;&nbsp;
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    color="primary"
+                    disabled={currentQuestion.questionNo === 30}
+                  >
+                    Next
+                  </Button>
+                  &nbsp;&nbsp;&nbsp;
+                  <Button
+                    onClick={handleReview}
+                    variant="contained"
+                    color="primary"
+                    className={classes.reviewBtn}
+                  >
+                    {isMarkedForReview() ? 'Un-mark for review' : 'mark for review'}
+                  </Button>
                 </Box>
-                    <Button onClick={resetAnswer}
-                        disabled={!Boolean(getQuestionAnswer(question.questionNo))}
-                        variant="contained" color="primary">
-                        Reset
-          </Button>
-                    <Button
-                        onClick={saveAnswer}
-                        variant="contained"
-                        color="primary"
-                        disabled={Boolean(getQuestionAnswer(question.questionNo))}
-                    >
-                        Save Answer
-          </Button>
-                </DialogActions>
-            </Box>
-        </div>
+              </Box>
+              <Button
+                onClick={resetAnswer}
+                disabled={!Boolean(getQuestionAnswer(question.questionNo))}
+                variant="contained"
+                color="primary"
+              >
+                Reset
+              </Button>
+              <Button
+                onClick={saveAnswer}
+                variant="contained"
+                color="primary"
+                disabled={Boolean(getQuestionAnswer(question.questionNo))}
+              >
+                Save Answer
+              </Button>
+            </DialogActions>
+          </Box>
+        </Grid>
+      </div>
     );
 }
 

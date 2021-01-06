@@ -83,7 +83,7 @@ export default function SignInSide() {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={8} style={{ position: "relative" }}  >
+      <Grid item xs={12} md={6} lg={8} style={{ position: "relative" }}  >
         {currentQuestion ? <QuestionComponent
           question={currentQuestion}
           answer={answer}
@@ -98,7 +98,7 @@ export default function SignInSide() {
         /> : <h6>Loading ...</h6>}
 
       </Grid>
-      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
+      <Grid item xs={12} md={6} lg={4} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Box display="flex">
             <Avatar className={classes.avatar}>
@@ -126,7 +126,6 @@ export default function SignInSide() {
             <ListItemText primary={"Submit Quiz"} secondary={"Quiz will be submitted automatically when time is over"} primaryTypographyProps={{ variant: "h6" }} />
           </Box>
           <Button color="primary" variant="contained">SUBMIT</Button>
-
         </div>
       </Grid>
     </Grid>

@@ -5,12 +5,15 @@ import Timer from "../../components/quizPage"
 
 const Team:React.FC =()=>{
 
-    return <>
-    <Timer/>
-    <Button variant="contained" color="primary">
-        START QUIZ
-        
-    </Button></>
+    return (
+    <>
+        <Timer/>
+        {/* <Button variant="contained" color="primary">
+            START QUIZ
+            
+        </Button> */}
+    </>
+    )
 }
 
 export default Team
