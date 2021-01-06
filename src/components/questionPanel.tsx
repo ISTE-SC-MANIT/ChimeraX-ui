@@ -77,7 +77,7 @@ const QuestionPanel: React.FC<Props> = ({ questions,
   return (
     <div className={classes.root}>
       <Box mb={2}>
-        <ListItemText primary={"Questions"} secondary={"Click on question number to view question"} primaryTypographyProps={{ variant: "h6" }} />
+        <ListItemText primary={"Questions"} secondary={"Click on question number to view the question"} primaryTypographyProps={{ variant: "h6" }} />
       </Box>
       <Grid container spacing={1}>
         <Grid container item spacing={2}>

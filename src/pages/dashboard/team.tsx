@@ -173,7 +173,7 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
                 <Typography variant="h4" className={classes.Head_title}>
                   <b>Hello, {viewer.name}</b>
                 </Typography>
-                <Typography>Welcome to your Chimera dashboard</Typography>
+                <Typography>Welcome to your ChimeraX dashboard</Typography>
               </Grid>
             </Grid>
           </Box>
@@ -189,7 +189,7 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
               />
               <div>
                 <Typography variant="h6">Play as an Individual</Typography>
-                <Typography>You will be the one man army of your team</Typography>
+                <Typography>Be a lone ranger</Typography>
               </div>
             </Box>
             <Box display="flex">
@@ -203,13 +203,13 @@ const Team:React.FC<ComponentProps>=({environment,viewer})=> {
               />
               <div>
                 <Typography variant="h6">Play as a Team</Typography>
-                <Typography>Choose your teammate and play together</Typography>
+                <Typography>Be a dynamic duo</Typography>
               </div>
             </Box>
           </Box>
           <Box ml={8}>
             <Box display="flex">
-              <Typography variant="body1">Send Invitation to your team mate</Typography>
+              <Typography variant="body1">Send Invitation to your teammate</Typography>
             </Box>
             <Box display="flex">
               <Autocomplete

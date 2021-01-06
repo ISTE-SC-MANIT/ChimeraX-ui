@@ -38,18 +38,13 @@ function getSteps() {
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
+      return `Do you trust your own quizzing skills without doubt? Or do you work better in teams?`;
     case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
+      return 'Feel free to be as creative or simple as you like. Remember, your team name can say a lot about you!';
     case 2:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
+      return 'Make sure all the information entered is valid and consistent.';
     case 3:
-      return `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`;
+      return `One last step. You are almost there!`;
     default:
       return 'Unknown step';
   }
@@ -105,7 +100,7 @@ export default function VerticalStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! 👍</Typography>
           <Button onClick={handleReset} className={classes.button}>
             Reset
           </Button>
