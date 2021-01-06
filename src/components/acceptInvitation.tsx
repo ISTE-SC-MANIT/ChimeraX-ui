@@ -20,6 +20,7 @@ interface Props {
   environment: any;
   setSuccessMessage: (message: string) => void;
   setErrorMessage: (message: string) => void;
+  refetch: () => void
 }
 const AcceptInvitation: React.FC<Props> = ({
   name,
@@ -30,6 +31,7 @@ const AcceptInvitation: React.FC<Props> = ({
   handleClose,
   setSuccessMessage,
   setErrorMessage,
+  refetch
 }) => {
   const router = useRouter();
 
@@ -42,6 +44,7 @@ const AcceptInvitation: React.FC<Props> = ({
       onCompleted: () => {
         setSuccessMessage('Teammate Selected');
         router.push('/dashboard/payment');
+        refetch()
       },
       onError: (err) => {
         setErrorMessage(err.message);

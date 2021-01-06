@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
-import Paper from '@material-ui/core/Paper';
+import teamQuery from "../../components/relay/queries/GetTeamDetailsQuery"
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import CreateOrder from "../../components/relay/mutations/CreateOrderMutation"
@@ -29,6 +28,11 @@ import { CreateOrderMutationResponse } from '../../__generated__/CreateOrderMuta
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CustomDrawer from '../../components/customDrawer';
 import Navbar from '../../components/Navbar';
+import { useQuery } from 'relay-hooks';
+import query from "../../components/relay/queries/GetTeamDetailsQuery"
+import { GetTeamDetailsQuery } from '../../__generated__/GetTeamDetailsQuery.graphql';
+import LoadingScreen from '../../components/loadingScreen';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,6 +135,13 @@ const Payment: React.FC<ComponentProps> = ({
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [teamName, setTeamName] = React.useState("")
+  const router = useRouter()
+
+  const { data, error, retry, isLoading } = useQuery<GetTeamDetailsQuery>(query);
+  if (isLoading) {
+    return <LoadingScreen loading />
+  }
 
   const handleSuccess = (res: CreateOrderMutationResponse) => {
     const { name, email, phone } = viewer;
@@ -147,7 +158,13 @@ const Payment: React.FC<ComponentProps> = ({
         PayOrder(
           environment,
           { paymentId: response.razorpay_payment_id },
-          { onCompleted: () => setSuccessMessage('Payment Successful'), onError: () => setErrorMessage('Payment Failed')}
+          {
+            onCompleted: () => {
+              setSuccessMessage('Payment Successful'),
+                router.push("dashboard/test")
+            },
+            onError: () => setErrorMessage('Payment Failed')
+          }
         );
       },
       prefill: {
@@ -179,19 +196,10 @@ const Payment: React.FC<ComponentProps> = ({
       }
     );
 
-    // const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/razorpay`, {
-    //     method: 'POST', headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         amount: getTotal(values).value
 
-    //     })
-    // }).then((t) =>
-    //     t.json()
-    // )
   };
+
+  const disable = !Boolean(teamName) || Boolean(viewer.role === "TEAM_HELPER")
 
   return (
     <div className={classes.root}>
@@ -212,7 +220,7 @@ const Payment: React.FC<ComponentProps> = ({
         <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
           <Box className={classes.heading}>
             <Typography variant="h4">
-              <b>Payment for Chimera-X 2021</b>
+              <b>Step-3 , Payment for Chimera-X 2021</b>
             </Typography>
           </Box>
 
@@ -236,6 +244,8 @@ const Payment: React.FC<ComponentProps> = ({
           <Box>
             <TextField
               // fullWidth
+              value={teamName}
+              onChange={(e) => { setTeamName(e.target.value) }}
               className={classes.input}
               size="small"
               id="password-input"
@@ -264,20 +274,20 @@ const Payment: React.FC<ComponentProps> = ({
               {' '}
               <b>Team Status :</b> &nbsp;
             </Typography>
-            <Typography> Team </Typography>
+            <Typography> {data.getTeamDetails.status} </Typography>
           </Box>
           <Box display="flex" className={classes.box}>
             <Typography>
               <b> Team Leader :</b> &nbsp;
             </Typography>
-            <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
+            <Typography> {data.getTeamDetails.teamLeader.name} ({data.getTeamDetails.teamLeader.email}) </Typography>
           </Box>
-          <Box display="flex" className={classes.box}>
+          {data.getTeamDetails.status === "TEAM" && <Box display="flex" className={classes.box}>
             <Typography>
               <b> Paired With :</b> &nbsp;
             </Typography>
-            <Typography> Devansh Kumar Sharma (kdevanshsharma23@gmail.com) </Typography>
-          </Box>
+            <Typography> {data.getTeamDetails.teamHelper.name} ({data.getTeamDetails.teamHelper.email})</Typography>
+          </Box>}
 
           <Divider></Divider>
           <Box>
@@ -319,11 +329,15 @@ const Payment: React.FC<ComponentProps> = ({
                       }
                     />
                   </ListItem>
+                  {viewer.role === "TEAM_HELPER" && <Typography>Please ask your team leader to complete payment</Typography>}
                 </Box>
               </Grid>
               <Grid item xs={12}>
                 <Box className={classes.box}>
-                  <Button color="primary" variant="contained" onClick={handleRazorpay}>
+                  <Button color="primary"
+                    variant="contained"
+                    onClick={handleRazorpay}
+                    disabled={disable}>
                     Proceed for payment
                   </Button>
                 </Box>

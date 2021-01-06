@@ -11,6 +11,7 @@ const AppViewerQuery = graphql`
             phone
             registered
             strategy
+            role
 
         }
     }

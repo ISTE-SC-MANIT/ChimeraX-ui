@@ -1,5 +1,5 @@
 import React from "react"
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Button, CircularProgress, Tooltip } from "@material-ui/core"
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Button, CircularProgress, Tooltip, Box } from "@material-ui/core"
 import { useQuery } from "relay-hooks"
 import { GetInvitationQuery } from "../__generated__/GetInvitationQuery.graphql"
 import query from "../components/relay/queries/GetInvitationQuery"
@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteInvitationMutation from "../components/relay/mutations/DeleteInvitationMutation"
 import { DeleteInvitationInput } from "../__generated__/DeleteInvitationMutation.graphql"
 import RelayModernEnvironment from "relay-runtime/lib/store/RelayModernEnvironment"
+
 //import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 interface Props {
@@ -32,7 +33,7 @@ const SendInvitation: React.FC<Props> = ({
     retry();
   }, [send]);
   if (isLoading) {
-    return <CircularProgress disableShrink />;
+    return  <Box ml={32} mt={12}><CircularProgress disableShrink size={60} /></Box>
   }
 
   const handleDelete = (id: string) => {

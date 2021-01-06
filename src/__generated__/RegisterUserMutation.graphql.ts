@@ -7,7 +7,7 @@ export type UserInput = {
     name?: string | null;
     phone?: string | null;
     year?: number | null;
-    country?: string | null;
+    city?: string | null;
     college?: string | null;
 };
 export type RegisterUserMutationVariables = {

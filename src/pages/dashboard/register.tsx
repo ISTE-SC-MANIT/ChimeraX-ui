@@ -1,5 +1,5 @@
 import React from "react"
-import {ComponentProps} from "../_app"
+import { ComponentProps } from "../_app"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
 import { Box, Typography, ListItem, ListItemText, TextField, Paper, Divider, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, RadioGroup, Radio, Checkbox, Button, ListItemIcon, Link, useMediaQuery, useTheme, ListItemSecondaryAction, List, Snackbar, Grid } from "@material-ui/core";
 import { Form, FormikFormProps, Formik, Field, FieldProps } from "formik";
@@ -7,28 +7,28 @@ import { useRouter } from "next/dist/client/router";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import * as yup from "yup"
 import { cities } from "../../components/cities";
-import  RegisterUserMutation  from "../../components/relay/mutations/RegisterUserMutation";
+import RegisterUserMutation from "../../components/relay/mutations/RegisterUserMutation";
 import { UserInput } from "../../__generated__/RegisterUserMutation.graphql";
 import CustomDrawer from "../../components/customDrawer";
 
 
 const validationSchema = yup.object({
-    name: yup
-        .string()
+  name: yup
+    .string()
 
-        .required("Name cannot be empty"),
-    college: yup
-        .string()
+    .required("Name cannot be empty"),
+  college: yup
+    .string()
 
-        .required("College cannot be empty"),
-    email: yup
-        .string()
-        .email("Provide a valid Email ID")
-        .required("Email cannot be empty"),
-    phone: yup
-        .string()
+    .required("College cannot be empty"),
+  email: yup
+    .string()
+    .email("Provide a valid Email ID")
+    .required("Email cannot be empty"),
+  phone: yup
+    .string()
 
-        .required("Phone cannot be empty"),
+    .required("Phone cannot be empty"),
 
 });
 
@@ -132,12 +132,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment, setSuccessMessage, setErrorMessage }) => {
+const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setSuccessMessage, setErrorMessage }) => {
 
   const classes = useStyles()
   const router = useRouter()
   const [terms, setTerms] = React.useState<boolean>(false)
-   
+
   // const theme = useTheme()
   // const matches = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -146,211 +146,191 @@ const Register: React.FC<ComponentProps> = ({ viewer,refetch,environment, setSuc
     email: viewer.email,
     college: "",
     phone: "", year: 1,
+    city: null
   }
-  const handleSubmit = (values:typeof initialValues)=>{
-    const userInput:UserInput={
-        name:values.name,
-        phone:values.phone,
-        year:values.year,
-        college:values.college
+  const handleSubmit = (values: typeof initialValues) => {
+    const userInput: UserInput = {
+      name: values.name,
+      phone: values.phone,
+      year: values.year,
+      college: values.college,
+      city: values.city.name
     }
-    RegisterUserMutation(environment,userInput,{onCompleted:()=>{
-      setSuccessMessage('Registered Successfully');
-      router.push("/dashboard/team")
-    },
-    onError:(err)=>{
-      setErrorMessage('Something went wrong Please try again later!')
-    }})
+
+    RegisterUserMutation(environment, userInput, {
+      onCompleted: () => {
+        setSuccessMessage('Registered Successfully');
+        router.push("/dashboard/team")
+      },
+      onError: (err) => {
+        setErrorMessage('Something went wrong Please try again later!')
+      }
+    })
   }
 
-    return (
-      <div className={classes.root} id="reg">
-        {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
-        <Box>
-          <ListItem className={classes.heading}>
-            <ListItemText
-              primary={'Registration'}
-              primaryTypographyProps={{ variant: 'h4', align: 'center' }}
-              secondary={`Register now to be a part of ISTE's multi city quiz competition: ChimeraX`}
-              secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
-            />
-          </ListItem>
+  const handleCity = (values: typeof initialValues, setValues: (v: typeof initialValues) => void, newValue: any) => {
+    setValues({ ...values, city: newValue })
+  }
 
-          <Formik
-            onSubmit={(values) => handleSubmit(values)}
-            validationSchema={validationSchema}
-            initialValues={initialValues}
-          >
-            {({ values, setValues }) => (
-              <Form aria-label="Sign up form" id="sign-up-form">
-                <Box>
-                  <Paper elevation={4} className={classes.paper}>
-                    <ListItem className={classes.details}>
-                      <ListItemText
-                        primary={'Personal Details'}
-                        primaryTypographyProps={{ variant: 'h6' }}
-                        secondary={
-                          'Please fill these details carefully, you will be informed about ChimeraX through these details'
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <Field name="name">
-                        {({ field, meta }: FieldProps<typeof initialValues['name']>) => (
-                          <TextField
-                            fullWidth
-                            id="name-input"
-                            label="Name"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ''}
-                            variant="outlined"
-                            size="small"
-                            className={classes.textField}
-                          />
-                        )}
-                      </Field>
-                    </ListItem>
-                    <ListItem>
-                      <Field name="email">
-                        {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
-                          <TextField
-                            fullWidth
-                            id="name-input"
-                            label="Email"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ''}
-                            variant="outlined"
-                            size="small"
-                            className={classes.textField}
-                            disabled
-                          />
-                        )}
-                      </Field>
-                    </ListItem>
-                    <ListItem>
-                      <Field name="college">
-                        {({ field, meta }: FieldProps<typeof initialValues['college']>) => (
-                          <TextField
-                            fullWidth
-                            id="name-input"
-                            label="College"
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ''}
-                            variant="outlined"
-                            size="small"
-                            className={classes.textField}
-                          />
-                        )}
-                      </Field>
-                    </ListItem>
-                    <ListItem>
-                      <Field name="phone">
-                        {({ field, meta }: FieldProps<typeof initialValues['phone']>) => (
-                          <TextField
-                            fullWidth
-                            id="name-input"
-                            label="Mobile no."
-                            required
-                            {...field}
-                            error={!!(meta.touched && meta.error)}
-                            helperText={meta.touched ? meta.error : ''}
-                            variant="outlined"
-                            size="small"
-                            className={classes.textField}
-                          />
-                        )}
-                      </Field>
-                    </ListItem>
-                    <ListItem>
-                      <Field name="state">
-                        {({ field, meta }: FieldProps<typeof initialValues['phone']>) => (
-                          // <TextField
-                          //     fullWidth
-                          //     id="name-input"
-                          //     label="Mobile no."
-                          //     required
-                          //     {...field}
-                          //     error={!!(meta.touched && meta.error)}
-                          //     helperText={meta.touched ? meta.error : ""}
-                          //     variant="outlined"
-                          //     size="small"
-                          //     className={classes.textField}
-                          // />
-                          <Autocomplete
-                            id="combo-box-demo"
-                            options={cities}
-                            getOptionLabel={(option) => `${option.name} , ${option.state}`}
-                            style={{ width: '98%' }}
-                            renderInput={
-                              (params) => (
-                                <TextField
-                                  {...params}
-                                  fullWidth
-                                  id="name-input"
-                                  label="City"
-                                  required
-                                  {...field}
-                                  error={!!(meta.touched && meta.error)}
-                                  helperText={meta.touched ? meta.error : ''}
-                                  variant="outlined"
-                                  size="small"
-                                  className={classes.textField}
-                                />
-                              )
-                              // <TextField {...params} label="Combo box" variant="outlined" />
-                            }
-                          />
-                        )}
-                      </Field>
-                    </ListItem>
+  return (
+    <div className={classes.root} id="reg">
+      {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
+      <Box>
+        <ListItem className={classes.heading}>
+          <ListItemText
+            primary={' Step-1 Registration'}
+            primaryTypographyProps={{ variant: 'h4', align: 'center' }}
+            secondary={`Register now to be a part of ISTE's multi city quiz competition: ChimeraX`}
+            secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
+          />
+        </ListItem>
 
-                    <Box className={classes.center}>
-                      <ListItem>
-                        <ListItemIcon>
-                          <Checkbox
-                            color="primary"
-                            checked={terms}
-                            onChange={() => {
-                              setTerms(!terms);
-                            }}
-                          />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={
-                            <>
-                              I agree to the{' '}
-                              <Link onClick={() => router.push('terms')}>Terms & Conditions</Link>{' '}
-                              of ISTE-SC-MANIT{' '}
-                            </>
+        <Formik
+          onSubmit={(values) => handleSubmit(values)}
+          validationSchema={validationSchema}
+          initialValues={initialValues}
+        >
+          {({ values, setValues }) => (
+            <Form aria-label="Sign up form" id="sign-up-form">
+              <Box>
+                <Paper elevation={4} className={classes.paper}>
+                  <ListItem className={classes.details}>
+                    <ListItemText
+                      primary={'Personal Details'}
+                      primaryTypographyProps={{ variant: 'h6' }}
+                      secondary={
+                        'Please fill these details carefully, you will be informed about ChimeraX through these details'
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <Field name="name">
+                      {({ field, meta }: FieldProps<typeof initialValues['name']>) => (
+                        <TextField
+                          fullWidth
+                          id="name-input"
+                          label="Name"
+                          required
+                          {...field}
+                          error={!!(meta.touched && meta.error)}
+                          helperText={meta.touched ? meta.error : ''}
+                          variant="outlined"
+                          size="small"
+                          className={classes.textField}
+                        />
+                      )}
+                    </Field>
+                  </ListItem>
+                  <ListItem>
+                    <Field name="email">
+                      {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
+                        <TextField
+                          fullWidth
+                          id="name-input"
+                          label="Email"
+                          required
+                          {...field}
+                          error={!!(meta.touched && meta.error)}
+                          helperText={meta.touched ? meta.error : ''}
+                          variant="outlined"
+                          size="small"
+                          className={classes.textField}
+                          disabled
+                        />
+                      )}
+                    </Field>
+                  </ListItem>
+                  <ListItem>
+                    <Field name="college">
+                      {({ field, meta }: FieldProps<typeof initialValues['college']>) => (
+                        <TextField
+                          fullWidth
+                          id="name-input"
+                          label="College"
+                          required
+                          {...field}
+                          error={!!(meta.touched && meta.error)}
+                          helperText={meta.touched ? meta.error : ''}
+                          variant="outlined"
+                          size="small"
+                          className={classes.textField}
+                        />
+                      )}
+                    </Field>
+                  </ListItem>
+                  <ListItem>
+                    <Field name="phone">
+                      {({ field, meta }: FieldProps<typeof initialValues['phone']>) => (
+                        <TextField
+                          fullWidth
+                          id="name-input"
+                          label="Mobile no."
+                          required
+                          {...field}
+                          error={!!(meta.touched && meta.error)}
+                          helperText={meta.touched ? meta.error : ''}
+                          variant="outlined"
+                          size="small"
+                          className={classes.textField}
+                        />
+                      )}
+                    </Field>
+                  </ListItem>
+                  <ListItem>
+                    <Field name="city">
+                      {({ field, meta }: FieldProps<typeof initialValues['city']>) => (
+                        <Autocomplete
+                          id="combo-box-demo"
+                          options={cities}
+                          getOptionLabel={(option) => `${option.name} , ${option.state}`}
+                          style={{ width: '98%' }}
+                          value={values.city}
+                          onChange={(event: any, newValue: any) => handleCity(values, setValues, newValue)}
+                          renderInput={
+                            (params) => (
+                              <TextField
+                                {...params}
+                                fullWidth
+                                
+
+                                id="name-input"
+                                label="City where your college exists"
+                                required
+
+                                error={!!(meta.touched && meta.error)}
+                                helperText={meta.touched ? meta.error : ''}
+                                variant="outlined"
+                                size="small"
+                                className={classes.textField}
+                              />
+                            )
+                            // <TextField {...params} label="Combo box" variant="outlined" />
                           }
                         />
-                      </ListItem>
-                    </Box>
+                      )}
+                    </Field>
+                  </ListItem>
 
-                    <Box className={classes.buttonGroup}>
-                      <Button
-                        type="submit"
-                        color="primary"
-                        variant="contained"
-                        className={classes.button}
-                      >
-                        Proceed
+
+
+                  <Box className={classes.buttonGroup}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="contained"
+                      className={classes.button}
+                    >
+                      Proceed
                       </Button>
-                    </Box>
-                  </Paper>
-                </Box>
-              </Form>
-            )}
-          </Formik>
-        </Box>
-      </div>
-    );
+                  </Box>
+                </Paper>
+              </Box>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </div>
+  );
 }
 
 export default Register

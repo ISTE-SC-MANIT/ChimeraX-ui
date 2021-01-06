@@ -173,6 +173,7 @@ type Team {
 type TeamResponse {
   teamLeader: Member!
   teamHelper: Member
+  status: TeamStatus!
 }
 
 """tells wether player is individual or team"""
@@ -205,7 +206,7 @@ input UserInput {
   name: String
   phone: String
   year: Float
-  country: String
+  city: String
   college: String
 }
 

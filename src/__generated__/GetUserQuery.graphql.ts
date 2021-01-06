@@ -3,6 +3,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+export type Role = "ADMIN" | "NOT_INITIALIZED" | "TEAM_HELPER" | "TEAM_LEADER" | "%future added value";
 export type GetUserQueryVariables = {};
 export type GetUserQueryResponse = {
     readonly getSingleUsers: ReadonlyArray<{
@@ -13,6 +14,7 @@ export type GetUserQueryResponse = {
         readonly phone: string;
         readonly registered: boolean;
         readonly strategy: string;
+        readonly role: Role;
     }>;
 };
 export type GetUserQuery = {
@@ -32,6 +34,7 @@ query GetUserQuery {
     phone
     registered
     strategy
+    role
   }
 }
 */
@@ -94,6 +97,13 @@ var v0 = [
         "kind": "ScalarField",
         "name": "strategy",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "role",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -117,14 +127,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "80484b005b12279aa0b3381e9a236e84",
+    "cacheID": "9a4609f32ad4157eb6bacee87cf837ee",
     "id": null,
     "metadata": {},
     "name": "GetUserQuery",
     "operationKind": "query",
-    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    id\n    phone\n    registered\n    strategy\n  }\n}\n"
+    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    id\n    phone\n    registered\n    strategy\n    role\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '81ac87cc31a5290e0dbcc3639fd644f3';
+(node as any).hash = '40e316423a3666927c7c0cd78fb23c81';
 export default node;

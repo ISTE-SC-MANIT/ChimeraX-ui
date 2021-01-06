@@ -3,6 +3,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
+export type Role = "ADMIN" | "NOT_INITIALIZED" | "TEAM_HELPER" | "TEAM_LEADER" | "%future added value";
 export type AppViewerQueryVariables = {};
 export type AppViewerQueryResponse = {
     readonly viewer: {
@@ -13,6 +14,7 @@ export type AppViewerQueryResponse = {
         readonly phone: string;
         readonly registered: boolean;
         readonly strategy: string;
+        readonly role: Role;
     };
 };
 export type AppViewerQuery = {
@@ -32,6 +34,7 @@ query AppViewerQuery {
     phone
     registered
     strategy
+    role
   }
 }
 */
@@ -94,6 +97,13 @@ var v0 = [
         "kind": "ScalarField",
         "name": "strategy",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "role",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -117,14 +127,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "f0f4378b361b17a0fe7e341ab1a18c4f",
+    "cacheID": "29c07deb96180a75127883631ee0b95b",
     "id": null,
     "metadata": {},
     "name": "AppViewerQuery",
     "operationKind": "query",
-    "text": "query AppViewerQuery {\n  viewer {\n    _id\n    name\n    id\n    email\n    phone\n    registered\n    strategy\n  }\n}\n"
+    "text": "query AppViewerQuery {\n  viewer {\n    _id\n    name\n    id\n    email\n    phone\n    registered\n    strategy\n    role\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = 'e98df492e385a35bcba120e130c10e0d';
+(node as any).hash = '1241d8ae8962b457ba30e7afa946fad6';
 export default node;

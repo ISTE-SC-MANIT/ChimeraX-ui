@@ -6,19 +6,21 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Grid, Paper, Tabs, Tab, Box, Divider, Radio, ListItemText, TextField, Avatar, List, ListItem, ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
+import { Grid, Paper, Tabs, Tab, Box, Divider, Radio, ListItemText, TextField, Avatar, List, ListItem, ListItemAvatar, ListItemSecondaryAction, Badge } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useQuery } from 'relay-hooks';
 import query from "../../components/relay/queries/GetUserQuery"
+import teamQuery from "../../components/relay/queries/GetTeamDetailsQuery"
 import { GetUserQuery } from '../../__generated__/GetUserQuery.graphql';
 import ReceivedInvitation from '../../components/recivedInvitations';
 import SendInvitation from '../../components/sentInvitation';
 import { InvitationInput } from '../../__generated__/SendInvitationMutation.graphql';
 import SendInvitationMutation from "../../components/relay/mutations/SendInvitationMutation"
-import {ComponentProps} from "../_app"
+import { ComponentProps } from "../_app"
 import CustomDrawer from '../../components/customDrawer';
 import VerticalStepper from '../../components/VerticalStepper';
 import { themeContext } from '../../components/theme';
+import PlayAsIndividualMutation from "../../components/relay/mutations/PlayAsIndividualMutation"
 import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
 import Navbar from '../../components/Navbar'
@@ -29,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       padding: 0,
       boxSizing: 'border-box',
+      height: "100vh"
     },
     leftGrid: {
       [theme.breakpoints.up('sm')]: {
@@ -92,6 +95,7 @@ const Team: React.FC<ComponentProps> = ({
   viewer,
   setSuccessMessage,
   setErrorMessage,
+  refetch
 }) => {
   const classes = useStyles();
   const [tab, setTab] = React.useState(0);
@@ -128,11 +132,12 @@ const Team: React.FC<ComponentProps> = ({
     SendInvitationMutation(environment, receiverInput, {
       onCompleted: (res) => {
         setSuccessMessage('Invitation Sent');
-        console.log(refetchRef.current);
+       
         setReceiver(null);
         setRendered(true);
         setSend(!send);
         retry();
+        
         refetchRef.current && refetchRef.current.retry();
       },
       onError: (err) => {
@@ -140,6 +145,19 @@ const Team: React.FC<ComponentProps> = ({
       },
     });
   };
+  const handlePlayAsIndividual = () => {
+    PlayAsIndividualMutation(environment, {
+      onCompleted: () => {
+        setSuccessMessage('Redirecting ....');
+        router.push("/dashboard/payment")
+        refetch()
+
+      }, onError: () => { 
+        setErrorMessage('Something went wrong Please try again later!'); 
+      }
+    })
+  }
+
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
@@ -176,6 +194,9 @@ const Team: React.FC<ComponentProps> = ({
               </Grid>
             </Grid>
           </Box>
+          <Box ml={2} mb={2}><Typography variant="h5">
+
+            Step-2, Select whether you want to play as a individual or as a team?</Typography></Box>
           <Box>
             <Box display="flex">
               <Radio
@@ -206,7 +227,7 @@ const Team: React.FC<ComponentProps> = ({
               </div>
             </Box>
           </Box>
-          <Box ml={8}>
+          {radio === "B" && <Box ml={8}>
             <Box display="flex">
               <Typography variant="body1">Send Invitation to your teammate</Typography>
             </Box>
@@ -248,19 +269,20 @@ const Team: React.FC<ComponentProps> = ({
                 Send{' '}
               </Button>
             </Box>
-          </Box>
-          <Button variant="contained" color="primary" disabled className={classes.proceed_button}>
+          </Box>}
+          <Button variant="contained" color="primary" disabled={radio === "B"} onClick={handlePlayAsIndividual}
+            className={classes.proceed_button}>
             PROCEED{' '}
           </Button>
-          <Box>
+          {/* <Box>
             <VerticalStepper />
-          </Box>
+          </Box> */}
         </Grid>
         <Grid
           item
           xs={12}
           md={4}
-          //   component={Paper} elevation={6} square
+        //   component={Paper} elevation={6} square
         >
           <Paper elevation={6} className={classes.container}>
             <Tabs
@@ -270,6 +292,7 @@ const Team: React.FC<ComponentProps> = ({
               // textColor="primary"
               variant="fullWidth"
             >
+
               <Tab label="Sent Invitations" />
               <Tab label="Received Invitations" />
               classsName={classes.tab}
@@ -284,13 +307,14 @@ const Team: React.FC<ComponentProps> = ({
                 setErrorMessage={setErrorMessage}
               />
             ) : (
-              <ReceivedInvitation
-                refetchRef={refetchRef}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                setErrorMessage={setErrorMessage}
-              />
-            )}
+                <ReceivedInvitation
+                  refetchRef={refetchRef}
+                  environment={environment}
+                  setSuccessMessage={setSuccessMessage}
+                  setErrorMessage={setErrorMessage}
+                  refetch={refetch}
+                />
+              )}
           </Paper>
         </Grid>
       </Grid>
@@ -298,4 +322,4 @@ const Team: React.FC<ComponentProps> = ({
   );
 };
 
- export default Team
+export default Team
