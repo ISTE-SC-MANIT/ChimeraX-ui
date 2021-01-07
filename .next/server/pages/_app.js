@@ -478,7 +478,7 @@ var external_react_relay_network_modern_ = __webpack_require__("LOvr");
 const makeEnvironment = () => {
   const token = external_js_cookie_default.a.get("token");
   const network = new external_react_relay_network_modern_["RelayNetworkLayer"]([Object(external_react_relay_network_modern_["urlMiddleware"])({
-    url: () => Promise.resolve(`${"http://localhost:8080"}/graphql`)
+    url: () => Promise.resolve(`${"http://143.110.180.93:8080"}/graphql`)
   }), Object(external_react_relay_network_modern_["authMiddleware"])({
     token: token,
     prefix: "",
