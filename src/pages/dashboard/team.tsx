@@ -1,7 +1,5 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -24,6 +22,7 @@ import PlayAsIndividualMutation from "../../components/relay/mutations/PlayAsInd
 import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
 import Navbar from '../../components/Navbar'
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -107,14 +106,6 @@ const Team: React.FC<ComponentProps> = ({
   const [radio, setRadio] = React.useState<'A' | 'B'>('A');
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const { data, error, retry, isLoading } = useQuery<GetUserQuery>(query);
 
   if (isLoading && !rendered) {
@@ -172,14 +163,18 @@ const Team: React.FC<ComponentProps> = ({
   return (
     <div className={classes.root}>
       <CustomDrawer
-        name={'Devansh'}
-        username={'Devansh'}
+        name={viewer.name}
+        username={viewer.email}
         open={open}
         setOpen={setOpen}
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <Navbar setOpen={setOpen} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} />
+      <Navbar
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
       <Grid container component="main">
         <Grid item xs={12} md={8} className={classes.leftGrid}>
           <Box mt={5} mb={5} className={classes.header}>

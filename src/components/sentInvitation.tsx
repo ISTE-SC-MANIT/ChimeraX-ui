@@ -4,7 +4,6 @@ import { useQuery } from "relay-hooks"
 import { GetInvitationQuery } from "../__generated__/GetInvitationQuery.graphql"
 import query from "../components/relay/queries/GetInvitationQuery"
 import IconButton from '@material-ui/core/IconButton';
-//import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DeleteInvitationMutation from "../components/relay/mutations/DeleteInvitationMutation"
 import { DeleteInvitationInput } from "../__generated__/DeleteInvitationMutation.graphql"
