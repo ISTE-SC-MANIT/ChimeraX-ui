@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
   return [
-    // 'Select whether you want to play as a individual or as a team',
+    'Registration',
     'Select your Teammate',
-    'Enter your Team name',
-    'Verify your team details',
     'Complete your payment',
+    'Start Quiz'
   ];
 }
 
