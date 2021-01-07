@@ -14,7 +14,7 @@ import "regenerator-runtime/runtime";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useRouter, Router } from "next/router";
 
-// import LoadingScreen from "../components/loading";
+ import LoadingScreen from "../components/loadingScreen";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import query from "../components/relay/queries/AppViewerQuery"
 
@@ -207,7 +207,7 @@ const MyApp = ({
                                             </Alert>
                                         </Snackbar>
                                     </>
-                                } else { return <h1>Loading</h1> }
+                                } else { return <LoadingScreen loading/> }
                             }} />
                 }
 
