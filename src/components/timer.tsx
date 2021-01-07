@@ -1,34 +1,44 @@
 import React from "react"
 import { Typography, Divider } from "@material-ui/core";
+import { GetQuizStartTimeQueryResponse } from "../__generated__/GetQuizStartTimeQuery.graphql";
 
+interface Props {
+    startTime: GetQuizStartTimeQueryResponse,
+    onTimeUp: () => void
+}
 
-const Timer:React.FC = ()=>{
+const Timer: React.FC<Props> = ({ startTime, onTimeUp }) => {
 
-    const [time,setTime]=React.useState({minute:1,seconds:0})
-    React.useEffect(()=>{
-        const timer=setInterval(() => {
-           if(time.seconds>0){
-               setTime({...time,seconds:time.seconds-1})
-           }
-           if(time.seconds===0){
-               if(time.minute===0){
-                clearInterval(timer)
-               }else{
-                   setTime({minute:time.minute-1,seconds:59})
-               }
-           }
-          }, 1000);
+    const currentTime = new Date().getMinutes()
+    const quizStartTime = new Date(startTime.getQuizDetails.quizStartTime).getMinutes()
+    const timeSpent = currentTime - quizStartTime
 
-          return () => clearTimeout(timer);
+    const [time, setTime] = React.useState({ minute: 30 - timeSpent, seconds: 0 })
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            if (time.seconds > 0) {
+                setTime({ ...time, seconds: time.seconds - 1 })
+            }
+            if (time.seconds === 0) {
+                if (time.minute === 0) {
+                    onTimeUp()
+                    clearInterval(timer)
+                } else {
+                    setTime({ minute: time.minute - 1, seconds: 59 })
+                }
+            }
+        }, 1000);
+
+        return () => clearTimeout(timer);
     })
     return <> <Typography component="h1" variant="h5">
-    { time.minute === 0 && time.seconds === 0
-                    ? <>Time's Up!</>
-                    : <>Time Remaining: {time.minute}:{time.seconds < 10 ? `0${time.seconds}` : time.seconds}</>
-                }
-  </Typography> 
+        {time.minute === 0 && time.seconds === 0
+            ? <>Time's Up!</>
+            : <>Time Remaining: {time.minute}:{time.seconds < 10 ? `0${time.seconds}` : time.seconds}</>
+        }
+    </Typography>
 
-   </>
+    </>
 }
 
 export default Timer

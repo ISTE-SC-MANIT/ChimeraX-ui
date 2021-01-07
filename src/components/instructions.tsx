@@ -15,9 +15,9 @@ import {
 } from '@material-ui/core';
 
 import { useRouter } from 'next/dist/client/router';
-import Navbar from '../../components/Navbar';
-import CustomDrawer from '../../components/customDrawer';
-import { ComponentProps } from '../_app';
+import Navbar from '../components/Navbar';
+import CustomDrawer from '../components/customDrawer';
+// import { ComponentProps } from '../_app';
 
 
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       // flexGrow: 1,
       backgroundColor: '',
-      minHeight: '100vh',
+      minHeight: '80vh',
       margin: 'auto',
       padding: 'auto',
      paddingBottom: '6px',
@@ -96,9 +96,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const instructions: React.FC<ComponentProps> = ({
-  environment,
-  viewer,
+interface PageProps{
+    setSuccessMessage:(mssg:string)=>void
+    setErrorMessage:(mssg:string)=>void
+}
+
+const Instructions: React.FC<PageProps> = ({
+ 
   setSuccessMessage,
   setErrorMessage,
 }) => {
@@ -191,16 +195,10 @@ const instructions: React.FC<ComponentProps> = ({
             </Paper>
           </Box>
         </Grid>
-        <Grid container spacing={0} alignItems="center" justify="center">
-          <Box mt={4} mb={4} className="classes.button">
-            <Button onClick={quizHandle} variant="outlined">
-              Start Quiz
-            </Button>
-          </Box>
-        </Grid>
+        
       </Grid>
     </div>
   );
 };
 
-export default instructions;
+export default Instructions;

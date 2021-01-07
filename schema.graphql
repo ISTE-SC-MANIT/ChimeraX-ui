@@ -64,6 +64,7 @@ type Mutation {
   payOrder(payOrderInput: PayOrderInput!): Team!
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   submitQuiz(submitQuizInput: SubmitQuizInput!): Team!
+  startQuiz: StartQuizResponse!
 }
 
 type Order {
@@ -88,6 +89,7 @@ type Query {
   getSingleUsers: [User!]!
   getQuestions: [Question!]!
   getTeamDetails: TeamResponse!
+  getQuizDetails: QuizDetailsResponse!
 }
 
 type Question {
@@ -122,6 +124,11 @@ enum QuestionType {
   IMAGE
 }
 
+type QuizDetailsResponse {
+  quizStartTime: String!
+  userQuizStatus: UserQuizStatus!
+}
+
 """tells wether quiz is submitted or not"""
 enum QuizStatus {
   SUBMITTED
@@ -134,6 +141,10 @@ enum Role {
   TEAM_HELPER
   NOT_INITIALIZED
   ADMIN
+}
+
+type StartQuizResponse {
+  quizStartTime: String!
 }
 
 """status of invitation"""
@@ -200,6 +211,11 @@ type User {
   step: Step!
   role: Role!
   teamStatus: TeamStatus!
+  quizStatus: UserQuizStatus!
+  quizStartTime: String!
+  quizEndTime: String!
+  timeLeft: Float!
+  metadata: String!
 }
 
 input UserInput {
@@ -208,5 +224,12 @@ input UserInput {
   year: Float
   city: String
   college: String
+}
+
+"""status of quiz"""
+enum UserQuizStatus {
+  NOT_STARTED
+  STARTED
+  ENDED
 }
 

@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import AccessAlarmOutlinedIcon from '@material-ui/icons/AccessAlarmOutlined';
 import Typography from '@material-ui/core/Typography';
+import SubmitQuizMutation from "../components/relay/mutations/SubmitQuizMutation"
 import { makeStyles } from '@material-ui/core/styles';
 import Timer from './timer';
 import { Divider, ListItemText } from '@material-ui/core';
@@ -16,7 +17,12 @@ import QuestionPanel from './questionPanel';
 import Stats from './statistics';
 import QuestionComponent from './questionComponent';
 import { GetQuestionsQuery, GetQuestionsQueryResponse } from "../__generated__/GetQuestionsQuery.graphql"
-import { QuestionAnswer } from '../__generated__/SubmitQuizMutation.graphql';
+import { QuestionAnswer, SubmitQuizInput } from '../__generated__/SubmitQuizMutation.graphql';
+import { ComponentProps } from '../pages/_app';
+import LoadingScreen from './loadingScreen';
+import timeQuery from "../components/relay/queries/GetQuizStartTimeQuery"
+import { GetQuizStartTimeQuery } from '../__generated__/GetQuizStartTimeQuery.graphql';
+import { useRouter } from 'next/router';
 
 
 
@@ -51,14 +57,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function SignInSide() {
+const QuizPage: React.FC<ComponentProps> = ({ environment,
+  viewer,
+  setSuccessMessage,
+  setErrorMessage }) => {
   const classes = useStyles();
   const { data, error, retry, isLoading } = useQuery<GetQuestionsQuery>(query)
+  const { data: startTimeData, error: startTimeError, retry: startTimeRetry, isLoading: startTimeIsLoading } = useQuery<GetQuizStartTimeQuery>(timeQuery)
   const [currentQuestion, setCurrentQuestion] = React.useState<GetQuestionsQueryResponse["getQuestions"][0] | null>(null)
   const [answer, setAnswer] = React.useState<QuestionAnswer[] | []>([])
   const [reviewedAnswers, setReviewedAnswers] = React.useState<string[] | []>([])
   const [visitedAnswers, setVisitedAnswers] = React.useState<string[] | []>([])
-
+  const router = useRouter()
 
 
   React.useEffect(() => {
@@ -71,11 +81,20 @@ export default function SignInSide() {
     }
   }, [data])
 
-  if (isLoading) { return <h1>Loading .....</h1> }
+  if (isLoading || startTimeIsLoading) { return <LoadingScreen loading /> }
 
   const handleQuestionClick = (questionNo: number) => {
     const clickedQuestion = data.getQuestions.find((ques) => ques.questionNo === questionNo)
     setCurrentQuestion(clickedQuestion)
+  }
+
+  const handleSubmitQuizMutation = () => {
+    const input: SubmitQuizInput = { responses: answer }
+    SubmitQuizMutation(environment, input,
+      {
+        onCompleted: () => { setSuccessMessage("Quiz was successfully Submitted"), router.push("/login") },
+        onError: () => { setErrorMessage("Something went wrong") }
+      })
   }
 
 
@@ -95,7 +114,8 @@ export default function SignInSide() {
           currentQuestion={currentQuestion}
           setCurrentQuestion={setCurrentQuestion}
           questions={data.getQuestions}
-        /> : <h6>Loading ...</h6>}
+          role={viewer.role}
+        /> : <LoadingScreen loading />}
 
       </Grid>
       <Grid item xs={12} md={6} lg={4} component={Paper} elevation={6} square>
@@ -105,7 +125,7 @@ export default function SignInSide() {
               <AccessAlarmOutlinedIcon />
             </Avatar>
             <Box mt={1}>
-              <Timer />
+              <Timer startTime={startTimeData} onTimeUp={handleSubmitQuizMutation} />
             </Box>
           </Box>
           <Divider variant="middle" className={classes.divider} />
@@ -117,17 +137,19 @@ export default function SignInSide() {
             answers={answer}
             visitedAnswers={visitedAnswers} />
           <Divider variant="middle" className={classes.divider} />
-          <Stats reviewedAnswers={reviewedAnswers}
+          {viewer.role === "TEAM_LEADER" && <>     <Stats reviewedAnswers={reviewedAnswers}
             answers={answer}
             visitedAnswers={visitedAnswers}
           />
-          <Divider variant="middle" className={classes.divider} />
-          <Box mb={2} width="100%">
-            <ListItemText primary={"Submit Quiz"} secondary={"Quiz will be submitted automatically when time is over"} primaryTypographyProps={{ variant: "h6" }} />
-          </Box>
-          <Button color="primary" variant="contained">SUBMIT</Button>
+            <Divider variant="middle" className={classes.divider} />
+            <Box mb={2} width="100%">
+              <ListItemText primary={"Submit Quiz"} secondary={"Quiz will be submitted automatically when time is over"} primaryTypographyProps={{ variant: "h6" }} />
+            </Box>
+            <Button color="primary" variant="contained" onClick={() => handleSubmitQuizMutation()}>SUBMIT</Button></>}
         </div>
       </Grid>
     </Grid>
   );
 }
+
+export default QuizPage
