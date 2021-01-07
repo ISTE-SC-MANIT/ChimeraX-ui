@@ -17,8 +17,7 @@ import {
 import { useRouter } from 'next/dist/client/router';
 import Navbar from '../components/Navbar';
 import CustomDrawer from '../components/customDrawer';
-// import { ComponentProps } from '../_app';
-
+import { ComponentProps } from '../pages/_app';
 
 
 
@@ -70,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     heading: {
-      color: 'white',
+      color: 'black',
       marginBottom: theme.spacing(4),
       paddingTop: '40px',
     },
@@ -96,28 +95,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface PageProps{
-    setSuccessMessage:(mssg:string)=>void
-    setErrorMessage:(mssg:string)=>void
-}
 
-const Instructions: React.FC<PageProps> = ({
- 
-  setSuccessMessage,
-  setErrorMessage,
-}) => {
+const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, setErrorMessage }) => {
   const classes = useStyles();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
-  const quizHandle = () => { router.push('/dashboard/test') };
+  const quizHandle = () => {
+    router.push('/dashboard/test');
+  };
 
-  
   return (
     <div className={classes.root}>
       <CustomDrawer
-        name={''}
-        username={''}
+        name={viewer.name}
+        username={viewer.email}
         open={open}
         setOpen={setOpen}
         setSuccessMessage={setSuccessMessage}
@@ -144,7 +136,7 @@ const Instructions: React.FC<PageProps> = ({
         </Grid>
         <Grid container alignItems="center" justify="center">
           <Box>
-            <Paper className="classes.paper" elevation={8}>
+            <Paper className={classes.paper} elevation={8}>
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
                   <ListItemIcon></ListItemIcon>
@@ -195,7 +187,6 @@ const Instructions: React.FC<PageProps> = ({
             </Paper>
           </Box>
         </Grid>
-        
       </Grid>
     </div>
   );

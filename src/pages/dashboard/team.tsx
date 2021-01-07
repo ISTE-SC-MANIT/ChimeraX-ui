@@ -195,7 +195,7 @@ const Team: React.FC<ComponentProps> = ({
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <Grid container component="main">
+      <Grid container component="main" onClick={() => setOpen(false)}>
         <Grid item xs={12} md={8} className={classes.leftGrid}>
           <Box mt={5} mb={5} className={classes.header}>
             <Grid container justify="flex-start" alignItems="center">
@@ -210,9 +210,11 @@ const Team: React.FC<ComponentProps> = ({
               </Grid>
             </Grid>
           </Box>
-          <Box ml={2} mb={2}><Typography variant="h5">
-
-            Step-2, Select whether you want to play as a individual or as a team?</Typography></Box>
+          <Box ml={2} mb={2}>
+            <Typography variant="h5">
+              Step-2, Select whether you want to play as a individual or as a team?
+            </Typography>
+          </Box>
           <Box>
             <Box display="flex">
               <Radio
@@ -243,51 +245,58 @@ const Team: React.FC<ComponentProps> = ({
               </div>
             </Box>
           </Box>
-          {radio === "B" && <Box ml={8}>
-            <Box display="flex">
-              <Typography variant="body1">Send Invitation to your teammate</Typography>
+          {radio === 'B' && (
+            <Box ml={8}>
+              <Box display="flex">
+                <Typography variant="body1">Send Invitation to your teammate</Typography>
+              </Box>
+              <Box display="flex">
+                <Autocomplete
+                  id="combo-box-demo"
+                  //@ts-ignore
+                  options={dummyUsers}
+                  value={receiver}
+                  onChange={(event: any, newValue: any) => {
+                    setReceiver(newValue);
+                  }}
+                  getOptionLabel={(option) => `${option.name} ${option.email}`}
+                  renderOption={(option) => (
+                    <React.Fragment>
+                      <span>
+                        <Avatar alt="Remy Sharp" src="/dummy.png" />
+                      </span>
+                      &nbsp; {option.name} ({option.email})
+                    </React.Fragment>
+                  )}
+                  style={{ width: 400 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search Team Member"
+                      variant="outlined"
+                      size="small"
+                    />
+                  )}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={receiver === null}
+                  onClick={handleSendInvitation}
+                  className={classes.invitation_button}
+                >
+                  Send{' '}
+                </Button>
+              </Box>
             </Box>
-            <Box display="flex">
-              <Autocomplete
-                id="combo-box-demo"
-                //@ts-ignore
-                options={dummyUsers}
-                value={receiver}
-                onChange={(event: any, newValue: any) => {
-                  setReceiver(newValue);
-                }}
-                getOptionLabel={(option) => `${option.name} ${option.email}`}
-                renderOption={(option) => (
-                  <React.Fragment>
-                    <span>
-                      <Avatar alt="Remy Sharp" src="/dummy.png" />
-                    </span>
-                    &nbsp; {option.name} ({option.email})
-                  </React.Fragment>
-                )}
-                style={{ width: 400 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search Team Member"
-                    variant="outlined"
-                    size="small"
-                  />
-                )}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={receiver === null}
-                onClick={handleSendInvitation}
-                className={classes.invitation_button}
-              >
-                Send{' '}
-              </Button>
-            </Box>
-          </Box>}
-          <Button variant="contained" color="primary" disabled={radio === "B"} onClick={handlePlayAsIndividual}
-            className={classes.proceed_button}>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={radio === 'B'}
+            onClick={handlePlayAsIndividual}
+            className={classes.proceed_button}
+          >
             PROCEED{' '}
           </Button>
           {/* <Box>
@@ -298,7 +307,7 @@ const Team: React.FC<ComponentProps> = ({
           item
           xs={12}
           md={4}
-        //   component={Paper} elevation={6} square
+          //   component={Paper} elevation={6} square
         >
           <Paper elevation={6} className={classes.container}>
             <Tabs
@@ -308,7 +317,6 @@ const Team: React.FC<ComponentProps> = ({
               // textColor="primary"
               variant="fullWidth"
             >
-
               <Tab label="Sent Invitations" />
               <Tab label="Received Invitations" />
               classsName={classes.tab}
@@ -323,14 +331,14 @@ const Team: React.FC<ComponentProps> = ({
                 setErrorMessage={setErrorMessage}
               />
             ) : (
-                <ReceivedInvitation
-                  refetchRef={refetchRef}
-                  environment={environment}
-                  setSuccessMessage={setSuccessMessage}
-                  setErrorMessage={setErrorMessage}
-                  refetch={refetch}
-                />
-              )}
+              <ReceivedInvitation
+                refetchRef={refetchRef}
+                environment={environment}
+                setSuccessMessage={setSuccessMessage}
+                setErrorMessage={setErrorMessage}
+                refetch={refetch}
+              />
+            )}
           </Paper>
         </Grid>
       </Grid>

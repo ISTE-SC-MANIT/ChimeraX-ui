@@ -55,11 +55,22 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
     }
 
 
-    return startQuiz ? <QuizPage viewer={viewer} environment={environment}
-        setSuccessMessage={setSuccessMessage} refetch={refetch}
-        setErrorMessage={setErrorMessage} /> : <><Instructions
-            setSuccessMessage={setSuccessMessage}
-            setErrorMessage={setErrorMessage}
+    return startQuiz ? (
+      <QuizPage
+        viewer={viewer}
+        environment={environment}
+        setSuccessMessage={setSuccessMessage}
+        refetch={refetch}
+        setErrorMessage={setErrorMessage}
+      />
+    ) : (
+      <>
+        <Instructions
+          viewer={viewer}
+          environment={environment}
+          setSuccessMessage={setSuccessMessage}
+          refetch={refetch}
+          setErrorMessage={setErrorMessage}
         />
             <Grid container spacing={0} alignItems="center" justify="center">
                 <Box>
@@ -67,6 +78,6 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
             </Grid>
 
         </>
-}
+    )}
 
 export default Team
