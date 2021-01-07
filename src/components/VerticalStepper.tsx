@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
   return [
-    'Select whether you want to play as a individual or as a team',
+    // 'Select whether you want to play as a individual or as a team',
+    'Select your Teammate',
     'Enter your Team name',
     'Verify your team details',
     'Complete your payment',
@@ -64,7 +65,7 @@ export default function VerticalStepper() {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
+              {/* <Typography>{getStepContent(index)}</Typography> */}
 
             </StepContent>
           </Step>
