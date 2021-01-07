@@ -138,8 +138,21 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
   const router = useRouter()
   const [terms, setTerms] = React.useState<boolean>(false)
 
-  // const theme = useTheme()
-  // const matches = useMediaQuery(theme.breakpoints.down('md'));
+  React.useEffect(() => {
+    if (viewer.step === "REGISTER") {
+
+    }
+    if (viewer.step === "PAYMENT") {
+      router.push("/dashboard/payment")
+    }
+    if (viewer.step === "TEST") {
+      router.push("/dashboard/test")
+    }
+    if (viewer.step === "CHOOSE_TEAM") {
+      router.push("/dashboard/team")
+    }
+
+  }, [])
 
   const initialValues = {
     name: "",
@@ -160,6 +173,7 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
     RegisterUserMutation(environment, userInput, {
       onCompleted: () => {
         setSuccessMessage('Registered Successfully');
+        refetch()
         router.push("/dashboard/team")
       },
       onError: (err) => {
@@ -291,7 +305,7 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
                               <TextField
                                 {...params}
                                 fullWidth
-                                
+
 
                                 id="name-input"
                                 label="City where your college exists"

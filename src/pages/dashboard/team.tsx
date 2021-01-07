@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
     },
     container: {
-     // height: window.outerHeight + 150,
-     minHeight:'100vh', 
-     [theme.breakpoints.down('sm')]: {
+      // height: window.outerHeight + 150,
+      minHeight: '100vh',
+      [theme.breakpoints.down('sm')]: {
         height: 'auto',
       },
     },
@@ -105,6 +105,23 @@ const Team: React.FC<ComponentProps> = ({
   const refetchRef = React.useRef<any>(null);
   const [radio, setRadio] = React.useState<'A' | 'B'>('A');
   const [open, setOpen] = React.useState(false);
+  const router = useRouter()
+
+  React.useEffect(() => {
+    if (viewer.step === "REGISTER") {
+      router.push("/dashboard/register")
+    }
+    if (viewer.step === "PAYMENT") {
+      router.push("/dashboard/payment")
+    }
+    if (viewer.step === "TEST") {
+      router.push("/dashboard/test")
+    }
+    if (viewer.step === "CHOOSE_TEAM") {
+
+    }
+
+  }, [])
 
   const { data, error, retry, isLoading } = useQuery<GetUserQuery>(query);
 
@@ -112,7 +129,7 @@ const Team: React.FC<ComponentProps> = ({
     return <LoadingScreen loading />;
   }
 
-  let dummyUsers = data?.getSingleUsers;
+  let dummyUsers = data?.getSingleUsers.filter((user) => user.city === viewer.city);
 
   const handleSendInvitation = () => {
     console.log(receiver);
@@ -124,12 +141,12 @@ const Team: React.FC<ComponentProps> = ({
     SendInvitationMutation(environment, receiverInput, {
       onCompleted: (res) => {
         setSuccessMessage('Invitation Sent');
-       
+
         setReceiver(null);
         setRendered(true);
         setSend(!send);
         retry();
-        
+
         refetchRef.current && refetchRef.current.retry();
       },
       onError: (err) => {
@@ -140,21 +157,24 @@ const Team: React.FC<ComponentProps> = ({
   const handlePlayAsIndividual = () => {
     PlayAsIndividualMutation(environment, {
       onCompleted: () => {
+
         setSuccessMessage('Redirecting ....');
         router.push("/dashboard/payment")
         refetch()
 
-      }, onError: () => { 
-        setErrorMessage('Something went wrong Please try again later!'); 
+      }, onError: () => {
+        setErrorMessage('Something went wrong Please try again later!');
       }
     })
   }
 
 
+
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
-  const router = useRouter();
+
   const logoutHandle = () => {
     cookie.remove('authorization');
     router.push('/');

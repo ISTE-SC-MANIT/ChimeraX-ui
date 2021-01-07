@@ -12,6 +12,8 @@ const AppViewerQuery = graphql`
             registered
             strategy
             role
+            step
+            city
 
         }
     }

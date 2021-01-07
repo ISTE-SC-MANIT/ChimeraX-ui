@@ -7,6 +7,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,13 +39,13 @@ function getSteps() {
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return `Do you trust your own quizzing skills without doubt? Or do you work better in teams?`;
+      return `Register`;
     case 1:
-      return 'Feel free to be as creative or simple as you like. Remember, your team name can say a lot about you!';
+      return 'Select team';
     case 2:
-      return 'Make sure all the information entered is valid and consistent.';
+      return "Payment";
     case 3:
-      return `One last step. You are almost there!`;
+      return `Test`;
     default:
       return 'Unknown step';
   }
@@ -54,8 +55,26 @@ export default function VerticalStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const router = useRouter()
+  const paths = router.route.split("/")[2]
 
-  
+
+  React.useEffect(() => {
+    if (paths === "register") {
+      setActiveStep(0)
+    }
+    if (paths === "team") {
+      setActiveStep(1)
+    }
+    if (paths === "payment") {
+      setActiveStep(2)
+    }
+    if (paths === "test") {
+      setActiveStep(3)
+    }
+  }, [paths])
+
+
 
   return (
     <div className={classes.root}>
@@ -73,7 +92,7 @@ export default function VerticalStepper() {
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! 👍</Typography>
-          
+
         </Paper>
       )}
     </div>

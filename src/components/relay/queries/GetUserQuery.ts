@@ -11,6 +11,7 @@ const GetUserQuery = graphql`
             registered
             strategy
             role
+            city
 
         }
     }

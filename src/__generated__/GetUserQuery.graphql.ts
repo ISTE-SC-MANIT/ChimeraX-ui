@@ -15,6 +15,7 @@ export type GetUserQueryResponse = {
         readonly registered: boolean;
         readonly strategy: string;
         readonly role: Role;
+        readonly city: string;
     }>;
 };
 export type GetUserQuery = {
@@ -35,6 +36,7 @@ query GetUserQuery {
     registered
     strategy
     role
+    city
   }
 }
 */
@@ -104,6 +106,13 @@ var v0 = [
         "kind": "ScalarField",
         "name": "role",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "city",
+        "storageKey": null
       }
     ],
     "storageKey": null
@@ -127,14 +136,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "9a4609f32ad4157eb6bacee87cf837ee",
+    "cacheID": "aa75daa53a2bcc7d0386e2772ae25a1a",
     "id": null,
     "metadata": {},
     "name": "GetUserQuery",
     "operationKind": "query",
-    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    id\n    phone\n    registered\n    strategy\n    role\n  }\n}\n"
+    "text": "query GetUserQuery {\n  getSingleUsers {\n    _id\n    name\n    email\n    id\n    phone\n    registered\n    strategy\n    role\n    city\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '40e316423a3666927c7c0cd78fb23c81';
+(node as any).hash = '842b9dd9bca94dc04277f6ed2c2530d4';
 export default node;

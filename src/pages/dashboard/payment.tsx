@@ -132,11 +132,28 @@ const Payment: React.FC<ComponentProps> = ({
   environment,
   setSuccessMessage,
   setErrorMessage,
+  refetch
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [teamName, setTeamName] = React.useState("")
   const router = useRouter()
+
+  React.useEffect(() => {
+    if (viewer.step === "REGISTER") {
+
+    }
+    if (viewer.step === "PAYMENT") {
+      router.push("/dashboard/payment")
+    }
+    if (viewer.step === "TEST") {
+      router.push("/dashboard/test")
+    }
+    if (viewer.step === "CHOOSE_TEAM") {
+      router.push("/dashboard/team")
+    }
+
+  }, [])
 
   const { data, error, retry, isLoading } = useQuery<GetTeamDetailsQuery>(query);
   if (isLoading) {
@@ -161,7 +178,8 @@ const Payment: React.FC<ComponentProps> = ({
           {
             onCompleted: () => {
               setSuccessMessage('Payment Successful'),
-                router.push("/dashboard/test")
+                refetch()
+              router.push("/dashboard/test")
             },
             onError: () => setErrorMessage('Payment Failed')
           }

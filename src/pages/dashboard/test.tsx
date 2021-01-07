@@ -8,11 +8,28 @@ import { useQuery } from "relay-hooks"
 import { GetQuizStatusQuery } from "../../__generated__/GetQuizStatusQuery.graphql"
 import LoadingScreen from "../../components/loadingScreen"
 import StartQuizMutation from "../../components/relay/mutations/StartQuizMutation"
+import { useRouter } from "next/router"
 
 const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage, refetch, setErrorMessage }) => {
     const [startQuiz, setStartQuiz] = React.useState(false)
     const { data, error, isLoading, retry } = useQuery<GetQuizStatusQuery>(query)
-   
+    const router = useRouter()
+
+    React.useEffect(() => {
+        if (viewer.step === "REGISTER") {
+            router.push("/register")
+        }
+        if (viewer.step === "PAYMENT") {
+            router.push("/payment")
+        }
+        if (viewer.step === "TEST") {
+
+        }
+        if (viewer.step === "CHOOSE_TEAM") {
+            router.push("/team")
+        }
+
+    }, [])
     React.useEffect(() => {
         if (Boolean(data)) {
             setStartQuiz(data.getQuizDetails.userQuizStatus === "STARTED" ? true : false)
