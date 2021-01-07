@@ -78,7 +78,7 @@ const MyApp = ({
         return first === "dashboard"
     }, [first,]);
 
-
+    
     const environment: Environment | null = React.useMemo(() => {
         if (first === "dashboard")
             return makeEnvironment();

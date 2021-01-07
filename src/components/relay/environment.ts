@@ -12,7 +12,7 @@ import {
 
 export const makeEnvironment = () => {
     const token = cookie.get("token");
-console.log(token)
+
     
 
     const network = new RelayNetworkLayer(

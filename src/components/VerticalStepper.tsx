@@ -81,7 +81,7 @@ export default function VerticalStepper() {
     <div className={classes.root}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
-          <Step key={label}>
+          <Step key={index}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
               {/* <Typography>{getStepContent(index)}</Typography> */}
