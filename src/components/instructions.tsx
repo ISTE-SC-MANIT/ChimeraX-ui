@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     heading: {
-      color: 'white',
+      color: 'black',
       marginBottom: theme.spacing(4),
       paddingTop: '40px',
     },
@@ -135,7 +135,7 @@ const Instructions: React.FC<PageProps> = ({
             <ListItem className={classes.heading}>
               <ListItemText
                 primary={'Instructions'}
-                primaryTypographyProps={{ variant: 'h2', align: 'center' }}
+                primaryTypographyProps={{ variant: 'h2', align: 'center'  }}
                 secondary={`Here are some Instructions for ISTE's multi city quiz competition: ChimeraX`}
                 secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
               />
@@ -144,7 +144,7 @@ const Instructions: React.FC<PageProps> = ({
         </Grid>
         <Grid container alignItems="center" justify="center">
           <Box>
-            <Paper className="classes.paper" elevation={8}>
+            <Paper className={classes.paper} elevation={8}>
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
                   <ListItemIcon></ListItemIcon>

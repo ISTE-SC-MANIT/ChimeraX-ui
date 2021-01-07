@@ -204,8 +204,8 @@ const Payment: React.FC<ComponentProps> = ({
   return (
     <div className={classes.root}>
       <CustomDrawer
-        name={'Devansh'}
-        username={'Devansh'}
+        name={viewer.name}
+        username={viewer.email}
         open={open}
         setOpen={setOpen}
         setSuccessMessage={setSuccessMessage}
@@ -216,7 +216,7 @@ const Payment: React.FC<ComponentProps> = ({
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <Grid container component="main">
+      <Grid container component="main" onClick={() => setOpen(false)}>
         <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
           <Box className={classes.heading}>
             <Typography variant="h4">
@@ -245,7 +245,9 @@ const Payment: React.FC<ComponentProps> = ({
             <TextField
               // fullWidth
               value={teamName}
-              onChange={(e) => { setTeamName(e.target.value) }}
+              onChange={(e) => {
+                setTeamName(e.target.value);
+              }}
               className={classes.input}
               size="small"
               id="password-input"
@@ -280,14 +282,22 @@ const Payment: React.FC<ComponentProps> = ({
             <Typography>
               <b> Team Leader :</b> &nbsp;
             </Typography>
-            <Typography> {data.getTeamDetails.teamLeader.name} ({data.getTeamDetails.teamLeader.email}) </Typography>
-          </Box>
-          {data.getTeamDetails.status === "TEAM" && <Box display="flex" className={classes.box}>
             <Typography>
-              <b> Paired With :</b> &nbsp;
+              {' '}
+              {data.getTeamDetails.teamLeader.name} ({data.getTeamDetails.teamLeader.email}){' '}
             </Typography>
-            <Typography> {data.getTeamDetails.teamHelper.name} ({data.getTeamDetails.teamHelper.email})</Typography>
-          </Box>}
+          </Box>
+          {data.getTeamDetails.status === 'TEAM' && (
+            <Box display="flex" className={classes.box}>
+              <Typography>
+                <b> Paired With :</b> &nbsp;
+              </Typography>
+              <Typography>
+                {' '}
+                {data.getTeamDetails.teamHelper.name} ({data.getTeamDetails.teamHelper.email})
+              </Typography>
+            </Box>
+          )}
 
           <Divider></Divider>
           <Box>
@@ -329,15 +339,19 @@ const Payment: React.FC<ComponentProps> = ({
                       }
                     />
                   </ListItem>
-                  {viewer.role === "TEAM_HELPER" && <Typography>Please ask your team leader to complete payment</Typography>}
+                  {viewer.role === 'TEAM_HELPER' && (
+                    <Typography>Please ask your team leader to complete payment</Typography>
+                  )}
                 </Box>
               </Grid>
               <Grid item xs={12}>
                 <Box className={classes.box}>
-                  <Button color="primary"
+                  <Button
+                    color="primary"
                     variant="contained"
                     onClick={handleRazorpay}
-                    disabled={disable}>
+                    disabled={disable}
+                  >
                     Proceed for payment
                   </Button>
                 </Box>

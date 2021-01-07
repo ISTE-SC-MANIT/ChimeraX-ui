@@ -45,7 +45,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
             setErrorMessage={setErrorMessage}
         />
             <Grid container spacing={0} alignItems="center" justify="center">
-                <Box>
+                <Box mb={4}>
                     <Button onClick={handleStartQuiz} variant="contained" color="primary">Start Quiz</Button></Box>
             </Grid>
 
