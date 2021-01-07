@@ -11,7 +11,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
-import queryString from 'query-string';
+import queryString from 'querystring';
 import { ComponentProps } from './_app';
 
 // import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Team: React.FC<ComponentProps> = ({ setSuccessMessage,  setErrorMessage}) => {
+const ResetPassword: React.FC<ComponentProps> = ({ setSuccessMessage, setErrorMessage }) => {
   const classes = useStyles();
   const [formData, setFormData] = React.useState({ newpassword: '', confirmPassword: '' });
   const router = useRouter();
@@ -154,3 +154,5 @@ const Team: React.FC<ComponentProps> = ({ setSuccessMessage,  setErrorMessage}) 
     </Grid>
   );
 };
+
+export default ResetPassword
