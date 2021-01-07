@@ -166,25 +166,22 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
 
   });
 
-  const getStep = (step: "REGISTER" | "PAYMENT" | "CHOOSE_TEAM" | "INSTRUCTION"|"TEST") => {
+  const getStep = (step: 'REGISTER' | 'CHOOSE_TEAM' | 'PAYMENT' | 'TEST') => {
     switch (step) {
       case 'REGISTER':
         return '/dashboard/register';
         break;
-      case 'PAYMENT':
-        return '/dashboard/payment';
-        break;
       case 'CHOOSE_TEAM':
         return '/dashboard/team';
         break;
-      case 'INSTRUCTION':
-        return '/dashboard/instruction';
+      case 'PAYMENT':
+        return '/dashboard/payment';
         break;
       case 'TEST':
         return '/dashboard/test';
         break;
     }
-  }
+  };
 
   const sendGoogleToken = (tokenId) => {
     axios
