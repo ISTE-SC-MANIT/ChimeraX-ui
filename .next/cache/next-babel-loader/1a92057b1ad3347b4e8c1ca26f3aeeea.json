@@ -1,0 +1,1 @@
+{"ast":null,"code":"var _GetQuestionsQuery;\n\nvar GetQuestionsQuery = _GetQuestionsQuery !== void 0 ? _GetQuestionsQuery : _GetQuestionsQuery = require(\"../../../__generated__/GetQuestionsQuery.graphql\");\nexport default GetQuestionsQuery;","map":null,"metadata":{},"sourceType":"module"}

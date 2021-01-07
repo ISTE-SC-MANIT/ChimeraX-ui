@@ -1,0 +1,1 @@
+{"ast":null,"code":"var _GetTeamDetailsQuery;\n\nconst GetTeamDetailsQuery = _GetTeamDetailsQuery !== void 0 ? _GetTeamDetailsQuery : _GetTeamDetailsQuery = require(\"../../../__generated__/GetTeamDetailsQuery.graphql\");\nexport default GetTeamDetailsQuery;","map":null,"metadata":{},"sourceType":"module"}
