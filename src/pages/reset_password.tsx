@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import queryString from 'querystring';
 import { ComponentProps } from './_app';
 
+
 // import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
 
 let resetPasswordLink;
@@ -42,8 +43,8 @@ const ResetPassword: React.FC<ComponentProps> = ({ setSuccessMessage, setErrorMe
 
   if (typeof window !== 'undefined') {
     const url = window.location.search;
-
-    resetPasswordLink = queryString.parse(url).token;
+    //console.log(url);
+    resetPasswordLink = url.slice(7);
     console.log(resetPasswordLink);
   }
 
