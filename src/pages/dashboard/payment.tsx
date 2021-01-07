@@ -161,7 +161,7 @@ const Payment: React.FC<ComponentProps> = ({
           {
             onCompleted: () => {
               setSuccessMessage('Payment Successful'),
-                router.push("dashboard/test")
+                router.push("/dashboard/test")
             },
             onError: () => setErrorMessage('Payment Failed')
           }
