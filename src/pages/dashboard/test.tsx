@@ -63,7 +63,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
         />
             <Grid container spacing={0} alignItems="center" justify="center">
                 <Box>
-                    <Button onClick={handleStartQuiz} variant="contained" color="primary">Start Quiz</Button></Box>
+                    <Button onClick={handleStartQuiz} disabled={true} variant="contained" color="primary">Start Quiz</Button></Box>
             </Grid>
 
         </>
