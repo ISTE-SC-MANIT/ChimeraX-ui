@@ -22,7 +22,7 @@ import PlayAsIndividualMutation from "../../components/relay/mutations/PlayAsInd
 import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
 import Navbar from '../../components/Navbar'
-
+import LoadingScreen from '../../components/loadingScreen';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,7 +109,7 @@ const Team: React.FC<ComponentProps> = ({
   const { data, error, retry, isLoading } = useQuery<GetUserQuery>(query);
 
   if (isLoading && !rendered) {
-    return <h1>Loading</h1>;
+    return <LoadingScreen loading />;
   }
 
   let dummyUsers = data?.getSingleUsers;
