@@ -140,7 +140,10 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
 
   React.useEffect(() => {
     if (viewer.step === "REGISTER") {
-
+      router.push('/dashboard/register');
+    }
+    if (viewer.step === 'CHOOSE_TEAM') {
+      router.push('/dashboard/team');
     }
     if (viewer.step === "PAYMENT") {
       router.push("/dashboard/payment")
@@ -148,11 +151,8 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
     if (viewer.step === "TEST") {
       router.push("/dashboard/test")
     }
-    if (viewer.step === "CHOOSE_TEAM") {
-      router.push("/dashboard/team")
-    }
 
-  }, [])
+  }, [viewer.step])
 
   const initialValues = {
     name: "",

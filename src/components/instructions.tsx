@@ -120,7 +120,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
       />
-      <Grid container>
+      <Grid container onClick={() => setOpen(false)}>
         {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Grid container alignItems="center" justify="center">
           <Box>

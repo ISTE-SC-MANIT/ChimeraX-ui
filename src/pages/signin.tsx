@@ -172,6 +172,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
       setSuccessMessage("Successfully signed in")
 
     }).catch((error) => {
+      setFormData({ ...formData, text: 'Sign Up' });
       setErrorMessage(error.response.data.errors)
       return error;
     })

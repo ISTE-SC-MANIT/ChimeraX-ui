@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
   return [
-    // 'Select whether you want to play as a individual or as a team',
+    'Registration',
     'Select your Teammate',
-    'Enter your Team name',
-    'Verify your team details',
     'Complete your payment',
+    'Start Quiz'
   ];
 }
 
@@ -92,7 +91,7 @@ export default function VerticalStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! 👍</Typography>
+          <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! </Typography>
 
         </Paper>
       )}

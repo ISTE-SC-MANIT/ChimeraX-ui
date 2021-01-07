@@ -23,6 +23,7 @@ import { useRouter } from 'next/dist/client/router';
 import cookie from 'js-cookie';
 import Navbar from '../../components/Navbar'
 import LoadingScreen from '../../components/loadingScreen';
+import DialogBox from '../../components/dialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,9 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       // height: window.outerHeight + 150,
-      minHeight: '100vh',
+      height: '100vh',
       [theme.breakpoints.down('sm')]: {
         height: 'auto',
+        paddingBottom: theme.spacing(2),
       },
     },
     dashboardImg: {
@@ -103,8 +105,9 @@ const Team: React.FC<ComponentProps> = ({
   const [send, setSend] = React.useState(false);
   const [rendered, setRendered] = React.useState(false);
   const refetchRef = React.useRef<any>(null);
-  const [radio, setRadio] = React.useState<'A' | 'B'>('A');
+  const [radio, setRadio] = React.useState<'A' | 'B'>('B');
   const [open, setOpen] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false)
   const router = useRouter()
 
   React.useEffect(() => {
@@ -179,170 +182,184 @@ const Team: React.FC<ComponentProps> = ({
     cookie.remove('authorization');
     router.push('/');
   };
+  const handleClose = () => setOpenDialog(false);
 
   return (
-    <div className={classes.root}>
-      <CustomDrawer
-        name={viewer.name}
-        username={viewer.email}
-        open={open}
-        setOpen={setOpen}
+    <>
+      <DialogBox
+        environment={environment}
+        openDialog={openDialog}
+        handleClose={handleClose}
         setSuccessMessage={setSuccessMessage}
         setErrorMessage={setErrorMessage}
+        refetch={refetch}
       />
-      <Navbar
-        setOpen={setOpen}
-        setSuccessMessage={setSuccessMessage}
-        setErrorMessage={setErrorMessage}
-      />
-      <Grid container component="main" onClick={() => setOpen(false)}>
-        <Grid item xs={12} md={8} className={classes.leftGrid}>
-          <Box mt={5} mb={5} className={classes.header}>
-            <Grid container justify="flex-start" alignItems="center">
-              <Grid item sm={4} alignItems="center">
-                <img src="/dashboard.png" className={classes.dashboardImg}></img>
+      <div className={classes.root}>
+        <CustomDrawer
+          name={viewer.name}
+          username={viewer.email}
+          open={open}
+          setOpen={setOpen}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
+        <Navbar
+          setOpen={setOpen}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
+        <Grid container component="main" onClick={() => setOpen(false)}>
+          <Grid item xs={12} md={8} className={classes.leftGrid}>
+            <Box mt={5} mb={5} className={classes.header}>
+              <Grid container justify="flex-start" alignItems="center">
+                <Grid item sm={4} alignItems="center">
+                  <img src="/dashboard.png" className={classes.dashboardImg}></img>
+                </Grid>
+                <Grid item sm={8}>
+                  <Typography variant="h4" className={classes.Head_title}>
+                    <b>Hello, {viewer.name}</b>
+                  </Typography>
+                  <Typography>Welcome to your ChimeraX dashboard</Typography>
+                </Grid>
               </Grid>
-              <Grid item sm={8}>
-                <Typography variant="h4" className={classes.Head_title}>
-                  <b>Hello, {viewer.name}</b>
-                </Typography>
-                <Typography>Welcome to your ChimeraX dashboard</Typography>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box ml={2} mb={2}>
-            <Typography variant="h5">
-              Step-2, Select whether you want to play as a individual or as a team?
-            </Typography>
-          </Box>
-          <Box>
-            <Box display="flex">
-              <Radio
-                className={classes.radioBtn}
-                checked={radio === 'A'}
-                value="A"
-                name="radio-button-demo"
-                inputProps={{ 'aria-label': 'A' }}
-                onClick={() => setRadio('A')}
-              />
-              <div>
-                <Typography variant="h6">Play as an Individual</Typography>
-                <Typography>Be a lone ranger</Typography>
-              </div>
             </Box>
-            <Box display="flex">
-              <Radio
-                className={classes.radioBtn}
-                checked={radio === 'B'}
-                value="B"
-                name="radio-button-demo"
-                inputProps={{ 'aria-label': 'B' }}
-                onClick={() => setRadio('B')}
-              />
-              <div>
-                <Typography variant="h6">Play as a Team</Typography>
-                <Typography>Be a dynamic duo</Typography>
-              </div>
+            <Box ml={2} mb={2}>
+              <Typography variant="h5">
+                Step-2, Select whether you want to play as an individual or as a team?
+              </Typography>
             </Box>
-          </Box>
-          {radio === 'B' && (
-            <Box ml={8}>
+            <Box>
               <Box display="flex">
-                <Typography variant="body1">Send Invitation to your teammate</Typography>
-              </Box>
-              <Box display="flex">
-                <Autocomplete
-                  id="combo-box-demo"
-                  //@ts-ignore
-                  options={dummyUsers}
-                  value={receiver}
-                  onChange={(event: any, newValue: any) => {
-                    setReceiver(newValue);
-                  }}
-                  getOptionLabel={(option) => `${option.name} ${option.email}`}
-                  renderOption={(option) => (
-                    <React.Fragment>
-                      <span>
-                        <Avatar alt="Remy Sharp" src="/dummy.png" />
-                      </span>
-                      &nbsp; {option.name} ({option.email})
-                    </React.Fragment>
-                  )}
-                  style={{ width: 400 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search Team Member"
-                      variant="outlined"
-                      size="small"
-                    />
-                  )}
+                <Radio
+                  className={classes.radioBtn}
+                  checked={radio === 'A'}
+                  value="A"
+                  name="radio-button-demo"
+                  inputProps={{ 'aria-label': 'A' }}
+                  onClick={() => setRadio('A')}
                 />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={receiver === null}
-                  onClick={handleSendInvitation}
-                  className={classes.invitation_button}
-                >
-                  Send{' '}
-                </Button>
+                <div>
+                  <Typography variant="h6">Play as an Individual</Typography>
+                  <Typography>Be a lone ranger</Typography>
+                </div>
+              </Box>
+              <Box display="flex">
+                <Radio
+                  className={classes.radioBtn}
+                  checked={radio === 'B'}
+                  value="B"
+                  name="radio-button-demo"
+                  inputProps={{ 'aria-label': 'B' }}
+                  onClick={() => setRadio('B')}
+                />
+                <div>
+                  <Typography variant="h6">Play as a Team</Typography>
+                  <Typography>Be a dynamic duo</Typography>
+                </div>
               </Box>
             </Box>
-          )}
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={radio === 'B'}
-            onClick={handlePlayAsIndividual}
-            className={classes.proceed_button}
-          >
-            PROCEED{' '}
-          </Button>
-          {/* <Box>
-            <VerticalStepper />
-          </Box> */}
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          //   component={Paper} elevation={6} square
-        >
-          <Paper elevation={6} className={classes.container}>
-            <Tabs
-              value={tab}
-              onChange={handleChange}
-              indicatorColor="primary"
-              // textColor="primary"
-              variant="fullWidth"
-            >
-              <Tab label="Sent Invitations" />
-              <Tab label="Received Invitations" />
-              classsName={classes.tab}
-            </Tabs>
-            <Divider />
-            {tab === 0 ? (
-              <SendInvitation
-                refetchRef={refetchRef}
-                send={send}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                setErrorMessage={setErrorMessage}
-              />
-            ) : (
-              <ReceivedInvitation
-                refetchRef={refetchRef}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                setErrorMessage={setErrorMessage}
-                refetch={refetch}
-              />
+            {radio === 'B' && (
+              <Box ml={8}>
+                <Box display="flex">
+                  <Typography variant="body1">Send Invitation to your teammate</Typography>
+                </Box>
+                <Box display="flex">
+                  <Autocomplete
+                    id="combo-box-demo"
+                    //@ts-ignore
+                    options={dummyUsers}
+                    value={receiver}
+                    onChange={(event: any, newValue: any) => {
+                      setReceiver(newValue);
+                    }}
+                    getOptionLabel={(option) => `${option.name} ${option.email}`}
+                    renderOption={(option) => (
+                      <React.Fragment>
+                        <span>
+                          <Avatar alt="Remy Sharp" src="/dummy.png" />
+                        </span>
+                        &nbsp; {option.name} ({option.email})
+                      </React.Fragment>
+                    )}
+                    style={{ width: 400 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Search Team Member"
+                        variant="outlined"
+                        size="small"
+                      />
+                    )}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={receiver === null}
+                    onClick={handleSendInvitation}
+                    className={classes.invitation_button}
+                  >
+                    Send{' '}
+                  </Button>
+                </Box>
+              </Box>
             )}
-          </Paper>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={radio === 'B'}
+              // onClick={handlePlayAsIndividual}
+              onClick={() => {
+                setOpenDialog(true);
+              }}
+              className={classes.proceed_button}
+            >
+              PROCEED{' '}
+            </Button>
+            {/* <Box>
+              <VerticalStepper />
+            </Box> */}
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            //   component={Paper} elevation={6} square
+          >
+            <Paper elevation={6} className={classes.container}>
+              <Tabs
+                value={tab}
+                onChange={handleChange}
+                indicatorColor="primary"
+                // textColor="primary"
+                variant="fullWidth"
+              >
+                <Tab label="Sent Invitations" />
+                <Tab label="Received Invitations" />
+                classsName={classes.tab}
+              </Tabs>
+              <Divider />
+              {tab === 0 ? (
+                <SendInvitation
+                  refetchRef={refetchRef}
+                  send={send}
+                  environment={environment}
+                  setSuccessMessage={setSuccessMessage}
+                  setErrorMessage={setErrorMessage}
+                />
+              ) : (
+                <ReceivedInvitation
+                  refetchRef={refetchRef}
+                  environment={environment}
+                  setSuccessMessage={setSuccessMessage}
+                  setErrorMessage={setErrorMessage}
+                  refetch={refetch}
+                />
+              )}
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 };
 
