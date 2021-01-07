@@ -10,15 +10,23 @@ import LoadingScreen from "../../components/loadingScreen"
 import StartQuizMutation from "../../components/relay/mutations/StartQuizMutation"
 
 const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage, refetch, setErrorMessage }) => {
-
+    const [startQuiz, setStartQuiz] = React.useState(false)
     const { data, error, isLoading, retry } = useQuery<GetQuizStatusQuery>(query)
+   
+    React.useEffect(() => {
+        if (Boolean(data)) {
+            setStartQuiz(data.getQuizDetails.userQuizStatus === "STARTED" ? true : false)
+        }
+
+    }, [data])
     if (isLoading) {
         return <LoadingScreen loading />
     }
 
 
 
-    const [startQuiz, setStartQuiz] = React.useState(data.getQuizDetails.userQuizStatus != "NOT_STARTED")
+
+
 
     const handleStartQuiz = () => {
         StartQuizMutation(environment, {
