@@ -212,7 +212,7 @@ const Team: React.FC<ComponentProps> = ({
           </Box>
           <Box ml={2} mb={2}>
             <Typography variant="h5">
-              Step-2, Select whether you want to play as a individual or as a team?
+              Step-2, Select whether you want to play as an individual or as a team?
             </Typography>
           </Box>
           <Box>

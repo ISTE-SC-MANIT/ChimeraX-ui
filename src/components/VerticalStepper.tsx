@@ -92,7 +92,7 @@ export default function VerticalStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! 👍</Typography>
+          <Typography>All steps completed - You have successfully registered for ChimeraX. Team ISTE wishes you the best of luck! </Typography>
 
         </Paper>
       )}
