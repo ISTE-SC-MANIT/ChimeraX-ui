@@ -137,7 +137,7 @@ const VectorImg = (classes) => {
 };
 const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }) => {
   const classes = useStyles();
-  const [formData, setFormData] = React.useState({ email: "", password: "", text: "Sign In" })
+  const [formData, setFormData] = React.useState({ email: "", password: "", text: "Sign Up" })
 
   const [visible, setVisible] = React.useState(false)
   const router = useRouter()
@@ -187,7 +187,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h2">
-            Sign In
+            Sign Up
             </Typography>
           <Formik
             onSubmit={(values) => handleSubmit(values)}
@@ -246,7 +246,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
               <Box mt={5}>
                 {' '}
                 <Typography align="center" variant="subtitle1">
-                  Or Sign in with other social platforms
+                  Or Sign up with other social platforms
                   </Typography>
               </Box>
               <Box>
