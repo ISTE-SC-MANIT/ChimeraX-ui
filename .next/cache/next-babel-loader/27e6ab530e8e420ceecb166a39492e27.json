@@ -1,1 +1,0 @@
-{"ast":null,"code":"var _AppViewerQuery;\n\nvar AppViewerQuery = _AppViewerQuery !== void 0 ? _AppViewerQuery : _AppViewerQuery = require(\"../../../__generated__/AppViewerQuery.graphql\");\nexport default AppViewerQuery;","map":null,"metadata":{},"sourceType":"module"}

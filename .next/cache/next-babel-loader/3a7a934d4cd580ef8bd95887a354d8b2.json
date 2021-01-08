@@ -1,1 +1,0 @@
-{"ast":null,"code":"var _GetInvitationQuery;\n\nconst GetInvitationQuery = _GetInvitationQuery !== void 0 ? _GetInvitationQuery : _GetInvitationQuery = require(\"../../../__generated__/GetInvitationQuery.graphql\");\nexport default GetInvitationQuery;","map":null,"metadata":{},"sourceType":"module"}
