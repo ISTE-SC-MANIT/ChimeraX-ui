@@ -1,1 +1,0 @@
-{"ast":null,"code":"var _GetQuizStatusQuery;\n\nconst GetQuizStatusQuery = _GetQuizStatusQuery !== void 0 ? _GetQuizStatusQuery : _GetQuizStatusQuery = require(\"../../../__generated__/GetQuizStatusQuery.graphql\");\nexport default GetQuizStatusQuery;","map":null,"metadata":{},"sourceType":"module"}
