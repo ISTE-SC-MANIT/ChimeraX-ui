@@ -207,7 +207,7 @@ const Payment: React.FC<ComponentProps> = ({
 
     CreateOrder(
       environment,
-      { teamName: '' },
+      { teamName: teamName },
       {
         onCompleted: (res) => handleSuccess(res),
         onError: () => setErrorMessage('Payment Failed'),
