@@ -352,7 +352,11 @@ const Payment: React.FC<ComponentProps> = ({
                     <ListItemText
                       primary={
                         <>
-                          I agree to the <Link>Terms & Conditions</Link> of ISTE-SC-MANIT{' '}
+                          I agree to the{' '}
+                          <Link target="_blank" href="https://docs.google.com/document/d/1RyRYIk8cyBA3U_dSMIxT1z5XDHELDUx5OW5Cqk6l_JM/edit?usp=sharing">
+                            Terms & Conditions
+                          </Link>{' '}
+                          of ISTE-SC-MANIT{' '}
                         </>
                       }
                     />

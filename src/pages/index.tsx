@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: `url('/vector.png')`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor: 'white',
-    // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[800],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
