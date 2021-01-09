@@ -127,7 +127,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
             <ListItem className={classes.heading}>
               <ListItemText
                 primary={'Instructions'}
-                primaryTypographyProps={{ variant: 'h2', align: 'center' }}
+                primaryTypographyProps={{ variant: 'h3', align: 'center' }}
                 secondary={`Here are some Instructions for ISTE's multi city quiz competition: ChimeraX`}
                 secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
               />
@@ -139,44 +139,44 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
             <Paper className={classes.paper} elevation={8}>
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>1) The test will begin at __, and end at __</ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>2) There can be a maximum of 2 members in a team.</ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
                     3) The quiz will automatically submit once the timer runs out
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
                     4) Replacement of any participant of a team is not allowed after registration.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
                     5) Make sure to save your answers whenever a question is attempted
                   </ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
                     6) Each correct question gets __ marks and no marks are deducted for a wrong
                     answer
                   </ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>7) There are 30 questions, all are compulsory</ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
                     8) Questions marked for review are marked in blue, questions whose answers are
                     saved are marked in green and unsaved answers to questions are marked in red to
