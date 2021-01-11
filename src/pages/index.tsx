@@ -19,9 +19,11 @@ import FormDialog from '../components/forgotPassword';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useRouter } from 'next/router';
 import { authenticate } from '../components/utils';
-import { IconButton } from '@material-ui/core';
+import { InputAdornment, IconButton } from '@material-ui/core';
 import { Formik, Form, Field, FieldProps } from 'formik';
 import { ComponentProps } from './_app';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 
 const SigninButton = withStyles((theme) => ({
@@ -148,8 +150,12 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
   const classes = useStyles();
   const [openPass, setOpenPass] = React.useState(false)
   const [pending, setPending] = React.useState(false)
-  const router = useRouter()
+  const [visible, setVisible] = React.useState(false);
+  const router = useRouter();
 
+  const handleShowPassword = () => {
+    setVisible(!visible);
+  };
   const initialValues = {
     password: "",
     email: "",
@@ -227,7 +233,14 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
 
   return (
     <>
-      {openPass && <FormDialog open={openPass} onClose={() => setOpenPass(false)} setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage}/>}
+      {openPass && (
+        <FormDialog
+          open={openPass}
+          onClose={() => setOpenPass(false)}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
+      )}
       <Grid container component="main" className={classes.root}>
         <Grid item xs={false} sm={6} className={classes.image}>
           <Box className={classes.logo}>
@@ -235,7 +248,13 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
           </Box>
           <Box className={classes.signinBtn}>
             <Grid container justify="center" alignItems="center">
-              <SigninButton onClick={() => { router.push("/signin") }}>Sign Up</SigninButton>
+              <SigninButton
+                onClick={() => {
+                  router.push('/signin');
+                }}
+              >
+                Sign Up
+              </SigninButton>
             </Grid>
           </Box>
           <VectorImg classes={classes} />
@@ -247,7 +266,7 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
             </Avatar>
             <Typography component="h1" variant="h2">
               Log In
-              </Typography>
+            </Typography>
             {/* <form className={classes.form} noValidate> */}
             <Formik
               onSubmit={(values) => handleLocalLogin(values)}
@@ -255,7 +274,6 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
               initialValues={initialValues}
             >
               <Form aria-label="Sign up form" id="sign-up-form">
-
                 <Field name="email">
                   {({ field, meta }: FieldProps<typeof initialValues['email']>) => (
                     <TextField
@@ -284,7 +302,20 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                       helperText={meta.touched ? meta.error : ''}
                       variant="outlined"
                       margin="normal"
-                      type="password"
+                      type={visible ? 'text' : 'password'}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleShowPassword}
+                              edge="end"
+                            >
+                              {visible ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   )}
                 </Field>
@@ -294,7 +325,6 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                   label="Remember me"
                 />
                 <Button
-
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -302,15 +332,15 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                   color="primary"
                 >
                   Log In
-                  </Button>
+                </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link onClick={() => setOpenPass(true)} variant="body2">
                       Forgot password?
-                      </Link>
+                    </Link>
                   </Grid>
                   <Grid item>
-                    <Link onClick={() => router.push("/signin")} variant="body2">
+                    <Link onClick={() => router.push('/signin')} variant="body2">
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>
@@ -319,7 +349,7 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                   {' '}
                   <Typography align="center" variant="subtitle1">
                     Or Log in with other social platforms
-                    </Typography>
+                  </Typography>
                 </Box>
                 <Box>
                   <Grid container justify="center" alignItems="center">
