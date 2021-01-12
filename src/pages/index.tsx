@@ -47,16 +47,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url('/vector.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[800],
+      theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       minHeight: '100vh',
-      // backgroundColor:
-      // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     },
   },
   paper: {

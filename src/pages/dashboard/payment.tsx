@@ -43,16 +43,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url('/Vector3.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[750],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       minHeight: '60vh',
       backgroundColor:
-        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[750],
     },
   },
   paper: {
@@ -227,6 +227,7 @@ const Payment: React.FC<ComponentProps> = ({
   };
 
   const disable = !Boolean(teamName) || Boolean(viewer.role === "TEAM_HELPER") || !Boolean(checked)
+  const teamHelperDisable = Boolean(viewer.role === 'TEAM_HELPER');
 
   return (
     <>
@@ -284,6 +285,7 @@ const Payment: React.FC<ComponentProps> = ({
                 required
                 variant="outlined"
                 margin="normal"
+                disabled={teamHelperDisable}
               />
             </Box>
             <Divider></Divider>
@@ -358,20 +360,28 @@ const Payment: React.FC<ComponentProps> = ({
                   <Box>
                     <ListItem>
                       <ListItemIcon>
-                        <Checkbox color="primary" onChange={()=>setChecked(!checked)}/>
+                        <Checkbox
+                          color="primary"
+                          onChange={() => setChecked(!checked)}
+                          disabled={teamHelperDisable}
+                        />
                       </ListItemIcon>
                       <ListItemText
                         primary={
                           <>
                             I agree to the{' '}
-                            <Link className={classes.link} onClick={() => setOpenDialog(true)}>Terms and Condition</Link> of{' '}
-                            ISTE-SC-MANIT{' '}
+                            <Link className={classes.link} onClick={() => setOpenDialog(true)}>
+                              Terms and Condition
+                            </Link>{' '}
+                            of ISTE-SC-MANIT{' '}
                           </>
                         }
                       />
                     </ListItem>
                     {viewer.role === 'TEAM_HELPER' && (
-                      <Typography>Please ask your team leader to complete payment</Typography>
+                      <Box className={classes.box}>
+                        <Typography>Please ask your team leader to complete payment</Typography>
+                      </Box>
                     )}
                   </Box>
                 </Grid>

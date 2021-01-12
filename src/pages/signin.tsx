@@ -43,16 +43,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url('/Vector2.png')`,
     backgroundRepeat: 'no-repeat',
     backgroundColor: 
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[800],
+      theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    // [theme.breakpoints.down('xs')]: {
-    //   backgroundColor:
-    //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    // },
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor:
+        theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
