@@ -34,7 +34,7 @@ import query from "../../components/relay/queries/GetTeamDetailsQuery"
 import { GetTeamDetailsQuery } from '../../__generated__/GetTeamDetailsQuery.graphql';
 import LoadingScreen from '../../components/loadingScreen';
 import { useRouter } from 'next/router';
-import ScrollDialog from '../../components/t%c';
+import ScrollDialog from '../../components/t&c';
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
@@ -105,6 +105,9 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: theme.spacing(8),
     },
   },
+  link: {
+    cursor: 'pointer',
+  },
 }));
 const VectorImg = (classes) => {
   const theme = useTheme();
@@ -136,10 +139,12 @@ const Payment: React.FC<ComponentProps> = ({
   refetch
 }) => {
   const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const[openDialog ,setOpenDialog] =React.useState(false);
-    const [teamName, setTeamName] = React.useState("")
+  const [open, setOpen] = React.useState(false);
+  const[openDialog ,setOpenDialog] =React.useState(false);
+  const [teamName, setTeamName] = React.useState("")
+  const [checked, setChecked] = React.useState(false)
   const router = useRouter()
+
 
   React.useEffect(() => {
     if (viewer.step === "REGISTER") {
@@ -221,7 +226,7 @@ const Payment: React.FC<ComponentProps> = ({
 
   };
 
-  const disable = !Boolean(teamName) || Boolean(viewer.role === "TEAM_HELPER")
+  const disable = !Boolean(teamName) || Boolean(viewer.role === "TEAM_HELPER") || !Boolean(checked)
 
   return (
     <>
@@ -353,13 +358,13 @@ const Payment: React.FC<ComponentProps> = ({
                   <Box>
                     <ListItem>
                       <ListItemIcon>
-                        <Checkbox color="primary" />
+                        <Checkbox color="primary" onChange={()=>setChecked(!checked)}/>
                       </ListItemIcon>
                       <ListItemText
                         primary={
                           <>
                             I agree to the{' '}
-                            <Link onClick={() => setOpenDialog(true)}>Terms and Condition</Link> of{' '}
+                            <Link className={classes.link} onClick={() => setOpenDialog(true)}>Terms and Condition</Link> of{' '}
                             ISTE-SC-MANIT{' '}
                           </>
                         }
