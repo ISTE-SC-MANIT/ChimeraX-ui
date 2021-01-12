@@ -251,7 +251,7 @@ const Team: React.FC<ComponentProps> = ({
                 </Grid>
                 <Grid item sm={8}>
                   <Typography variant="h4" className={classes.Head_title}>
-                    <b>Hello, {viewer.name}</b>
+                    <b>Hello, {viewer.name[0].toUpperCase() + viewer.name.substring(1)}</b>
                   </Typography>
                   <Typography>Welcome to your ChimeraX dashboard</Typography>
                 </Grid>
@@ -327,7 +327,7 @@ const Team: React.FC<ComponentProps> = ({
                     onChange={(event: any, newValue: any) => {
                       setReceiver(newValue);
                     }}
-                    getOptionLabel={(option) => `${option.name} ${option.email}`}
+                    getOptionLabel={(option) => `${option.name} (${option.email})`}
                     renderOption={(option) => (
                       <React.Fragment>
                         <span>

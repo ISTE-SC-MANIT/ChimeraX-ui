@@ -99,6 +99,7 @@ const MyApp = ({
         createMuiTheme({
             typography: {
                 fontFamily: [
+                    'Nunito',
                     'Montserrat',
                     'Roboto',
                     'sans-serif',

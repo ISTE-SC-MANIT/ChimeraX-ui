@@ -1,17 +1,3 @@
-// import { createMuiTheme } from '@material-ui/core';
-// import { blue } from '@material-ui/core/colors';
-
-// const theme = createMuiTheme({
-//   palette: {
-//     primary: {
-//       main: blue[500],
-//     },
-//     type: 'dark',
-//   },
-// });
-
-// export default theme;
-
 import {
   ThemeOptions,
   SimplePaletteColorOptions,
@@ -20,10 +6,10 @@ import {
 } from "@material-ui/core/styles";
 import { blue, orange } from "@material-ui/core/colors";
 import React from "react";
-export const themeProps: ThemeOptions["props"] = {
+export const themeProps: ThemeOptions['props'] = {
   MuiTextField: {
-    variant: "outlined",
-    margin: "dense",
+    variant: 'outlined',
+    margin: 'dense',
   },
 };
 
@@ -64,9 +50,26 @@ export function toggleMode(
           main: oldTheme.palette.primary.main,
         },
         secondary: {
-          main: oldTheme.palette.primary.main,
+          main: oldTheme.palette.secondary.main,
         },
-        type: oldTheme.palette.type === "dark" ? "light" : "dark",
+        type: oldTheme.palette.type === 'dark' ? 'light' : 'dark',
+      },
+      typography: {
+        fontFamily: [
+          'Nunito',
+          'Montserrat',
+          'Roboto',
+          'sans-serif',
+          'Arial',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
       },
     });
   });
