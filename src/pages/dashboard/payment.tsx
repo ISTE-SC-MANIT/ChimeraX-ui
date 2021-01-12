@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import CreateOrder from "../../components/relay/mutations/CreateOrderMutation"
 import PayOrder from "../../components/relay/mutations/PayOrderMutation"
 import Typography from '@material-ui/core/Typography';
+import Dialog, { DialogProps } from '@material-ui/core/Dialog';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -33,7 +34,7 @@ import query from "../../components/relay/queries/GetTeamDetailsQuery"
 import { GetTeamDetailsQuery } from '../../__generated__/GetTeamDetailsQuery.graphql';
 import LoadingScreen from '../../components/loadingScreen';
 import { useRouter } from 'next/router';
-
+import ScrollDialog from '../../components/t%c';
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
@@ -135,8 +136,9 @@ const Payment: React.FC<ComponentProps> = ({
   refetch
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [teamName, setTeamName] = React.useState("")
+    const [open, setOpen] = React.useState(false);
+    const[openDialog ,setOpenDialog] =React.useState(false);
+    const [teamName, setTeamName] = React.useState("")
   const router = useRouter()
 
   React.useEffect(() => {
@@ -160,6 +162,8 @@ const Payment: React.FC<ComponentProps> = ({
     return <LoadingScreen loading />
   }
 
+   
+   
   const handleSuccess = (res: CreateOrderMutationResponse) => {
     const { name, email, phone } = viewer;
 
@@ -220,181 +224,182 @@ const Payment: React.FC<ComponentProps> = ({
   const disable = !Boolean(teamName) || Boolean(viewer.role === "TEAM_HELPER")
 
   return (
-    <div className={classes.root}>
-      <CustomDrawer
-        name={viewer.name}
-        username={viewer.email}
-        open={open}
-        setOpen={setOpen}
-        setSuccessMessage={setSuccessMessage}
-        setErrorMessage={setErrorMessage}
-      />
-      <Navbar
-        setOpen={setOpen}
-        setSuccessMessage={setSuccessMessage}
-        setErrorMessage={setErrorMessage}
-      />
-      <Grid container component="main" onClick={() => setOpen(false)}>
-        <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
-          <Box className={classes.heading}>
-            <Typography variant="h4">
-              <b>Step-3 , Payment for Chimera-X 2021</b>
-            </Typography>
-          </Box>
+    <>
+      <ScrollDialog openDialog={openDialog} onClose={() => setOpenDialog(false)} />
+      <div className={classes.root}>
+        <CustomDrawer
+          name={viewer.name}
+          username={viewer.email}
+          open={open}
+          setOpen={setOpen}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
+        <Navbar
+          setOpen={setOpen}
+          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={setErrorMessage}
+        />
+        <Grid container component="main" onClick={() => setOpen(false)}>
+          <Grid item xs={12} sm={8} md={6} className={classes.leftGrid}>
+            <Box className={classes.heading}>
+              <Typography variant="h4">
+                <b>Step-3 , Payment for Chimera-X 2021</b>
+              </Typography>
+            </Box>
 
-          <Box>
-            <List>
+            <Box>
+              <List>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    className={classes.listItem}
+                    primary="Enter your team name"
+                    secondary={
+                      <React.Fragment>
+                        {'You / your team will be recognized by your Team name '}
+                      </React.Fragment>
+                    }
+                    primaryTypographyProps={{ variant: 'h6' }}
+                  />
+                </ListItem>
+              </List>
+              {/* <Divider variant="inset" component="li" /> */}
+            </Box>
+            <Box>
+              <TextField
+                // fullWidth
+                value={teamName}
+                onChange={(e) => {
+                  setTeamName(e.target.value);
+                }}
+                className={classes.input}
+                size="small"
+                id="password-input"
+                label="Enter Team Name"
+                required
+                variant="outlined"
+                margin="normal"
+              />
+            </Box>
+            <Divider></Divider>
+            <Box>
               <ListItem alignItems="flex-start">
                 <ListItemText
-                  className={classes.listItem}
-                  primary="Enter your team name"
+                  primary="Verify your team details"
                   secondary={
                     <React.Fragment>
-                      {'You / your team will be recognized by your Team name '}
+                      {'Check your team details, if anything looks wrong contact us'}
                     </React.Fragment>
                   }
                   primaryTypographyProps={{ variant: 'h6' }}
                 />
               </ListItem>
-            </List>
-            {/* <Divider variant="inset" component="li" /> */}
-          </Box>
-          <Box>
-            <TextField
-              // fullWidth
-              value={teamName}
-              onChange={(e) => {
-                setTeamName(e.target.value);
-              }}
-              className={classes.input}
-              size="small"
-              id="password-input"
-              label="Enter Team Name"
-              required
-              variant="outlined"
-              margin="normal"
-            />
-          </Box>
-          <Divider></Divider>
-          <Box>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary="Verify your team details"
-                secondary={
-                  <React.Fragment>
-                    {'Check your team details, if anything looks wrong contact us'}
-                  </React.Fragment>
-                }
-                primaryTypographyProps={{ variant: 'h6' }}
-              />
-            </ListItem>
-          </Box>
-          <Box display="flex" className={classes.box}>
-            <Typography>
-              {' '}
-              <b>Team Status :</b> &nbsp;
-            </Typography>
-            <Typography> {data.getTeamDetails.status} </Typography>
-          </Box>
-          <Box display="flex" className={classes.box}>
-            <Typography>
-              <b> Team Leader :</b> &nbsp;
-            </Typography>
-            <Typography>
-              {' '}
-              {data.getTeamDetails.teamLeader.name} ({data.getTeamDetails.teamLeader.email}){' '}
-            </Typography>
-          </Box>
-          {data.getTeamDetails.status === 'TEAM' && (
+            </Box>
             <Box display="flex" className={classes.box}>
               <Typography>
-                <b> Paired With :</b> &nbsp;
+                {' '}
+                <b>Team Status :</b> &nbsp;
+              </Typography>
+              <Typography> {data.getTeamDetails.status} </Typography>
+            </Box>
+            <Box display="flex" className={classes.box}>
+              <Typography>
+                <b> Team Leader :</b> &nbsp;
               </Typography>
               <Typography>
                 {' '}
-                {data.getTeamDetails.teamHelper.name} ({data.getTeamDetails.teamHelper.email})
+                {data.getTeamDetails.teamLeader.name} ({data.getTeamDetails.teamLeader.email}){' '}
               </Typography>
             </Box>
-          )}
+            {data.getTeamDetails.status === 'TEAM' && (
+              <Box display="flex" className={classes.box}>
+                <Typography>
+                  <b> Paired With :</b> &nbsp;
+                </Typography>
+                <Typography>
+                  {' '}
+                  {data.getTeamDetails.teamHelper.name} ({data.getTeamDetails.teamHelper.email})
+                </Typography>
+              </Box>
+            )}
 
-          <Divider></Divider>
-          <Box>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary="Complete your payment"
-                primaryTypographyProps={{ variant: 'h6' }}
-              />
-            </ListItem>
-          </Box>
-          <Box>
-            <img src="/razorpay.png" width="180px" className={classes.box} />
-          </Box>
-          <Box>
-            <Grid container className={classes.box} alignItems="center">
-              <Grid item xs={6}>
-                <Typography variant="h6">
-                  <b>AMOUNT</b>&nbsp;
-                </Typography>
+            <Divider></Divider>
+            <Box>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary="Complete your payment"
+                  primaryTypographyProps={{ variant: 'h6' }}
+                />
+              </ListItem>
+            </Box>
+            <Box>
+              <img src="/razorpay.png" width="180px" className={classes.box} />
+            </Box>
+            <Box>
+              <Grid container className={classes.box} alignItems="center">
+                <Grid item xs={6}>
+                  <Typography variant="h6">
+                    <b>AMOUNT</b>&nbsp;
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="h6">
+                    <b> ₹ 100 </b>
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <Typography variant="h6">
-                  <b> ₹ 100 </b>
-                </Typography>
+              <Grid container alignItems="center">
+                <Grid item xs={12}>
+                  <Box>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Checkbox color="primary" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <>
+                            I agree to the{' '}
+                            <Link onClick={() => setOpenDialog(true)}>Terms and Condition</Link> of{' '}
+                            ISTE-SC-MANIT{' '}
+                          </>
+                        }
+                      />
+                    </ListItem>
+                    {viewer.role === 'TEAM_HELPER' && (
+                      <Typography>Please ask your team leader to complete payment</Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box className={classes.box}>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      onClick={handleRazorpay}
+                      disabled={disable}
+                    >
+                      Proceed for payment
+                    </Button>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container alignItems="center">
-              <Grid item xs={12}>
-                <Box>
-                  <ListItem>
-                    <ListItemIcon>
-                      <Checkbox color="primary" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <>
-                          I agree to the{' '}
-                          <Link target="_blank" href="https://docs.google.com/document/d/1RyRYIk8cyBA3U_dSMIxT1z5XDHELDUx5OW5Cqk6l_JM/edit?usp=sharing">
-                            Terms & Conditions
-                          </Link>{' '}
-                          of ISTE-SC-MANIT{' '}
-                        </>
-                      }
-                    />
-                  </ListItem>
-                  {viewer.role === 'TEAM_HELPER' && (
-                    <Typography>Please ask your team leader to complete payment</Typography>
-                  )}
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <Box className={classes.box}>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={handleRazorpay}
-                    disabled={disable}
-                  >
-                    Proceed for payment
-                  </Button>
-                </Box>
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </Grid>
+          <Grid
+            item
+            container
+            xs={12}
+            sm={4}
+            md={6}
+            className={classes.image}
+            justify="center"
+            alignItems="flex-end"
+          >
+            <VectorImg classes={classes} />
+          </Grid>
         </Grid>
-        <Grid
-          item
-          container
-          xs={12}
-          sm={4}
-          md={6}
-          className={classes.image}
-          justify="center"
-          alignItems="flex-end"
-        >
-          <VectorImg classes={classes} />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 };
 
