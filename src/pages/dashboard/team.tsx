@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -25,13 +25,39 @@ import Navbar from '../../components/Navbar'
 import LoadingScreen from '../../components/loadingScreen';
 import DialogBox from '../../components/dialog';
 
+
+
+
+class Amount extends Component {
+   render() {
+      return (
+        <>
+          <Grid item xs={6} sm={4}>
+            <Typography variant="h6" align="center">
+              <b>AMOUNT</b>&nbsp;
+            </Typography>
+          </Grid>
+          <Grid item xs={6} sm={4}>
+            <Typography variant="h6" align="center">
+              <b> ₹ 100 </b>
+            </Typography>
+          </Grid>
+        </>
+      );
+  }
+}
+
+
+
+
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: 0,
       padding: 0,
       boxSizing: 'border-box',
-      height: "100vh"
+      height: '100vh',
     },
     leftGrid: {
       [theme.breakpoints.up('sm')]: {
@@ -57,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       // height: window.outerHeight + 150,
-      height: '100vh',
+      height: window.outerHeight,
       [theme.breakpoints.down('sm')]: {
         height: 'auto',
         paddingBottom: theme.spacing(2),
@@ -82,12 +108,20 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: '6px',
     },
     proceed_button: {
+      width: 'fit-content',
+      margin: 'auto',
       marginTop: theme.spacing(4),
-      marginLeft: '50%',
+      // marginLeft: '50%',
       marginBottom: theme.spacing(2),
     },
     tab: {
       overflow: 'scroll',
+    },
+    note: {
+      padding: theme.spacing(8),
+      [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(5),
+      },
     },
   })
 );
@@ -105,7 +139,7 @@ const Team: React.FC<ComponentProps> = ({
   const [send, setSend] = React.useState(false);
   const [rendered, setRendered] = React.useState(false);
   const refetchRef = React.useRef<any>(null);
-  const [radio, setRadio] = React.useState<'A' | 'B'>('B');
+  const [radio, setRadio] = React.useState<'A' | 'B'>('A');
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false)
   const router = useRouter()
@@ -229,7 +263,7 @@ const Team: React.FC<ComponentProps> = ({
               </Typography>
             </Box>
             <Box>
-              <Box display="flex">
+              <Box display="flex" mb={2}>
                 <Radio
                   className={classes.radioBtn}
                   checked={radio === 'A'}
@@ -243,6 +277,27 @@ const Team: React.FC<ComponentProps> = ({
                   <Typography>Be a lone ranger</Typography>
                 </div>
               </Box>
+              {radio === 'A' && (
+                <Box>
+                  <Grid container alignItems="center">
+                    <Amount />
+                    <Grid item xs={12} sm={4}>
+                      <Box className={classes.proceed_button}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          // onClick={handlePlayAsIndividual}
+                          onClick={() => {
+                            setOpenDialog(true);
+                          }}
+                        >
+                          PROCEED TO PAY{' '}
+                        </Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
+              )}
               <Box display="flex">
                 <Radio
                   className={classes.radioBtn}
@@ -301,23 +356,24 @@ const Team: React.FC<ComponentProps> = ({
                     Send{' '}
                   </Button>
                 </Box>
+                <Box mt={2} mb={1}>
+                  <Grid container>
+                    <Amount />
+                  </Grid>
+                </Box>
               </Box>
             )}
-            <Button
-              variant="contained"
-              color="primary"
-              disabled={radio === 'B'}
-              // onClick={handlePlayAsIndividual}
-              onClick={() => {
-                setOpenDialog(true);
-              }}
-              className={classes.proceed_button}
-            >
-              PROCEED{' '}
-            </Button>
-            {/* <Box>
-              <VerticalStepper />
-            </Box> */}
+            <Box className={classes.note}>
+              <Typography variant="h6" align="justify">
+                <b>Note:</b>
+                <br />
+                The amount is same for each team whether you play as an individual or as a team. If
+                you play as a team, the one who sends the invitation becomes the Team Leader and the
+                other becomes the Team Helper. The payment can only be done by the team leader. The
+                team leader and team helper both will be able to see the questions but only the team
+                leader can answer.
+              </Typography>
+            </Box>
           </Grid>
           <Grid
             item
