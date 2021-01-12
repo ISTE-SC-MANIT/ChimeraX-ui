@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: '80vh',
       margin: 'auto',
       padding: 'auto',
-     paddingBottom: '6px',
-     [theme.breakpoints.up('md')]: {
-        width: '100%',}
+      paddingBottom: '6px',
+      [theme.breakpoints.up('md')]: {
+        width: '100%',
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     list: {
-      width: 320,
+      marginBottom: theme.spacing(1),
     },
     fullList: {
       width: 'auto',
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(3),
     },
     paper: {
-      width: '50%',
+      width: '80%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginBottom: theme.spacing(4),
@@ -91,6 +92,20 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: '165px',
         marginLeft: theme.spacing(2),
       },
+    },
+    review: {
+      padding: theme.spacing(2, 1),
+      height: theme.spacing(6),
+      width: theme.spacing(6),
+      position: 'relative',
+      borderRadius: '50%',
+    },
+    box: {
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      WebkitTransform: 'translate(-50%, -50%)',
     },
   })
 );
@@ -140,47 +155,102 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>1) The test will begin at __, and end at __</ListItemText>
+                  <ListItemText>
+                    1{')'} The test will begin at 4 pm, and end at 4:35 pm
+                  </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>2) There can be a maximum of 2 members in a team.</ListItemText>
+                  <ListItemText>2{')'} There can be a maximum of 2 members in a team.</ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    3) The quiz will automatically submit once the timer runs out
+                    3{')'} The quiz will automatically submit once the timer runs out.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    4) Replacement of any participant of a team is not allowed after registration.
+                    4{')'} Replacement of any participant of a team is not allowed after
+                    registration.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    5) Make sure to save your answers whenever a question is attempted
+                    5{')'} Make sure to save your answers whenever a question is attempted.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    6{')'} Each correct question gets __ marks and no marks are deducted for a wrong
+                    answer.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>7{')'} There are 30 questions, all are compulsory.</ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    8{')'} The team leader and team helper both will be able to see the questions
+                    but only the team leader can answer.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    6) Each correct question gets __ marks and no marks are deducted for a wrong
-                    answer
-                  </ListItemText>
-                </ListItem>
-                <ListItem>
-                  {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>7) There are 30 questions, all are compulsory</ListItemText>
-                </ListItem>
-                <ListItem>
-                  {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>
-                    8) Questions marked for review are marked in blue, questions whose answers are
-                    saved are marked in green and unsaved answers to questions are marked in red to
-                    help u keep track
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'green', color: 'white' }}
+                        >
+                          <Box className={classes.box}>15</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Answered Questions</Box>
+                    </Grid>
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'red', color: 'white' }}
+                        >
+                          <Box className={classes.box}>8</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions not answered</Box>
+                    </Grid>
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'blue', color: 'white' }}
+                        >
+                          <Box className={classes.box}>5</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions marked for review</Box>
+                    </Grid>
+                    <Grid container alignItems="center">
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'white', color: 'grey' }}
+                        >
+                          <Box className={classes.box}>2</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions not visited</Box>
+                    </Grid>
                   </ListItemText>
                 </ListItem>
               </List>
