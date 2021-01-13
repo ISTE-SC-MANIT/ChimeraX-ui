@@ -305,13 +305,13 @@ const Payment: React.FC<ComponentProps> = ({
             <Box display="flex" className={classes.box}>
               <Typography>
                 {' '}
-                <b>Team Status :</b> &nbsp;
+                <b>Team Status:</b> &nbsp;
               </Typography>
               <Typography> {data.getTeamDetails.status} </Typography>
             </Box>
             <Box display="flex" className={classes.box}>
               <Typography>
-                <b> Team Leader :</b> &nbsp;
+                <b> Team Leader:</b> &nbsp;
               </Typography>
               <Typography>
                 {' '}
@@ -321,7 +321,7 @@ const Payment: React.FC<ComponentProps> = ({
             {data.getTeamDetails.status === 'TEAM' && (
               <Box display="flex" className={classes.box}>
                 <Typography>
-                  <b> Paired With :</b> &nbsp;
+                  <b> Paired With:</b> &nbsp;
                 </Typography>
                 <Typography>
                   {' '}

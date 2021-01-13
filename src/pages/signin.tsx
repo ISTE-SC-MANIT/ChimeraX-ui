@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       backgroundColor:
         theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
     },

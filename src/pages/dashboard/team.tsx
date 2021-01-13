@@ -82,8 +82,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
     },
     container: {
-      // height: window.outerHeight + 150,
-      height: window.outerHeight,
+      height: window.outerHeight + 60,
+      // height: window.outerHeight,
       [theme.breakpoints.down('sm')]: {
         height: 'auto',
         paddingBottom: theme.spacing(2),

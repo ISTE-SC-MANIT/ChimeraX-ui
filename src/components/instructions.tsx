@@ -12,6 +12,7 @@ import {
   List,
  
   Grid,
+  Typography,
 } from '@material-ui/core';
 
 import { useRouter } from 'next/dist/client/router';
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(3),
     },
     paper: {
-      width: '80%',
+      width: '60%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginBottom: theme.spacing(4),
@@ -138,15 +139,13 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
       <Grid container onClick={() => setOpen(false)}>
         {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Grid container alignItems="center" justify="center">
-          <Box>
-            <ListItem className={classes.heading}>
-              <ListItemText
-                primary={'Instructions'}
-                primaryTypographyProps={{ variant: 'h3', align: 'center' }}
-                secondary={`Here are some Instructions for ISTE's multi city quiz competition: ChimeraX`}
-                secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
-              />
-            </ListItem>
+          <Box display="flex" flexDirection="column" textAlign="center" margin={3}>
+            <Typography variant="h3">
+              <b>Instructions</b>
+            </Typography>
+            <Typography variant="h5">
+              Here are some Instructions for ISTE's multi city quiz competition: ChimeraX
+            </Typography>
           </Box>
         </Grid>
         <Grid container alignItems="center" justify="center">
@@ -156,48 +155,75 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    1{')'} The test will begin at 4 pm, and end at 4:35 pm
-                  </ListItemText>
-                </ListItem>{' '}
-                <ListItem>
-                  {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>2{')'} There can be a maximum of 2 members in a team.</ListItemText>
-                </ListItem>{' '}
-                <ListItem>
-                  {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>
-                    3{')'} The quiz will automatically submit once the timer runs out.
+                    1{')'} The test will begin at <b>4 pm and end at 4:35 pm</b>.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    4{')'} Replacement of any participant of a team is not allowed after
+                    2{')'} <b>The “Start Test” button will be disabled at sharp 4:05 pm.</b> The
+                    button will not be enabled again. Hence, all participants must start the quiz by
+                    4:05 pm.{' '}
+                  </ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    3{')'} There can be a maximum of 2 members in a team. The member who made the
+                    payment is the Team Leader and the other member (if it’s a team) will be the
+                    Team Helper.
+                  </ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    4{')'} The team leader and team helper both will be able to see the questions
+                    but only the team leader can answer, see the statistics and submit the quiz. The
+                    team helper won’t be able to do any of the above actions.
+                  </ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    5{')'} Replacement of any participant of a team is not allowed after
                     registration.
                   </ListItemText>
-                </ListItem>{' '}
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>6{')'} There are 30 questions, all are compulsory.</ListItemText>
+                </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    5{')'} Make sure to save your answers whenever a question is attempted.
+                    7{')'} Each correct answer gets 2 marks and no marks will be deducted for a
+                    wrong answer or an unanswered question.{' '}
                   </ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    6{')'} Each correct question gets __ marks and no marks are deducted for a wrong
-                    answer.
+                    8{')'} A few questions will be divided into 2 parts. Each part will hold 1 mark
+                    for the correct answer and 0 for wrong or unattempted.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>7{')'} There are 30 questions, all are compulsory.</ListItemText>
+                  <ListItemText>
+                    9{')'} Make sure to save your answers whenever a question is attempted.
+                  </ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    8{')'} The team leader and team helper both will be able to see the questions
-                    but only the team leader can answer.
+                    10{')'} Marked for review questions would not be evaluated and counted as
+                    unattempted.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    11{')'} The quiz will automatically submit once the timer runs out.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -251,6 +277,16 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                       </Box>
                       <Box pl={2}>Questions not visited</Box>
                     </Grid>
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    <Box textAlign="center">
+                      <Typography variant="h6">
+                        <b>Best of Luck!</b>
+                      </Typography>
+                    </Box>
                   </ListItemText>
                 </ListItem>
               </List>
