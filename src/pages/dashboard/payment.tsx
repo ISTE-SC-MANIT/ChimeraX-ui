@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       minHeight: '60vh',
       backgroundColor:
         theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[750],
@@ -109,16 +109,15 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
 }));
-const VectorImg = (classes) => {
+const VectorImg = () => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
   if (mobile) {
     return (
-      <Box className={classes.vector}>
+      <Box>
         <Image
           src='/payment.png'
           alt="logo"
-          className={classes.imageV}
           width={window.innerWidth}
           height={window.innerWidth / 1.46}
         />
@@ -126,9 +125,17 @@ const VectorImg = (classes) => {
     );
   }
   return (
-    <Box className={classes.vector}>
-      <Image src="/payment.png" alt="logo" className={classes.imageV} width={500} height={394} />
+    <Box>
+      <Image src="/payment.png" alt="logo" width={500} height={394} />
     </Box>
+  );
+};
+const RazorpayImg = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const source = theme.palette.type === 'light' ? '/razorpay.png' : '/razorpay-dark.png';
+  return (
+  <img src={source} width="180px" className={classes.box} />
   );
 };
 const Payment: React.FC<ComponentProps> = ({
@@ -311,7 +318,8 @@ const Payment: React.FC<ComponentProps> = ({
             </Box>
             <Box display="flex" className={classes.box}>
               <Typography>
-                <b> Team Leader:</b> &nbsp;
+                {' '}
+                <b>Team Leader:</b> &nbsp;
               </Typography>
               <Typography>
                 {' '}
@@ -340,7 +348,7 @@ const Payment: React.FC<ComponentProps> = ({
               </ListItem>
             </Box>
             <Box>
-              <img src="/razorpay.png" width="180px" className={classes.box} />
+              <RazorpayImg />
             </Box>
             <Box>
               <Grid container className={classes.box} alignItems="center">
@@ -410,7 +418,7 @@ const Payment: React.FC<ComponentProps> = ({
             justify="center"
             alignItems="flex-end"
           >
-            <VectorImg classes={classes} />
+            <VectorImg />
           </Grid>
         </Grid>
       </div>
