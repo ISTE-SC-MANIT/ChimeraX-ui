@@ -1,15 +1,5 @@
 export const cities = [
   {
-    name: "Jabalpur",
-    state: "Madhya Pradesh",
-  },
-
-  {
-    name: "Bhopal",
-    state: "Madhya Pradesh",
-  },
-
-  {
     name: "Vadodara",
     state: "Gujarat",
   },
@@ -65,6 +55,16 @@ export const cities = [
   },
 
   {
+    name: "Jabalpur",
+    state: "Madhya Pradesh",
+  },
+
+  {
+    name: "Bhopal",
+    state: "Madhya Pradesh",
+  },
+
+  {
     name: "Sagar",
     state: "Madhya Pradesh",
   },
@@ -84,6 +84,16 @@ export const cities = [
     state: "Uttar Pradesh",
   },
 
+  {
+    name: "Nasik",
+    state: "Maharashtra",
+  },
+
+  {
+    name: "Manglore",
+    state: "Karnataka",
+  },
+  
   {
     name: "Nagpur",
     state: "Maharashtra",
@@ -123,4 +133,59 @@ export const cities = [
     name: "Raipur",
     state: "Chhattisgarh",
   },
+
+  {
+    name: "Mumbai",
+    state: "Maharashtra",
+  },
+
+  {
+    name: "Kochi",
+    state: "Kerala",
+  },
+
+  {
+    name: "Allahabad",
+    state: "Uttar Pradesh",
+  },
+
+  {
+    name: "Varanasi",
+    state: "Uttar Pradesh",
+  },
+
+  {
+    name: "Bhubaneswar",
+    state: "Odisha",
+  },
+
+  {
+    name: "Goa",
+    state: "Goa",
+  },
+
+  {
+    name: "Visakhapatnam",
+    state: "Andhra Pradesh",
+  },
+
+  {
+    name: "Hyderabad",
+    state: "Telangana",
+  },
+
+  {
+    name: "Pune",
+    state: "Maharashtra",
+  },
+
+  {
+    name: "Ghaziabad",
+    state: "Uttar Pradesh",
+  },
+
+  {
+    name: "Vellore",
+    state: "Tamil Nadu",
+  }
 ];

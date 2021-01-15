@@ -149,9 +149,9 @@ const CustomDrawer: React.FC<DrawerProps> = ({
             justifyContent="center"
             flexDirection="column"
           >
-            <Avatar>{name.charAt(0)}</Avatar>
+            <Avatar>{name[0].toUpperCase()}</Avatar>
             <Fade in={open}>
-              <Typography variant="subtitle2">{name}</Typography>
+              <Typography variant="subtitle2">{name[0].toUpperCase()+name.substring(1)}</Typography>
             </Fade>
             <Fade in={open}>
               <Typography variant="subtitle2">{username}</Typography>

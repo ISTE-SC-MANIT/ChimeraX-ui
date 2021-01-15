@@ -12,6 +12,7 @@ import {
   List,
  
   Grid,
+  Typography,
 } from '@material-ui/core';
 
 import { useRouter } from 'next/dist/client/router';
@@ -29,9 +30,10 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: '80vh',
       margin: 'auto',
       padding: 'auto',
-     paddingBottom: '6px',
-     [theme.breakpoints.up('md')]: {
-        width: '100%',}
+      paddingBottom: '6px',
+      [theme.breakpoints.up('md')]: {
+        width: '100%',
+      },
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -40,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     list: {
-      width: 320,
+      marginBottom: theme.spacing(1),
     },
     fullList: {
       width: 'auto',
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(3),
     },
     paper: {
-      width: '50%',
+      width: '60%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginBottom: theme.spacing(4),
@@ -92,6 +94,20 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(2),
       },
     },
+    review: {
+      padding: theme.spacing(2, 1),
+      height: theme.spacing(6),
+      width: theme.spacing(6),
+      position: 'relative',
+      borderRadius: '50%',
+    },
+    box: {
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      WebkitTransform: 'translate(-50%, -50%)',
+    },
   })
 );
 
@@ -123,15 +139,13 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
       <Grid container onClick={() => setOpen(false)}>
         {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Grid container alignItems="center" justify="center">
-          <Box>
-            <ListItem className={classes.heading}>
-              <ListItemText
-                primary={'Instructions'}
-                primaryTypographyProps={{ variant: 'h2', align: 'center' }}
-                secondary={`Here are some Instructions for ISTE's multi city quiz competition: ChimeraX`}
-                secondaryTypographyProps={{ className: `${classes.subHeading}`, align: 'center' }}
-              />
-            </ListItem>
+          <Box display="flex" flexDirection="column" textAlign="center" margin={3}>
+            <Typography variant="h3">
+              <b>Instructions</b>
+            </Typography>
+            <Typography variant="h5">
+              Here are some Instructions for ISTE's multi city quiz competition: ChimeraX
+            </Typography>
           </Box>
         </Grid>
         <Grid container alignItems="center" justify="center">
@@ -139,48 +153,140 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
             <Paper className={classes.paper} elevation={8}>
               <List component="nav" aria-label="Instructions for Test">
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
-                  <ListItemText>1) The test will begin at __, and end at __</ListItemText>
-                </ListItem>{' '}
-                <ListItem>
-                  <ListItemIcon></ListItemIcon>
-                  <ListItemText>2) There can be a maximum of 2 members in a team.</ListItemText>
-                </ListItem>{' '}
-                <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    3) The quiz will automatically submit once the timer runs out
+                    1{')'} The test will begin at <b>4 pm and end at 4:35 pm</b>.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    4) Replacement of any participant of a team is not allowed after registration.
+                    2{')'} <b>The “Start Test” button will be disabled at sharp 4:05 pm.</b> The
+                    button will not be enabled again. Hence, all participants must start the quiz by
+                    4:05 pm.{' '}
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    5) Make sure to save your answers whenever a question is attempted
+                    3{')'} There can be a maximum of 2 members in a team. The member who made the
+                    payment is the Team Leader and the other member (if it’s a team) will be the
+                    Team Helper.
+                  </ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    4{')'} The team leader and team helper both will be able to see the questions
+                    but only the team leader can answer, see the statistics and submit the quiz. The
+                    team helper won’t be able to do any of the above actions.
+                  </ListItemText>
+                </ListItem>{' '}
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    5{')'} Replacement of any participant of a team is not allowed after
+                    registration.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>6{')'} There are 30 questions, all are compulsory.</ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    6) Each correct question gets __ marks and no marks are deducted for a wrong
-                    answer
+                    7{')'} Each correct answer gets 2 marks and no marks will be deducted for a
+                    wrong answer or an unanswered question.{' '}
                   </ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
-                  <ListItemText>7) There are 30 questions, all are compulsory</ListItemText>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    8{')'} A few questions will be divided into 2 parts. Each part will hold 1 mark
+                    for the correct answer and 0 for wrong or unattempted.
+                  </ListItemText>
                 </ListItem>
                 <ListItem>
-                  <ListItemIcon></ListItemIcon>
+                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    8) Questions marked for review are marked in blue, questions whose answers are
-                    saved are marked in green and unsaved answers to questions are marked in red to
-                    help u keep track
+                    9{')'} Make sure to save your answers whenever a question is attempted.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    10{')'} Marked for review questions would not be evaluated and counted as
+                    unattempted.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    11{')'} The quiz will automatically submit once the timer runs out.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'green', color: 'white' }}
+                        >
+                          <Box className={classes.box}>15</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Answered Questions</Box>
+                    </Grid>
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'red', color: 'white' }}
+                        >
+                          <Box className={classes.box}>8</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions not answered</Box>
+                    </Grid>
+                    <Grid container alignItems="center" className={classes.list}>
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'blue', color: 'white' }}
+                        >
+                          <Box className={classes.box}>5</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions marked for review</Box>
+                    </Grid>
+                    <Grid container alignItems="center">
+                      <Box>
+                        <Paper
+                          elevation={6}
+                          className={classes.review}
+                          style={{ backgroundColor: 'white', color: 'grey' }}
+                        >
+                          <Box className={classes.box}>2</Box>
+                        </Paper>
+                      </Box>
+                      <Box pl={2}>Questions not visited</Box>
+                    </Grid>
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    <Box textAlign="center">
+                      <Typography variant="h6">
+                        <b>Best of Luck!</b>
+                      </Typography>
+                    </Box>
                   </ListItemText>
                 </ListItem>
               </List>

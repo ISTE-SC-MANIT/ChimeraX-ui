@@ -16,9 +16,11 @@ import axios from "axios"
 import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { IconButton } from '@material-ui/core';
+import { InputAdornment, IconButton } from '@material-ui/core';
 import { Formik, Form, Field, FieldProps } from 'formik';
 import { ComponentProps } from './_app';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 const LoginButton = withStyles((theme) => ({
   root: {
@@ -40,17 +42,17 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: `url('/Vector2.png')`,
     backgroundRepeat: 'no-repeat',
-    backgroundColor: 'white',
-    // theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundColor: 
+      theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     [theme.breakpoints.down('md')]: {
       backgroundColor: `#3997F5`,
     },
-    // [theme.breakpoints.down('xs')]: {
-    //   backgroundColor:
-    //     theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    // },
+    [theme.breakpoints.down('xs')]: {
+      backgroundColor:
+        theme.palette.type === 'light' ? 'white' : theme.palette.grey[800],
+    },
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -142,6 +144,9 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
   const [visible, setVisible] = React.useState(false)
   const router = useRouter()
 
+  const handleShowPassword = () => {
+    setVisible(!visible);
+  }
   const handleChange = (field: string) => (e: any) => {
     setFormData({ ...formData, [field]: e.target.value });
   }
@@ -189,7 +194,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
           </Avatar>
           <Typography component="h1" variant="h2">
             Sign Up
-            </Typography>
+          </Typography>
           <Formik
             onSubmit={(values) => handleSubmit(values)}
             validationSchema={validationSchema}
@@ -225,7 +230,20 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
                     variant="outlined"
                     // className={classes.field}
                     margin="normal"
-                    type="password"
+                    type={visible ? 'text' : 'password'}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleShowPassword}
+                            edge="end"
+                          >
+                            {visible ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 )}
               </Field>
@@ -248,7 +266,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
                 {' '}
                 <Typography align="center" variant="subtitle1">
                   Or Sign up with other social platforms
-                  </Typography>
+                </Typography>
               </Box>
               <Box>
                 <Grid container justify="center" alignItems="center">
@@ -277,18 +295,13 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
 
       <Grid item xs={false} sm={6} className={classes.image}>
         <Box className={classes.logo}>
-          <Typography
-            component="span"
-            variant="h3"
-            color="inherit"
-            className={classes.imageTitle2}
-          >
+          <Typography component="span" variant="h3" color="inherit" className={classes.imageTitle2}>
             One of us?
-            </Typography>
+          </Typography>
         </Box>
         <Box className={classes.loginBtn}>
           <Grid container justify="center" alignItems="center">
-            <LoginButton onClick={() => router.push("/")}>Log In</LoginButton>
+            <LoginButton onClick={() => router.push('/')}>Log In</LoginButton>
           </Grid>
         </Box>
         <VectorImg classes={classes} />

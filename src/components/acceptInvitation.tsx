@@ -63,9 +63,9 @@ const AcceptInvitation: React.FC<Props> = ({
         <DialogTitle id="alert-dialog-title">{`Accept Invitation from ${name}?`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please note. Accepting this invitation is irreversible.
-             You will not be able to send or recieve invitations after 
-             accepting and your team will be confirmed. Proceed with caution.
+            Please Note: Accepting this invitation is irreversible.
+            You will not be able to send or receive invitations after 
+            accepting and your team will be confirmed. You'll be your Team Helper.<br/>Proceed with caution.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -49,7 +49,7 @@ const DialogBox: React.FC<Props> = ({
         <DialogTitle id="alert-dialog-title">{`Play as an Individual`}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please note. If you select to play as an individual you'll no longer able to send or
+            Please Note: If you select to play as an individual you'll no longer able to send or
             receive invitation. Proceed with caution.
           </DialogContentText>
         </DialogContent>
