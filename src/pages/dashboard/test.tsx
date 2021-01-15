@@ -56,28 +56,29 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
 
 
     return startQuiz ? (
-      <QuizPage
-        viewer={viewer}
-        environment={environment}
-        setSuccessMessage={setSuccessMessage}
-        refetch={refetch}
-        setErrorMessage={setErrorMessage}
-      />
-    ) : (
-      <>
-        <Instructions
-          viewer={viewer}
-          environment={environment}
-          setSuccessMessage={setSuccessMessage}
-          refetch={refetch}
-          setErrorMessage={setErrorMessage}
+        <QuizPage
+            viewer={viewer}
+            environment={environment}
+            setSuccessMessage={setSuccessMessage}
+            refetch={refetch}
+            setErrorMessage={setErrorMessage}
         />
-            <Grid container spacing={0} alignItems="center" justify="center">
-                <Box>
-                    <Button onClick={handleStartQuiz} disabled={true} variant="contained" color="primary">Start Quiz</Button></Box>
-            </Grid>
+    ) : (
+            <>
+                <Instructions
+                    viewer={viewer}
+                    environment={environment}
+                    setSuccessMessage={setSuccessMessage}
+                    refetch={refetch}
+                    setErrorMessage={setErrorMessage}
+                />
+                <Grid container spacing={0} alignItems="center" justify="center">
+                    <Box>
+                        <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
+                </Grid>
 
-        </>
-    )}
+            </>
+        )
+}
 
 export default Team

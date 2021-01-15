@@ -96,7 +96,7 @@ type Question {
   _id: String
   id: String
   question: String!
-  questionAssets: String!
+  questionAssets: String
   answer: String!
   questionNo: Float!
   questionType: QuestionType!
@@ -213,6 +213,7 @@ type User {
   teamStatus: TeamStatus!
   quizStatus: UserQuizStatus!
   quizStartTime: String!
+  paymentId: String!
   quizEndTime: String!
   timeLeft: Float!
   metadata: String!

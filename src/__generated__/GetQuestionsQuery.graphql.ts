@@ -10,6 +10,7 @@ export type GetQuestionsQueryResponse = {
         readonly id: string | null;
         readonly question: string;
         readonly questionNo: number;
+        readonly questionAssets: string | null;
         readonly questionType: QuestionType;
     }>;
 };
@@ -26,6 +27,7 @@ query GetQuestionsQuery {
     id
     question
     questionNo
+    questionAssets
     questionType
   }
 }
@@ -66,6 +68,13 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "questionAssets",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "questionType",
         "storageKey": null
       }
@@ -91,14 +100,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "6483395be11579bc6819d9e51b4b32b4",
+    "cacheID": "0e5059534d508fd42dfa4a676c905181",
     "id": null,
     "metadata": {},
     "name": "GetQuestionsQuery",
     "operationKind": "query",
-    "text": "query GetQuestionsQuery {\n  getQuestions {\n    id\n    question\n    questionNo\n    questionType\n  }\n}\n"
+    "text": "query GetQuestionsQuery {\n  getQuestions {\n    id\n    question\n    questionNo\n    questionAssets\n    questionType\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '78b071e71c5c4ad53b96a7f65f79d681';
+(node as any).hash = '469d0842be6193e176755dec48998e28';
 export default node;

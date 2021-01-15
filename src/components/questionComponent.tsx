@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
-import { Box, Grid, TextField, Tooltip } from '@material-ui/core';
+import { Box, Grid, TextField, Tooltip, Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';
 import { GetQuestionsQueryResponse } from '../__generated__/GetQuestionsQuery.graphql';
 import { QuestionAnswer } from '../__generated__/SubmitQuizMutation.graphql';
 import { Role } from '../__generated__/AppViewerQuery.graphql';
@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
   noSelect: {
     userSelect: 'none',
   },
+  
+  media: {
+    height: 200,
+  }
 }));
 
 
@@ -196,6 +200,23 @@ const QuestionComponent: React.FC<Props> = ({
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>{question.question}</Typography>
+            {question.questionType === "IMAGE" && <Box>
+              <Paper>
+                <Box>
+                  <Card >
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image="/dashboard.png"
+                        title="Contemplative Reptile"
+                      />
+
+                    </CardActionArea>
+
+                  </Card>
+                </Box>
+              </Paper>
+            </Box>}
 
             <Box>
               <TextField

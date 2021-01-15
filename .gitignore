@@ -109,3 +109,5 @@ dist
 
 #enviroment variables
 .env
+.envTest
+.envProd

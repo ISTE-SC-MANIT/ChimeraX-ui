@@ -6,7 +6,7 @@ const GetQuestionsQuery = graphql`
             id
             question
             questionNo
-            # questionAssets
+            questionAssets
             questionType
         }
     }
