@@ -216,15 +216,15 @@ const QuestionComponent: React.FC<Props> = ({
             {question.questionType === "IMAGE" && <Box m={4} className={classes.imageBox}>
               <Paper elevation={0} >
                 <Box>
-                  <Image layout={"responsive"} height={100} width={300} src="/dashboard.png" />
+                  <Image layout={"responsive"} height={100} width={300} src={question.questionAssets}/>
                 </Box>
               </Paper>
             </Box>}
             {question.questionType === "AUDIO" && <Box m={4}>
-              <Audio src={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} />
+              <Audio src={question.questionAssets} />
             </Box>}
             {question.questionType === "VIDEO" && <Box m={4}>
-              <VideoPlayer src={"/dummy.mp4"} />
+              <VideoPlayer src={question.questionAssets} />
             </Box>}
             <Box>
               <TextField
