@@ -135,7 +135,7 @@ const RazorpayImg = () => {
   const theme = useTheme();
   const source = theme.palette.type === 'light' ? '/razorpay.png' : '/razorpay-dark.png';
   return (
-  <img src={source} width="180px" className={classes.box} />
+    <img src={source} width="180px" className={classes.box} />
   );
 };
 const Payment: React.FC<ComponentProps> = ({
@@ -147,8 +147,9 @@ const Payment: React.FC<ComponentProps> = ({
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const[openDialog ,setOpenDialog] =React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const [teamName, setTeamName] = React.useState("")
+  const [referralCode, setReferralCode] = React.useState("")
   const [checked, setChecked] = React.useState(false)
   const router = useRouter()
 
@@ -174,8 +175,8 @@ const Payment: React.FC<ComponentProps> = ({
     return <LoadingScreen loading />
   }
 
-   
-   
+
+
   const handleSuccess = (res: CreateOrderMutationResponse) => {
     const { name, email, phone } = viewer;
 
@@ -223,10 +224,12 @@ const Payment: React.FC<ComponentProps> = ({
 
     CreateOrder(
       environment,
-      { teamName: teamName },
+      { teamName: teamName, referralCode: referralCode },
       {
         onCompleted: (res) => handleSuccess(res),
-        onError: () => setErrorMessage('Payment Failed'),
+        onError: () => {
+       
+          setErrorMessage("Payment failed! You might be entering wrong referral code.")},
       }
     );
 
@@ -293,6 +296,22 @@ const Payment: React.FC<ComponentProps> = ({
                 variant="outlined"
                 margin="normal"
                 disabled={teamHelperDisable}
+              />
+              <TextField
+                // fullWidth
+                value={referralCode}
+                onChange={(e) => {
+                  setReferralCode(e.target.value);
+                }}
+                className={classes.input}
+                size="small"
+                id="password-input"
+                label="Enter Referral Code"
+                required
+                variant="outlined"
+                margin="normal"
+                disabled={teamHelperDisable}
+                helperText={teamHelperDisable ? "" : "If you don't have any referral code , Please leave this field blank"}
               />
             </Box>
             <Divider></Divider>

@@ -14,7 +14,7 @@ import "regenerator-runtime/runtime";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { useRouter, Router } from "next/router";
 
- import LoadingScreen from "../components/loadingScreen";
+import LoadingScreen from "../components/loadingScreen";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import query from "../components/relay/queries/AppViewerQuery"
 
@@ -78,7 +78,7 @@ const MyApp = ({
         return first === "dashboard"
     }, [first,]);
 
-    
+
     const environment: Environment | null = React.useMemo(() => {
         if (first === "dashboard")
             return makeEnvironment();
@@ -208,7 +208,7 @@ const MyApp = ({
                                             </Alert>
                                         </Snackbar>
                                     </>
-                                } else { return <LoadingScreen loading/> }
+                                } else { return <LoadingScreen loading /> }
                             }} />
                 }
 

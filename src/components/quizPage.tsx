@@ -53,14 +53,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+interface QuizPageProps extends ComponentProps {
+  setQuizStatus: ()=>void
+}
 
 
 
 
-const QuizPage: React.FC<ComponentProps> = ({ environment,
+const QuizPage: React.FC<QuizPageProps> = ({ environment,
   viewer,
   setSuccessMessage,
-  setErrorMessage }) => {
+  setErrorMessage,setQuizStatus }) => {
   const classes = useStyles();
   const { data, error, retry, isLoading } = useQuery<GetQuestionsQuery>(query)
   const { data: startTimeData, error: startTimeError, retry: startTimeRetry, isLoading: startTimeIsLoading } = useQuery<GetQuizStartTimeQuery>(timeQuery)
@@ -75,7 +78,7 @@ const QuizPage: React.FC<ComponentProps> = ({ environment,
     setCurrentQuestion(data?.getQuestions[0])
     if (Boolean(data)) {
       const answerMap: QuestionAnswer[] = data.getQuestions.map((question) => {
-        return { answer: "", questionId: question.id, questionNumber: question.questionNo }
+        return { answer: "", answer2: "", questionId: question.id, questionNumber: question.questionNo }
       })
       setAnswer(answerMap)
     }
@@ -92,8 +95,8 @@ const QuizPage: React.FC<ComponentProps> = ({ environment,
     const input: SubmitQuizInput = { responses: answer }
     SubmitQuizMutation(environment, input,
       {
-        onCompleted: () => { setSuccessMessage("Quiz was successfully Submitted"), router.push("/login") },
-        onError: () => { setErrorMessage("Something went wrong") }
+        onCompleted: () => { setSuccessMessage("Quiz was successfully Submitted"); setQuizStatus() },
+        onError: () => { setErrorMessage("Something went wrong");setQuizStatus() }
       })
   }
 

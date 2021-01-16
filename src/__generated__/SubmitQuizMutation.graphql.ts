@@ -12,6 +12,7 @@ export type QuestionAnswer = {
     questionId: string;
     answer: string;
     questionNumber: number;
+    answer2?: string | null;
 };
 export type SubmitQuizMutationVariables = {
     input: SubmitQuizInput;

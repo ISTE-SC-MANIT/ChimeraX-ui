@@ -11,14 +11,28 @@ input AcceptInvitationInput {
 
 input CreateOrderInput {
   teamName: String!
+  referralCode: String
 }
 
 input CreateQuestionInput {
   question: String!
   questionType: String!
+  questionAnswerType: String!
   answer: String!
+  answer2: String
   questionNumber: Float!
   questionAssets: String
+  firstAnswerLabel: String!
+  secondAnswerLabel: String
+}
+
+input CreateReferralCodeInput {
+  code: String!
+}
+
+type CreateReferralCodeResponse {
+  _id: String!
+  code: String!
 }
 
 input DeleteInvitationInput {
@@ -65,6 +79,7 @@ type Mutation {
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   submitQuiz(submitQuizInput: SubmitQuizInput!): Team!
   startQuiz: StartQuizResponse!
+  createReferralCode(createReferralCodeInput: CreateReferralCodeInput!): CreateReferralCodeResponse!
 }
 
 type Order {
@@ -97,15 +112,26 @@ type Question {
   id: String
   question: String!
   questionAssets: String
+  firstAnswerLabel: String!
+  secondAnswerLabel: String
   answer: String!
+  answer2: String
   questionNo: Float!
   questionType: QuestionType!
+  questionAnswerType: QuestionAnswerType!
 }
 
 input QuestionAnswer {
   questionId: String!
   answer: String!
   questionNumber: Float!
+  answer2: String
+}
+
+"""type of answer question is having"""
+enum QuestionAnswerType {
+  SINGLE
+  DOUBLE
 }
 
 type QuestionResponse {
@@ -122,6 +148,8 @@ type QuestionResponseItem {
 enum QuestionType {
   TEXT
   IMAGE
+  AUDIO
+  VIDEO
 }
 
 type QuizDetailsResponse {

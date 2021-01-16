@@ -3,15 +3,19 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
-export type QuestionType = "IMAGE" | "TEXT" | "%future added value";
+export type QuestionAnswerType = "DOUBLE" | "SINGLE" | "%future added value";
+export type QuestionType = "AUDIO" | "IMAGE" | "TEXT" | "VIDEO" | "%future added value";
 export type GetQuestionsQueryVariables = {};
 export type GetQuestionsQueryResponse = {
     readonly getQuestions: ReadonlyArray<{
         readonly id: string | null;
         readonly question: string;
-        readonly questionNo: number;
         readonly questionAssets: string | null;
+        readonly firstAnswerLabel: string;
+        readonly secondAnswerLabel: string | null;
+        readonly questionNo: number;
         readonly questionType: QuestionType;
+        readonly questionAnswerType: QuestionAnswerType;
     }>;
 };
 export type GetQuestionsQuery = {
@@ -26,9 +30,12 @@ query GetQuestionsQuery {
   getQuestions {
     id
     question
-    questionNo
     questionAssets
+    firstAnswerLabel
+    secondAnswerLabel
+    questionNo
     questionType
+    questionAnswerType
   }
 }
 */
@@ -61,13 +68,6 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "questionNo",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
         "name": "questionAssets",
         "storageKey": null
       },
@@ -75,7 +75,35 @@ var v0 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
+        "name": "firstAnswerLabel",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "secondAnswerLabel",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "questionNo",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
         "name": "questionType",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "questionAnswerType",
         "storageKey": null
       }
     ],
@@ -100,14 +128,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "0e5059534d508fd42dfa4a676c905181",
+    "cacheID": "0ad6c9a84da49dc9544dccde4484e42c",
     "id": null,
     "metadata": {},
     "name": "GetQuestionsQuery",
     "operationKind": "query",
-    "text": "query GetQuestionsQuery {\n  getQuestions {\n    id\n    question\n    questionNo\n    questionAssets\n    questionType\n  }\n}\n"
+    "text": "query GetQuestionsQuery {\n  getQuestions {\n    id\n    question\n    questionAssets\n    firstAnswerLabel\n    secondAnswerLabel\n    questionNo\n    questionType\n    questionAnswerType\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '469d0842be6193e176755dec48998e28';
+(node as any).hash = '060a032e80df54d3467d498ebf4b5b66';
 export default node;

@@ -5,6 +5,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type CreateOrderInput = {
     teamName: string;
+    referralCode?: string | null;
 };
 export type CreateOrderMutationVariables = {
     input: CreateOrderInput;

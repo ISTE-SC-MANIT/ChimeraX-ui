@@ -4,14 +4,14 @@ import Button from '@material-ui/core/Button';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import MuiDialogActions from '@material-ui/core/DialogActions';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import Image from 'next/image'
+import Audio from "../components/audioPlayer"
 import Typography from '@material-ui/core/Typography';
-import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkOutlined';
 import { Box, Grid, TextField, Tooltip, Paper, Card, CardActionArea, CardMedia } from '@material-ui/core';
 import { GetQuestionsQueryResponse } from '../__generated__/GetQuestionsQuery.graphql';
 import { QuestionAnswer } from '../__generated__/SubmitQuizMutation.graphql';
 import { Role } from '../__generated__/AppViewerQuery.graphql';
+import VideoPlayer from './videoPlayer';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -57,7 +57,15 @@ const useStyles = makeStyles((theme) => ({
   noSelect: {
     userSelect: 'none',
   },
-  
+  imageBox: {
+    borderStyle: "solid",
+    borderWidth: theme.spacing(1 / 8),
+    borderRadius: theme.spacing(1 / 4),
+    borderColor: theme.palette.divider,
+    padding: theme.spacing(2)
+
+  },
+
   media: {
     height: 200,
   }
@@ -121,14 +129,16 @@ const QuestionComponent: React.FC<Props> = ({
   questions, role
 }) => {
 
-  const getQuestionAnswer = (questionNo: number) => {
+  const getQuestionAnswer = (questionNo: number, answerNo: "ans1" | "ans2") => {
     console.log(answer)
-    return answer.find((a) => a.questionNumber === questionNo).answer
+    return answerNo === "ans1" ? answer.find((a) => a.questionNumber === questionNo).answer : answer.find((a) => a.questionNumber === questionNo).answer2
   }
   const [localState, setLocalState] = React.useState("")
+  const [localState2, setLocalState2] = React.useState("")
 
   React.useEffect(() => {
-    setLocalState(getQuestionAnswer(question.questionNo))
+    setLocalState(getQuestionAnswer(question.questionNo, "ans1"))
+    setLocalState2(getQuestionAnswer(question.questionNo, "ans2"))
     const exists = visitedAnswers.find((answer) => answer === question.id)
     if (!Boolean(exists)) {
       setVisitedAnswers([...visitedAnswers, question.id])
@@ -157,6 +167,7 @@ const QuestionComponent: React.FC<Props> = ({
     const index = answer.findIndex((answer) => answer.questionNumber === question.questionNo)
     let answerCopy = [...answer]
     answerCopy[index].answer = localState
+    answerCopy[index].answer2 = localState2
     setAnswers(answerCopy)
 
   }
@@ -165,8 +176,10 @@ const QuestionComponent: React.FC<Props> = ({
     const index = answer.findIndex((answer) => answer.questionNumber === question.questionNo)
     let answerCopy = [...answer]
     answerCopy[index].answer = ""
+    answerCopy[index].answer2 = ""
     setAnswers(answerCopy)
     setLocalState("")
+    setLocalState2("")
   }
 
   const handleReview = () => {
@@ -200,29 +213,24 @@ const QuestionComponent: React.FC<Props> = ({
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>{question.question}</Typography>
-            {question.questionType === "IMAGE" && <Box>
-              <Paper>
+            {question.questionType === "IMAGE" && <Box m={4} className={classes.imageBox}>
+              <Paper elevation={0} >
                 <Box>
-                  <Card >
-                    <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
-                        image="/dashboard.png"
-                        title="Contemplative Reptile"
-                      />
-
-                    </CardActionArea>
-
-                  </Card>
+                  <Image layout={"responsive"} height={100} width={300} src="/dashboard.png" />
                 </Box>
               </Paper>
             </Box>}
-
+            {question.questionType === "AUDIO" && <Box m={4}>
+              <Audio src={"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"} />
+            </Box>}
+            {question.questionType === "VIDEO" && <Box m={4}>
+              <VideoPlayer src={"/dummy.mp4"} />
+            </Box>}
             <Box>
               <TextField
                 fullWidth
                 multiline
-                label="Answer"
+                label={question.firstAnswerLabel}
                 onChange={(e) => {
                   setLocalState(e.target.value);
                 }}
@@ -230,6 +238,18 @@ const QuestionComponent: React.FC<Props> = ({
                 disabled={role === "TEAM_HELPER"}
               />
             </Box>
+            {question.questionAnswerType === "DOUBLE" && <Box>
+              <TextField
+                fullWidth
+                multiline
+                label={question.secondAnswerLabel}
+                onChange={(e) => {
+                  setLocalState2(e.target.value);
+                }}
+                value={localState2}
+                disabled={role === "TEAM_HELPER"}
+              />
+            </Box>}
           </DialogContent>
           <DialogActions className={classes.dialogActions}>
             <Box style={{ marginRight: 'auto' }} className={classes.nextBtn}>
@@ -252,7 +272,7 @@ const QuestionComponent: React.FC<Props> = ({
                   Next
                   </Button>
                   &nbsp;&nbsp;&nbsp;
-     {role === "TEAM_LEADER" && <Button
+                 {role === "TEAM_LEADER" && <Button
                   onClick={handleReview}
                   variant="contained"
                   color="primary"
@@ -264,7 +284,8 @@ const QuestionComponent: React.FC<Props> = ({
             </Box>
             {role === "TEAM_LEADER" && <Button
               onClick={resetAnswer}
-              disabled={!Boolean(getQuestionAnswer(question.questionNo))}
+              disabled={!Boolean(Boolean(getQuestionAnswer(question.questionNo, "ans1")
+                || Boolean(getQuestionAnswer(question.questionNo, "ans2"))))}
               variant="contained"
               color="primary"
             >
@@ -274,7 +295,8 @@ const QuestionComponent: React.FC<Props> = ({
               onClick={saveAnswer}
               variant="contained"
               color="primary"
-              disabled={Boolean(getQuestionAnswer(question.questionNo))}
+              disabled={Boolean(Boolean(getQuestionAnswer(question.questionNo, "ans1")
+                || Boolean(getQuestionAnswer(question.questionNo, "ans2"))))}
             >
               Save Answer
               </Button>}
