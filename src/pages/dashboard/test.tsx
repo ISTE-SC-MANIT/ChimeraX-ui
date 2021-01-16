@@ -56,31 +56,41 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
     }
 
 
-    return quizStatus === "STARTED" ? (
-        <QuizPage
-            viewer={viewer}
-            environment={environment}
-            setSuccessMessage={setSuccessMessage}
-            refetch={refetch}
-            setErrorMessage={setErrorMessage}
-            setQuizStatus={()=>setQuizStatus("ENDED")}
+    return quizStatus === 'STARTED' ? (
+      <QuizPage
+        viewer={viewer}
+        environment={environment}
+        setSuccessMessage={setSuccessMessage}
+        refetch={refetch}
+        setErrorMessage={setErrorMessage}
+        setQuizStatus={() => setQuizStatus('ENDED')}
+      />
+    ) : quizStatus === 'NOT_STARTED' ? (
+      <>
+        <Instructions
+          viewer={viewer}
+          environment={environment}
+          setSuccessMessage={setSuccessMessage}
+          refetch={refetch}
+          setErrorMessage={setErrorMessage}
         />
-    ) : (quizStatus === "NOT_STARTED" ?
-        <>
-            <Instructions
-                viewer={viewer}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                refetch={refetch}
-                setErrorMessage={setErrorMessage}
-            />
-            <Grid container spacing={0} alignItems="center" justify="center">
-                <Box>
-                    <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
-            </Grid>
-
-        </> : <Success />
-        )
+        <Grid container spacing={0} alignItems="center" justify="center">
+          <Box marginBottom={4}>
+            <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">
+              Start Quiz
+            </Button>
+          </Box>
+        </Grid>
+      </>
+    ) : (
+      <Success
+        viewer={viewer}
+        environment={environment}
+        setSuccessMessage={setSuccessMessage}
+        refetch={refetch}
+        setErrorMessage={setErrorMessage}
+      />
+    );
 }
 
 export default Team
