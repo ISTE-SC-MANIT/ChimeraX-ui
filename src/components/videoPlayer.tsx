@@ -7,7 +7,7 @@ interface VideoProps{
 const VideoPlayer: React.FC <VideoProps>= ({src}) => {
 
     return <>
-        <ReactPlayer url={src} controls={true} width={"100%"} />
+        <ReactPlayer url={src} controls={true} width={"100%"} height="auto"/>
     </>
 }
 

@@ -197,5 +197,10 @@ export const cities = [
   {
     name: "Amritsar",
     state: "Punjab",
+  },
+
+  {
+    name: "Jodhpur",
+    state: "Rajasthan",
   }
 ];

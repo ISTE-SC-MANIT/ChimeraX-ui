@@ -37,8 +37,8 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
     React.useEffect(() => {
         const timer = setInterval(() => {
             const currentTime = moment(new Date())
-            const enableTime = moment("12:00:00","hh:mm:ss")
-            const disableTime = moment(":40:00","hh:mm:ss")
+            const enableTime = moment("16:00:00","hh:mm:ss")
+            const disableTime = moment("16:05:00","hh:mm:ss")
             if (currentTime.isBetween(enableTime,disableTime)) {
                 setButtonDisable(false)
             }else{
@@ -96,8 +96,8 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
                 setErrorMessage={setErrorMessage}
             />
             <Grid container spacing={0} alignItems="center" justify="center">
-                <Box>
-                    <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
+                <Box marginBottom={4}>
+                    <Button onClick={handleStartQuiz} disabled={true} variant="contained" color="primary">Start Quiz</Button></Box>
             </Grid>
 
         </> : <Success viewer={viewer}
