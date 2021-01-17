@@ -97,7 +97,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
             />
             <Grid container spacing={0} alignItems="center" justify="center">
                 <Box>
-                    <Button onClick={handleStartQuiz} disabled={disableButton} variant="contained" color="primary">Start Quiz</Button></Box>
+                    <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
             </Grid>
 
         </> : <Success viewer={viewer}
