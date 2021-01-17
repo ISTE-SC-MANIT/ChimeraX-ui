@@ -10,9 +10,11 @@ import LoadingScreen from "../../components/loadingScreen"
 import StartQuizMutation from "../../components/relay/mutations/StartQuizMutation"
 import { useRouter } from "next/router"
 import Success from "../../components/success"
+import moment from "moment"
 
 const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage, refetch, setErrorMessage }) => {
     const [quizStatus, setQuizStatus] = React.useState<UserQuizStatus>("NOT_STARTED")
+    const [disableButton,setButtonDisable]=React.useState(true)
     const { data, error, isLoading, retry } = useQuery<GetQuizStatusQuery>(query)
     const router = useRouter()
 
@@ -31,6 +33,25 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
         }
 
     }, [])
+
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            const currentTime = moment(new Date())
+            const enableTime = moment("12:00:00","hh:mm:ss")
+            const disableTime = moment("12:05:00","hh:mm:ss")
+            if (currentTime.isBetween(enableTime,disableTime)) {
+                setButtonDisable(false)
+            }else{
+                setButtonDisable(true)
+                if(currentTime.isAfter(disableTime))
+                clearInterval(timer)
+            }
+          
+            
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    })
     React.useEffect(() => {
         if (Boolean(data)) {
             setQuizStatus(data.getQuizDetails.userQuizStatus)
@@ -76,7 +97,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
             />
             <Grid container spacing={0} alignItems="center" justify="center">
                 <Box>
-                    <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
+                    <Button onClick={handleStartQuiz} disabled={disableButton} variant="contained" color="primary">Start Quiz</Button></Box>
             </Grid>
 
         </> : <Success />
