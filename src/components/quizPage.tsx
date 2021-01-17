@@ -23,12 +23,16 @@ import LoadingScreen from './loadingScreen';
 import timeQuery from "../components/relay/queries/GetQuizStartTimeQuery"
 import { GetQuizStartTimeQuery } from '../__generated__/GetQuizStartTimeQuery.graphql';
 import { useRouter } from 'next/router';
+import SubmitQuizBox from './submitquiz'
+import CustomDrawer from './customDrawer';
+import Navbar from './Navbar';
+
 
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    minHeight: '90vh',
   },
   paper: {
     margin: theme.spacing(2, 4),
@@ -60,99 +64,174 @@ interface QuizPageProps extends ComponentProps {
 
 
 
-const QuizPage: React.FC<QuizPageProps> = ({ environment,
+const QuizPage: React.FC<QuizPageProps> = ({
+  environment,
   viewer,
   setSuccessMessage,
-  setErrorMessage,setQuizStatus }) => {
+  setErrorMessage,
+  setQuizStatus,
+  refetch,
+}) => {
   const classes = useStyles();
-  const { data, error, retry, isLoading } = useQuery<GetQuestionsQuery>(query)
-  const { data: startTimeData, error: startTimeError, retry: startTimeRetry, isLoading: startTimeIsLoading } = useQuery<GetQuizStartTimeQuery>(timeQuery)
-  const [currentQuestion, setCurrentQuestion] = React.useState<GetQuestionsQueryResponse["getQuestions"][0] | null>(null)
-  const [answer, setAnswer] = React.useState<QuestionAnswer[] | []>([])
-  const [reviewedAnswers, setReviewedAnswers] = React.useState<string[] | []>([])
-  const [visitedAnswers, setVisitedAnswers] = React.useState<string[] | []>([])
-  const router = useRouter()
+  const { data, error, retry, isLoading } = useQuery<GetQuestionsQuery>(query);
+  const {
+    data: startTimeData,
+    error: startTimeError,
+    retry: startTimeRetry,
+    isLoading: startTimeIsLoading,
+  } = useQuery<GetQuizStartTimeQuery>(timeQuery);
+  const [currentQuestion, setCurrentQuestion] = React.useState<
+    GetQuestionsQueryResponse['getQuestions'][0] | null
+  >(null);
+  const [answer, setAnswer] = React.useState<QuestionAnswer[] | []>([]);
+  const [reviewedAnswers, setReviewedAnswers] = React.useState<string[] | []>([]);
+  const [visitedAnswers, setVisitedAnswers] = React.useState<string[] | []>([]);
+  const [submit, setSubmit] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
 
+  const handleClose = () => setSubmit(false);
 
   React.useEffect(() => {
-    setCurrentQuestion(data?.getQuestions[0])
+    setCurrentQuestion(data?.getQuestions[0]);
     if (Boolean(data)) {
       const answerMap: QuestionAnswer[] = data.getQuestions.map((question) => {
-        return { answer: "", answer2: "", questionId: question.id, questionNumber: question.questionNo }
-      })
-      setAnswer(answerMap)
+        return {
+          answer: '',
+          answer2: '',
+          questionId: question.id,
+          questionNumber: question.questionNo,
+        };
+      });
+      setAnswer(answerMap);
     }
-  }, [data])
+  }, [data]);
 
-  if (isLoading || startTimeIsLoading) { return <LoadingScreen loading /> }
+  if (isLoading || startTimeIsLoading) {
+    return <LoadingScreen loading />;
+  }
 
   const handleQuestionClick = (questionNo: number) => {
-    const clickedQuestion = data.getQuestions.find((ques) => ques.questionNo === questionNo)
-    setCurrentQuestion(clickedQuestion)
-  }
+    const clickedQuestion = data.getQuestions.find((ques) => ques.questionNo === questionNo);
+    setCurrentQuestion(clickedQuestion);
+  };
 
   const handleSubmitQuizMutation = () => {
-    const input: SubmitQuizInput = { responses: answer }
-    SubmitQuizMutation(environment, input,
-      {
-        onCompleted: () => { setSuccessMessage("Quiz was successfully Submitted"); setQuizStatus() },
-        onError: () => { setErrorMessage("Something went wrong");setQuizStatus() }
-      })
-  }
-
-
+    const input: SubmitQuizInput = { responses: answer };
+    SubmitQuizMutation(environment, input, {
+      onCompleted: () => {
+        setSuccessMessage('Quiz was successfully Submitted');
+        setQuizStatus();
+      },
+      onError: () => {
+        setErrorMessage('Something went wrong');
+        setQuizStatus();
+      },
+    });
+  };
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={12} md={6} lg={8} style={{ position: "relative" }}  >
-        {currentQuestion ? <QuestionComponent
-          question={currentQuestion}
-          answer={answer}
-          setAnswers={setAnswer}
-          reviewedAnswers={reviewedAnswers}
-          setReviewedAnswers={setReviewedAnswers}
-          visitedAnswers={visitedAnswers}
-          setVisitedAnswers={setVisitedAnswers}
-          currentQuestion={currentQuestion}
-          setCurrentQuestion={setCurrentQuestion}
-          questions={data.getQuestions}
-          role={viewer.role}
-        /> : <LoadingScreen loading />}
-
-      </Grid>
-      <Grid item xs={12} md={6} lg={4} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Box display="flex">
-            <Avatar className={classes.avatar}>
-              <AccessAlarmOutlinedIcon />
-            </Avatar>
-            <Box mt={1}>
-              <Timer startTime={startTimeData} onTimeUp={handleSubmitQuizMutation} />
-            </Box>
-          </Box>
-          <Divider variant="middle" className={classes.divider} />
-          <QuestionPanel
-            questions={data.getQuestions}
-            onQuestionClick={handleQuestionClick}
-            currentQuestion={currentQuestion}
-            reviewedAnswers={reviewedAnswers}
-            answers={answer}
-            visitedAnswers={visitedAnswers} />
-          <Divider variant="middle" className={classes.divider} />
-          {viewer.role === "TEAM_LEADER" && <>     <Stats reviewedAnswers={reviewedAnswers}
-            answers={answer}
-            visitedAnswers={visitedAnswers}
-          />
-            <Divider variant="middle" className={classes.divider} />
-            <Box mb={2} width="100%">
-              <ListItemText primary={"Submit Quiz"} secondary={"Quiz will be submitted automatically when time is over"} primaryTypographyProps={{ variant: "h6" }} />
-            </Box>
-            <Button color="primary" variant="contained" onClick={() => handleSubmitQuizMutation()}>SUBMIT</Button></>}
-        </div>
-      </Grid>
-    </Grid>
+    <>
+      <CustomDrawer
+        name={viewer.name}
+        username={viewer.email}
+        open={open}
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
+      <Navbar
+        setOpen={setOpen}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+      />
+      <SubmitQuizBox
+        viewer={viewer}
+        environment={environment}
+        submit={submit}
+        handleClose={handleClose}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+        refetch={refetch}
+        setQuizStatus={setQuizStatus}
+        answer={answer}
+      />
+      <div className={classes.root} onClick={() => setOpen(false)}>
+        <Grid container component="main" className={classes.root}>
+          <CssBaseline />
+          <Grid item xs={12} md={6} lg={8} style={{ position: 'relative' }}>
+            {currentQuestion ? (
+              <QuestionComponent
+                question={currentQuestion}
+                answer={answer}
+                setAnswers={setAnswer}
+                reviewedAnswers={reviewedAnswers}
+                setReviewedAnswers={setReviewedAnswers}
+                visitedAnswers={visitedAnswers}
+                setVisitedAnswers={setVisitedAnswers}
+                currentQuestion={currentQuestion}
+                setCurrentQuestion={setCurrentQuestion}
+                questions={data.getQuestions}
+                role={viewer.role}
+              />
+            ) : (
+              <LoadingScreen loading />
+            )}
+          </Grid>
+          <Grid item xs={12} md={6} lg={4} component={Paper} elevation={6} square>
+            <div className={classes.paper}>
+              <Box display="flex">
+                <Avatar className={classes.avatar}>
+                  <AccessAlarmOutlinedIcon />
+                </Avatar>
+                <Box mt={1}>
+                  <Timer startTime={startTimeData} onTimeUp={handleSubmitQuizMutation} />
+                </Box>
+              </Box>
+              <Divider variant="middle" className={classes.divider} />
+              <QuestionPanel
+                questions={data.getQuestions}
+                onQuestionClick={handleQuestionClick}
+                currentQuestion={currentQuestion}
+                reviewedAnswers={reviewedAnswers}
+                answers={answer}
+                visitedAnswers={visitedAnswers}
+              />
+              <Divider variant="middle" className={classes.divider} />
+              {viewer.role === 'TEAM_LEADER' && (
+                <>
+                  {' '}
+                  <Stats
+                    reviewedAnswers={reviewedAnswers}
+                    answers={answer}
+                    visitedAnswers={visitedAnswers}
+                  />
+                  <Divider variant="middle" className={classes.divider} />
+                  <Box mb={2} width="100%">
+                    <ListItemText
+                      primary={'Submit Quiz'}
+                      secondary={'Quiz will be submitted automatically when time is over'}
+                      primaryTypographyProps={{ variant: 'h6' }}
+                    />
+                  </Box>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    // onClick={() => handleSubmitQuizMutation()}
+                    onClick={() => {
+                      setSubmit(true);
+                    }}
+                  >
+                    SUBMIT
+                  </Button>
+                </>
+              )}
+            </div>
+          </Grid>
+        </Grid>
+      </div>
+    </>
   );
-}
+};
 
 export default QuizPage

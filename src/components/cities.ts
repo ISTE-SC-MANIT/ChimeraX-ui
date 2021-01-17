@@ -187,5 +187,15 @@ export const cities = [
   {
     name: "Vellore",
     state: "Tamil Nadu",
+  },
+
+  {
+    name: "Patiala",
+    state: "Punjab",
+  },
+
+  {
+    name: "Amritsar",
+    state: "Punjab",
   }
 ];

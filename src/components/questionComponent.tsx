@@ -212,20 +212,33 @@ const QuestionComponent: React.FC<Props> = ({
             Question {question.questionNo}
           </DialogTitle>
           <DialogContent dividers>
-            <Typography gutterBottom>{question.question}</Typography>
-            {question.questionType === "IMAGE" && <Box m={4} className={classes.imageBox}>
-              <Paper elevation={0} >
-                <Box>
-                  <Image layout={"responsive"} height={100} width={300} src={question.questionAssets}/>
-                </Box>
-              </Paper>
-            </Box>}
-            {question.questionType === "AUDIO" && <Box m={4}>
-              <Audio src={question.questionAssets} />
-            </Box>}
-            {question.questionType === "VIDEO" && <Box m={4}>
-              <VideoPlayer src={question.questionAssets} />
-            </Box>}
+            <Typography className={classes.noSelect} gutterBottom>
+              {question.question}
+            </Typography>
+            {question.questionType === 'IMAGE' && (
+              <Box m={4} className={classes.imageBox}>
+                <Paper elevation={0}>
+                  <Box>
+                    <Image
+                      layout={'responsive'}
+                      height={100}
+                      width={300}
+                      src={question.questionAssets}
+                    />
+                  </Box>
+                </Paper>
+              </Box>
+            )}
+            {question.questionType === 'AUDIO' && (
+              <Box m={4}>
+                <Audio src={question.questionAssets} />
+              </Box>
+            )}
+            {question.questionType === 'VIDEO' && (
+              <Box m={4}>
+                <VideoPlayer src={question.questionAssets} />
+              </Box>
+            )}
             <Box>
               <TextField
                 fullWidth
@@ -235,21 +248,23 @@ const QuestionComponent: React.FC<Props> = ({
                   setLocalState(e.target.value);
                 }}
                 value={localState}
-                disabled={role === "TEAM_HELPER"}
+                disabled={role === 'TEAM_HELPER'}
               />
             </Box>
-            {question.questionAnswerType === "DOUBLE" && <Box>
-              <TextField
-                fullWidth
-                multiline
-                label={question.secondAnswerLabel}
-                onChange={(e) => {
-                  setLocalState2(e.target.value);
-                }}
-                value={localState2}
-                disabled={role === "TEAM_HELPER"}
-              />
-            </Box>}
+            {question.questionAnswerType === 'DOUBLE' && (
+              <Box>
+                <TextField
+                  fullWidth
+                  multiline
+                  label={question.secondAnswerLabel}
+                  onChange={(e) => {
+                    setLocalState2(e.target.value);
+                  }}
+                  value={localState2}
+                  disabled={role === 'TEAM_HELPER'}
+                />
+              </Box>
+            )}
           </DialogContent>
           <DialogActions className={classes.dialogActions}>
             <Box style={{ marginRight: 'auto' }} className={classes.nextBtn}>
@@ -261,45 +276,61 @@ const QuestionComponent: React.FC<Props> = ({
                   disabled={currentQuestion.questionNo === 1}
                 >
                   Previous
-                  </Button>
-                  &nbsp;&nbsp;&nbsp;
-                  <Button
+                </Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button
                   onClick={handleNext}
                   variant="contained"
                   color="primary"
                   disabled={currentQuestion.questionNo === 30}
                 >
                   Next
+                </Button>
+                &nbsp;&nbsp;&nbsp;
+                {role === 'TEAM_LEADER' && (
+                  <Button
+                    onClick={handleReview}
+                    variant="contained"
+                    color="primary"
+                    className={classes.reviewBtn}
+                  >
+                    {isMarkedForReview() ? 'Un-mark for review' : 'mark for review'}
                   </Button>
-                  &nbsp;&nbsp;&nbsp;
-                 {role === "TEAM_LEADER" && <Button
-                  onClick={handleReview}
-                  variant="contained"
-                  color="primary"
-                  className={classes.reviewBtn}
-                >
-                  {isMarkedForReview() ? 'Un-mark for review' : 'mark for review'}
-                </Button>}
+                )}
               </Box>
             </Box>
-            {role === "TEAM_LEADER" && <Button
-              onClick={resetAnswer}
-              disabled={!Boolean(Boolean(getQuestionAnswer(question.questionNo, "ans1")
-                || Boolean(getQuestionAnswer(question.questionNo, "ans2"))))}
-              variant="contained"
-              color="primary"
-            >
-              Reset
-              </Button>}
-            {role === "TEAM_LEADER" && <Button
-              onClick={saveAnswer}
-              variant="contained"
-              color="primary"
-              disabled={Boolean(Boolean(getQuestionAnswer(question.questionNo, "ans1")
-                || Boolean(getQuestionAnswer(question.questionNo, "ans2"))))}
-            >
-              Save Answer
-              </Button>}
+            {role === 'TEAM_LEADER' && (
+              <Button
+                onClick={resetAnswer}
+                disabled={
+                  !Boolean(
+                    Boolean(
+                      getQuestionAnswer(question.questionNo, 'ans1') ||
+                        Boolean(getQuestionAnswer(question.questionNo, 'ans2'))
+                    )
+                  )
+                }
+                variant="contained"
+                color="primary"
+              >
+                Reset
+              </Button>
+            )}
+            {role === 'TEAM_LEADER' && (
+              <Button
+                onClick={saveAnswer}
+                variant="contained"
+                color="primary"
+                disabled={Boolean(
+                  Boolean(
+                    getQuestionAnswer(question.questionNo, 'ans1') ||
+                      Boolean(getQuestionAnswer(question.questionNo, 'ans2'))
+                  )
+                )}
+              >
+                Save Answer
+              </Button>
+            )}
           </DialogActions>
         </Box>
       </Grid>
