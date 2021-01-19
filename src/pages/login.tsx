@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '100px',
     },
   },
-  imgLogo: {
+  link: {
     cursor: 'pointer',
   },
 }));
@@ -245,7 +245,7 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
         <Grid item xs={false} sm={6} className={classes.image}>
           <Box className={classes.logo}>
             <Image
-              className={classes.imgLogo}
+              className={classes.link}
               src="/ChimeraX-logo-white.svg"
               alt="logo"
               width={400}
@@ -342,12 +342,20 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link onClick={() => setOpenPass(true)} variant="body2">
-                      Forgot password?
+                    <Link
+                      onClick={() => setOpenPass(true)}
+                      variant="body2"
+                      className={classes.link}
+                    >
+                      Forget password?
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link onClick={() => router.push('/signin')} variant="body2">
+                    <Link
+                      onClick={() => router.push('/signin')}
+                      variant="body2"
+                      className={classes.link}
+                    >
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       boxSizing: 'border-box',
       flexGrow: 1,
-      background: `url('/bg1.svg')`,
+      background: `url('/bg.svg')`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
     },
@@ -221,7 +221,7 @@ const Landing: React.FC = () => {
                 </Box>
                 <Box className={classes.flexColumn} lineHeight={2}>
                   <Btn onClick={() => router.push('/signin')}>Register Now</Btn>
-                  <Link href="https://drive.google.com/file/d/1RgDckhwJ6_gwtA-CBzA5G3XqTasyugwI/view?usp=sharing">
+                  <Link target='_blank' href="https://drive.google.com/file/d/1JWl8RsDZyhdoXyYKTTU7z8U6Kh3juGxs/view?usp=sharing">
                     How to get registered?
                   </Link>
                 </Box>
@@ -238,7 +238,7 @@ const Landing: React.FC = () => {
                       <img
                         src={theme.palette.type === 'light' ? '/first.svg' : '/first-white.svg'}
                         alt="first"
-                        width="75px"
+                        width="70px"
                       />
                       <Typography variant="h5">
                         <b>₹ 15,000</b>
@@ -250,7 +250,7 @@ const Landing: React.FC = () => {
                       <img
                         src={theme.palette.type === 'light' ? '/second.svg' : '/second-white.svg'}
                         alt="first"
-                        width="75px"
+                        width="70px"
                       />
                       <Typography variant="h5">
                         <b>₹ 10,000</b>
@@ -262,7 +262,7 @@ const Landing: React.FC = () => {
                       <img
                         src={theme.palette.type === 'light' ? '/third.svg' : '/third-white.svg'}
                         alt="first"
-                        width="75px"
+                        width="70px"
                       />
                       <Typography variant="h5">
                         <b>₹ 5,000</b>
