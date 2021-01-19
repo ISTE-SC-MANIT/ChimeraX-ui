@@ -301,7 +301,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
         </Box>
         <Box className={classes.loginBtn}>
           <Grid container justify="center" alignItems="center">
-            <LoginButton onClick={() => router.push('/')}>Log In</LoginButton>
+            <LoginButton onClick={() => router.push('/login')}>Log In</LoginButton>
           </Grid>
         </Box>
         <VectorImg classes={classes} />
