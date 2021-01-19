@@ -221,7 +221,9 @@ const Landing: React.FC = () => {
                 </Box>
                 <Box className={classes.flexColumn} lineHeight={2}>
                   <Btn onClick={() => router.push('/login')}>Register Now</Btn>
-                  <Link href="#">How to get registered?</Link>
+                  <Link href="https://drive.google.com/file/d/1RgDckhwJ6_gwtA-CBzA5G3XqTasyugwI/view?usp=sharing">
+                    How to get registered?
+                  </Link>
                 </Box>
               </Box>
               <Box className={classes.prize}>
