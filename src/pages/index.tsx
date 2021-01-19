@@ -1,25 +1,27 @@
 import * as React from 'react';
 import { createStyles, makeStyles, Theme, useTheme, withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Box, Fade, Grid, useMediaQuery } from '@material-ui/core';
-import SortIcon from '@material-ui/icons/Sort';
+import { Box, Fade, Grid, Link, useMediaQuery } from '@material-ui/core';
 import Image from 'next/image';
 import NavbarHeader from '../components/navbarheader';
 import ThemeToggleButton from '../components/theme/modeToggle';
 import { useRouter } from 'next/router';
+import { url } from 'inspector';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      minHeight: '100vh',
       margin: 0,
       padding: 0,
       boxSizing: 'border-box',
       flexGrow: 1,
+      background: `url('/bg1.svg')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
     },
     header: {
       minHeight: '10vh',
@@ -87,6 +89,12 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    flexColumn: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+    },
   })
 );
 
@@ -129,6 +137,7 @@ const VectorImg = () => {
 const Landing: React.FC = () => {
     const classes = useStyles();
     const router = useRouter();
+    const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -140,8 +149,12 @@ const Landing: React.FC = () => {
           <Box padding={4} className={classes.header}>
             <Box className={classes.logo}>
               <img
-                style={{cursor: 'pointer'}}
-                src="/ChimeraX-logo-blue.svg"
+                style={{ cursor: 'pointer' }}
+                src={
+                  theme.palette.type === 'light'
+                    ? '/ChimeraX-logo-blue.svg'
+                    : '/ChimeraX-logo-whitebg.svg'
+                }
                 width="256px"
                 alt="logo"
                 onClick={() => router.push('/')}
@@ -194,23 +207,22 @@ const Landing: React.FC = () => {
               className={classes.prizeSection}
             >
               <Box className={classes.margin}>
-                {/* <Typography variant="h4" align="center">
-                Central India's largest Quizzing Contest
-              </Typography>
-              <Typography variant="h6" align="center">
-                Organised by
-              </Typography> */}
                 <Typography variant="h4" align="center" className={classes.typo}>
                   <b>Central India's largest Quizzing Contest</b>
                 </Typography>
               </Box>
               <Box className={classes.margin}>
-                <Box marginBottom={2}>
+                <Box marginBottom={5}>
                   <Typography variant="h5" align="center">
+                    Prelim
+                    <br />
                     31st Jan' 2021
                   </Typography>
                 </Box>
-                <Btn onClick={() => router.push('/login')}>Register Now</Btn>
+                <Box className={classes.flexColumn} lineHeight={2}>
+                  <Btn onClick={() => router.push('/login')}>Register Now</Btn>
+                  <Link href="#">How to get registered?</Link>
+                </Box>
               </Box>
               <Box className={classes.prize}>
                 <Box marginBottom={2}>
@@ -218,38 +230,52 @@ const Landing: React.FC = () => {
                     PRIZES
                   </Typography>
                 </Box>
-                <Grid container justify="center" alignItems="center" spacing={1}>
+                <Grid container justify="center" alignItems="center">
                   <Grid item xs={4} container justify="center" alignItems="center">
-                    <Box>
-                      <img src="/first.svg" alt="first" width="80px" />
+                    <Box className={classes.flexColumn}>
+                      <img
+                        src={theme.palette.type === 'light' ? '/first.svg' : '/first-white.svg'}
+                        alt="first"
+                        width="75px"
+                      />
                       <Typography variant="h5">
                         <b>₹ 15,000</b>
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={4} container justify="center" alignItems="center">
-                    <Box>
-                      <img src="/second.svg" alt="first" width="80px" />
+                    <Box className={classes.flexColumn}>
+                      <img
+                        src={theme.palette.type === 'light' ? '/second.svg' : '/second-white.svg'}
+                        alt="first"
+                        width="75px"
+                      />
                       <Typography variant="h5">
                         <b>₹ 10,000</b>
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={4} container justify="center" alignItems="center">
-                    <Box>
-                      <img src="/third.svg" alt="first" width="80px" />
+                    <Box className={classes.flexColumn}>
+                      <img
+                        src={theme.palette.type === 'light' ? '/third.svg' : '/third-white.svg'}
+                        alt="first"
+                        width="75px"
+                      />
                       <Typography variant="h5">
                         <b>₹ 5,000</b>
                       </Typography>
                     </Box>
                   </Grid>
                 </Grid>
+                <Box className={classes.margin}>
+                  <Typography variant="h6" align="center">
+                    *Merchandise for City Winners!
+                  </Typography>
+                </Box>
               </Box>
             </Grid>
             <Grid container item xs={12} md={8} justify="flex-end" alignItems="flex-end">
-              {/* <Box>
-              <img src="/prize.svg" width="800px" />
-            </Box> */}
               <VectorImg />
             </Grid>
           </Grid>
