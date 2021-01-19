@@ -21,6 +21,7 @@ import { Formik, Form, Field, FieldProps } from 'formik';
 import { ComponentProps } from './_app';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { GoogleLogin, GoogleLoginResponse } from 'react-google-login';
 
 const LoginButton = withStyles((theme) => ({
   root: {
@@ -166,6 +167,44 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
 
   });
 
+  const getStep = (step: 'REGISTER' | 'CHOOSE_TEAM' | 'PAYMENT' | 'TEST') => {
+    switch (step) {
+      case 'REGISTER':
+        return '/dashboard/register';
+        break;
+      case 'CHOOSE_TEAM':
+        return '/dashboard/team';
+        break;
+      case 'PAYMENT':
+        return '/dashboard/payment';
+        break;
+      case 'TEST':
+        return '/dashboard/test';
+        break;
+    }
+  };
+
+  const sendGoogleToken = (tokenId) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND}/api/googlelogin`, {
+        idToken: tokenId,
+      })
+      .then((response) => {
+        authenticate(response, () => {
+          router.push(getStep(response.data.user.step));
+        });
+      })
+      .catch((error) => {
+        setErrorMessage(error);
+        return error;
+      });
+  };
+
+  const responseGoogle = (response: GoogleLoginResponse) => {
+    console.log(response);
+    sendGoogleToken(response.tokenId);
+  };
+
   const handleSubmit = (values: typeof initialValues) => {
 
     setFormData({ ...formData, text: "Submitting ....." })
@@ -270,7 +309,23 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
               </Box>
               <Box>
                 <Grid container justify="center" alignItems="center">
-                  <Grid item>
+                  <GoogleLogin
+                    clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                    render={(renderProps) => (
+                      <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                        <img
+                          src="/google-logo.png"
+                          alt="google"
+                          height={60}
+                          className={classes.logoIcon}
+                        />
+                      </IconButton>
+                    )}
+                  ></GoogleLogin>
+                  {/* <Grid item>
                     <IconButton>
                       <img
                         src="/google-logo.png"
@@ -279,7 +334,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
                         className={classes.logoIcon}
                       />
                     </IconButton>
-                  </Grid>
+                  </Grid> */}
                   {/* <Grid item>
                       <IconButton>
                         <img src="/fb-logo.png" alt="fb" height={60} className={classes.logoIcon} />

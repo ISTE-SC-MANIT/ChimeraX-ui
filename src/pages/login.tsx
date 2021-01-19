@@ -360,16 +360,12 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
                 </Box>
                 <Box>
                   <Grid container justify="center" alignItems="center">
-                    <Grid item></Grid>
                     <GoogleLogin
                       clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}
                       onSuccess={responseGoogle}
                       onFailure={responseGoogle}
                       cookiePolicy={'single_host_origin'}
                       render={(renderProps) => (
-                        // <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>
-                        //     <Avatar alt="google" src="/google.png" className={classes.large} />
-                        //   </Button>
                         <IconButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
                           <img
                             src="/google-logo.png"
