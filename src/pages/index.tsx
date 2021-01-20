@@ -214,21 +214,24 @@ const Landing: React.FC = () => {
               <Box className={classes.margin}>
                 <Box marginBottom={5}>
                   <Typography variant="h5" align="center">
-                    Prelim
+                    Prelims
                     <br />
                     31st Jan' 2021
                   </Typography>
                 </Box>
                 <Box className={classes.flexColumn} lineHeight={2}>
                   <Btn onClick={() => router.push('/signin')}>Register Now</Btn>
-                  <Link target='_blank' href="https://drive.google.com/file/d/1JWl8RsDZyhdoXyYKTTU7z8U6Kh3juGxs/view?usp=sharing">
+                  <Link
+                    target="_blank"
+                    href="https://drive.google.com/file/d/18fYq_uSXg76WQ4Ov6BTZ4rjJFkwTXThV/view?usp=sharing"
+                  >
                     How to get registered?
                   </Link>
                 </Box>
               </Box>
               <Box className={classes.prize}>
                 <Box marginBottom={2}>
-                  <Typography variant="h4" align="center">
+                  <Typography variant="h5" align="center">
                     PRIZES
                   </Typography>
                 </Box>
@@ -240,7 +243,7 @@ const Landing: React.FC = () => {
                         alt="first"
                         width="70px"
                       />
-                      <Typography variant="h5">
+                      <Typography variant="h6">
                         <b>₹ 15,000</b>
                       </Typography>
                     </Box>
@@ -252,7 +255,7 @@ const Landing: React.FC = () => {
                         alt="first"
                         width="70px"
                       />
-                      <Typography variant="h5">
+                      <Typography variant="h6">
                         <b>₹ 10,000</b>
                       </Typography>
                     </Box>
@@ -264,14 +267,14 @@ const Landing: React.FC = () => {
                         alt="first"
                         width="70px"
                       />
-                      <Typography variant="h5">
+                      <Typography variant="h6">
                         <b>₹ 5,000</b>
                       </Typography>
                     </Box>
                   </Grid>
                 </Grid>
                 <Box className={classes.margin}>
-                  <Typography variant="h6" align="center">
+                  <Typography variant="subtitle1" align="center">
                     *Merchandise for City Winners!
                   </Typography>
                 </Box>
