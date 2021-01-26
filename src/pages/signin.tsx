@@ -162,7 +162,7 @@ const SignIn: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage }
       .string()
       .email("Provide a valid Email ID")
       .required("Email cannot be empty"),
-    password: yup.string().min(6, "Password must be minimum of 6 characters").required("Email cannot be empty")
+    password: yup.string().min(6, "Password must be minimum of 6 characters").required("Password cannot be empty")
 
 
   });

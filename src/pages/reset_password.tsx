@@ -13,6 +13,9 @@ import { authenticate } from '../components/utils';
 import { useRouter } from 'next/router';
 import queryString from 'querystring';
 import { ComponentProps } from './_app';
+import { IconButton, InputAdornment } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 
 // import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom';
@@ -40,7 +43,11 @@ const ResetPassword: React.FC<ComponentProps> = ({ setSuccessMessage, setErrorMe
   const classes = useStyles();
   const [formData, setFormData] = React.useState({ newpassword: '', confirmPassword: '' });
   const router = useRouter();
+  const [visible, setVisible] = React.useState(false);
 
+  const handleShowPassword = () => {
+    setVisible(!visible);
+  };
   if (typeof window !== 'undefined') {
     const url = window.location.search;
     //console.log(url);
@@ -118,7 +125,20 @@ const ResetPassword: React.FC<ComponentProps> = ({ setSuccessMessage, setErrorMe
                   variant="outlined"
                   // className={classes.field}
                   margin="normal"
-                  type="password"
+                  type={visible ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleShowPassword}
+                          edge="end"
+                        >
+                          {visible ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             </Field>
