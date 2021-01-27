@@ -202,5 +202,10 @@ export const cities = [
   {
     name: "Jodhpur",
     state: "Rajasthan",
+  },
+
+  {
+    name : "Abu Dhabi",
+    state : "UAE"
   }
 ];
