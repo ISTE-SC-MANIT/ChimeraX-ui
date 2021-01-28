@@ -213,7 +213,7 @@ const Team: React.FC<ComponentProps> = ({
   };
 
   const logoutHandle = () => {
-    cookie.remove('authorization');
+    cookie.remove('token');
     router.push('/');
   };
   const handleClose = () => setOpenDialog(false);

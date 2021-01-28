@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ setOpen, setSuccessMessage, setErrorMes
     };
     const logoutHandle = () => {
         setSuccessMessage('Logged out');
-        cookie.remove('authorization');
+        cookie.remove('token');
         router.push('/');
     };
     return (
