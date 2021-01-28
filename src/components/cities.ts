@@ -207,5 +207,15 @@ export const cities = [
   {
     name : "Abu Dhabi",
     state : "UAE"
+  },
+
+  {
+    name : "Jalandhar",
+    state : "Punjab"
+  },
+
+  {
+    name : "Others",
+    state : "India"
   }
 ];

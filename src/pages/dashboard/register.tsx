@@ -324,7 +324,10 @@ const Register: React.FC<ComponentProps> = ({ viewer, refetch, environment, setS
                       )}
                     </Field>
                   </ListItem>
-
+                  
+                  <Typography align="center">
+                    *If you cannot find your city of college then select others option.
+                  </Typography>
 
 
                   <Box className={classes.buttonGroup}>
