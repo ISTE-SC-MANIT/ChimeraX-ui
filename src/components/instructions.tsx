@@ -117,6 +117,9 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
+
+
+
   const quizHandle = () => {
     router.push('/dashboard/test');
   };

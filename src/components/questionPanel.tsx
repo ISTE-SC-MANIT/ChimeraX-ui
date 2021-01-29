@@ -64,7 +64,7 @@ const QuestionPanel: React.FC<Props> = ({ questions,
     if (Boolean(isVisitedQuestion)) {
 
       const answeredQuestion = answers.find((a) => a.questionId === questionId)
-      if (Boolean(answeredQuestion.answer)) {
+      if (Boolean(answeredQuestion.answer)||Boolean(answeredQuestion.answer2)) {
         return { background: "#1FAA59", color: "white" }
       }
       return { background: "red", color: "white" }

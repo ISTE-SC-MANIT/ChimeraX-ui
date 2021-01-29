@@ -22,7 +22,7 @@ const Timer: React.FC<Props> = ({ startTime, onTimeUp }) => {
                 setTime({ ...time, seconds: time.seconds - 1 })
             }
             if (time.seconds === 0) {
-                if (time.minute === 0) {
+                if (time.minute <= 0) {
                     onTimeUp()
                     clearInterval(timer)
                 } else {
