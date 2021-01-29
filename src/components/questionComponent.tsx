@@ -58,17 +58,24 @@ const useStyles = makeStyles((theme) => ({
     userSelect: 'none',
   },
   imageBox: {
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: theme.spacing(1 / 8),
     borderRadius: theme.spacing(1 / 4),
     borderColor: theme.palette.divider,
-    padding: theme.spacing(2)
-
+    padding: theme.spacing(2),
+    [theme.breakpoints.up('lg')]: {
+      margin: theme.spacing(4),
+    },
+  },
+  videoBox: {
+    [theme.breakpoints.up('lg')]: {
+      margin: theme.spacing(4),
+    },
   },
 
   media: {
     height: 200,
-  }
+  },
 }));
 
 
@@ -216,7 +223,7 @@ const QuestionComponent: React.FC<Props> = ({
               {question.question}
             </Typography>
             {question.questionType === 'IMAGE' && (
-              <Box m={4} className={classes.imageBox}>
+              <Box className={classes.imageBox}>
                 <Paper elevation={0}>
                   <Box>
                     <Image
@@ -235,7 +242,7 @@ const QuestionComponent: React.FC<Props> = ({
               </Box>
             )}
             {question.questionType === 'VIDEO' && (
-              <Box m={4}>
+              <Box className={classes.videoBox}>
                 <VideoPlayer src={question.questionAssets} />
               </Box>
             )}
