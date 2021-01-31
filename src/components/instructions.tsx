@@ -228,6 +228,11 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                   <ListItemText>
                     11{')'} The quiz will automatically submit once the timer runs out.
                   </ListItemText>
+                  <ListItemText>
+                    12 Do not use special characters (ex: !/*=#$). Make sure to use an
+                    appropriate single space between 2 words in an answer and no more than that.
+                    Write full words and use their correct spellings.
+                  </ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
