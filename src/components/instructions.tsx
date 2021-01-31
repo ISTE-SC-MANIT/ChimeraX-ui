@@ -206,7 +206,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    8{')'} A few questions will be divided into 2 parts. Each part will hold 1 mark
+                    8{')'} Some questions are divided into 2 parts. Each part will hold 1 mark
                     for the correct answer and 0 for wrong or unattempted.
                   </ListItemText>
                 </ListItem>
@@ -224,14 +224,16 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                   </ListItemText>
                 </ListItem>
                 <ListItem>
-                  {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    11{')'} The quiz will automatically submit once the timer runs out.
-                  </ListItemText>
-                  <ListItemText>
-                    12 Do not use special characters (ex: !/*=#$). Make sure to use an
+                    11{')'} Do not use special characters (ex: !/*=#$). Make sure to use an
                     appropriate single space between 2 words in an answer and no more than that.
                     Write full words and use their correct spellings.
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  {/* <ListItemIcon></ListItemIcon> */}
+                  <ListItemText>
+                    12{')'} The quiz will automatically submit once the timer runs out.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
