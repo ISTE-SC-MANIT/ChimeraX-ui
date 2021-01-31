@@ -166,15 +166,15 @@ const Instructions: React.FC<Props> = ({ page, viewer, setSuccessMessage, setErr
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    1{')'} The test will begin at <b>4 pm and end at 4:35 pm</b>.
+                    1{')'} The test will begin at <b>6:30 pm and end at 7:00 pm</b>.
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    2{')'} <b>The “Start Test” button will be disabled at sharp 4:05 pm.</b> The
+                    2{')'} <b>The “Start Test” button will be disabled at sharp 6:35 pm.</b> The
                     button will not be enabled again. Hence, all participants must start the quiz by
-                    4:05 pm.{' '}
+                    6:35 pm.{' '}
                   </ListItemText>
                 </ListItem>{' '}
                 <ListItem>

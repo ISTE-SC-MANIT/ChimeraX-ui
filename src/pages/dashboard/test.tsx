@@ -37,8 +37,8 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
     React.useEffect(() => {
         const timer = setInterval(() => {
             const currentTime = moment(new Date())
-            const enableTime = moment("16:00:00","hh:mm:ss")
-            const disableTime = moment("16:15:00","hh:mm:ss")
+            const enableTime = moment("18:30:00","hh:mm:ss")
+            const disableTime = moment("18:36:00","hh:mm:ss")
             if (currentTime.isBetween(enableTime,disableTime)) {
                 setButtonDisable(false)
             }else{
