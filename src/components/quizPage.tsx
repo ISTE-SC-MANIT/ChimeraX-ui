@@ -26,7 +26,7 @@ import { useRouter } from 'next/router';
 import SubmitQuizBox from './submitquiz'
 import CustomDrawer from './customDrawer';
 import Navbar from './Navbar';
-
+import InstructionsDialog from './InstructionsDialog';
 
 
 
@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     width: "100%",
     margin: theme.spacing(2, 0)
+  },
+  insBtn: {
+    marginBottom: theme.spacing(1)
   }
 }));
 
@@ -88,6 +91,7 @@ const QuizPage: React.FC<QuizPageProps> = ({
   const [visitedAnswers, setVisitedAnswers] = React.useState<string[] | []>([]);
   const [submit, setSubmit] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
   const router = useRouter();
 
   const handleClose = () => setSubmit(false);
@@ -132,6 +136,15 @@ const QuizPage: React.FC<QuizPageProps> = ({
 
   return (
     <>
+      <InstructionsDialog
+        viewer={viewer}
+        openDialog={openDialog}
+        setSuccessMessage={setSuccessMessage}
+        setErrorMessage={setErrorMessage}
+        environment={environment}
+        refetch={refetch}
+        onClose={() => setOpenDialog(false)}
+      />
       <CustomDrawer
         name={viewer.name}
         username={viewer.email}
@@ -177,6 +190,18 @@ const QuizPage: React.FC<QuizPageProps> = ({
             ) : (
               <LoadingScreen loading />
             )}
+            <Grid
+              container
+              item
+              xs={12}
+              justify="center"
+              alignItems="center"
+              className={classes.insBtn}
+            >
+              <Button variant="contained" color="primary" onClick={() => setOpenDialog(true)}>
+                Instructions
+              </Button>
+            </Grid>
           </Grid>
           <Grid item xs={12} md={6} lg={4} component={Paper} elevation={6} square>
             <div className={classes.paper}>

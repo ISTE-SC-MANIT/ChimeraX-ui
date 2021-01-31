@@ -110,9 +110,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+interface Props extends ComponentProps {
+  page: string;
+}
 
-
-const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, setErrorMessage }) => {
+const Instructions: React.FC<Props> = ({ page, viewer, setSuccessMessage, setErrorMessage }) => {
   const classes = useStyles();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
@@ -126,19 +128,25 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
 
   return (
     <div className={classes.root}>
-      <CustomDrawer
-        name={viewer.name}
-        username={viewer.email}
-        open={open}
-        setOpen={setOpen}
-        setSuccessMessage={setSuccessMessage}
-        setErrorMessage={setErrorMessage}
-      />
-      <Navbar
-        setOpen={setOpen}
-        setSuccessMessage={setSuccessMessage}
-        setErrorMessage={setErrorMessage}
-      />
+      {page === 'instructions' ? (
+        <>
+          <CustomDrawer
+            name={viewer.name}
+            username={viewer.email}
+            open={open}
+            setOpen={setOpen}
+            setSuccessMessage={setSuccessMessage}
+            setErrorMessage={setErrorMessage}
+          />
+          <Navbar
+            setOpen={setOpen}
+            setSuccessMessage={setSuccessMessage}
+            setErrorMessage={setErrorMessage}
+          />
+        </>
+      ) : (
+        <></>
+      )}
       <Grid container onClick={() => setOpen(false)}>
         {/* <CustomDrawer name={'Devansh'} username={'Devansh'} open={open} setOpen={setOpen} /> */}
         <Grid container alignItems="center" justify="center">
@@ -147,7 +155,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
               <b>Instructions</b>
             </Typography>
             <Typography variant="h5">
-              Here are some Instructions for ISTE's multi city quiz competition: ChimeraX
+              Read the instructions carefully before attempting the quiz.
             </Typography>
           </Box>
         </Grid>
@@ -194,7 +202,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
-                  <ListItemText>6{')'} There are 30 questions, all are compulsory.</ListItemText>
+                  <ListItemText>6{')'} There are 30 questions, All are compulsory.</ListItemText>
                 </ListItem>
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
@@ -206,8 +214,8 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                 <ListItem>
                   {/* <ListItemIcon></ListItemIcon> */}
                   <ListItemText>
-                    8{')'} Some questions are divided into 2 parts. Each part will hold 1 mark
-                    for the correct answer and 0 for wrong or unattempted.
+                    8{')'} Some questions are divided into 2 parts. Each part will hold 1 mark for
+                    the correct answer and 0 for wrong or unattempted.
                   </ListItemText>
                 </ListItem>
                 <ListItem>
@@ -225,7 +233,7 @@ const Instructions: React.FC<ComponentProps> = ({ viewer, setSuccessMessage, set
                 </ListItem>
                 <ListItem>
                   <ListItemText>
-                    11{')'} Do not use special characters (ex: !/*=#$). Make sure to use an
+                    11{')'} Do not use special characters {'('}ex: !/*=#${')'}. Make sure to use an
                     appropriate single space between 2 words in an answer and no more than that.
                     Write full words and use their correct spellings.
                   </ListItemText>

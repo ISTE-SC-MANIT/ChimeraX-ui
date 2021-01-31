@@ -38,7 +38,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
         const timer = setInterval(() => {
             const currentTime = moment(new Date())
             const enableTime = moment("16:00:00","hh:mm:ss")
-            const disableTime = moment("16:05:00","hh:mm:ss")
+            const disableTime = moment("16:06:00","hh:mm:ss")
             if (currentTime.isBetween(enableTime,disableTime)) {
                 setButtonDisable(false)
             }else{
@@ -77,35 +77,47 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
     }
 
 
-    return quizStatus === "STARTED" ? (
-        <QuizPage
-            viewer={viewer}
-            environment={environment}
-            setSuccessMessage={setSuccessMessage}
-            refetch={refetch}
-            setErrorMessage={setErrorMessage}
-            setQuizStatus={()=>setQuizStatus("ENDED")}
+    return quizStatus === 'STARTED' ? (
+      <QuizPage
+        viewer={viewer}
+        environment={environment}
+        setSuccessMessage={setSuccessMessage}
+        refetch={refetch}
+        setErrorMessage={setErrorMessage}
+        setQuizStatus={() => setQuizStatus('ENDED')}
+      />
+    ) : quizStatus === 'NOT_STARTED' ? (
+      <>
+        <Instructions
+          page="instructions"
+          viewer={viewer}
+          environment={environment}
+          setSuccessMessage={setSuccessMessage}
+          refetch={refetch}
+          setErrorMessage={setErrorMessage}
         />
-    ) : (quizStatus === "NOT_STARTED" ?
-        <>
-            <Instructions
-                viewer={viewer}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                refetch={refetch}
-                setErrorMessage={setErrorMessage}
-            />
-            <Grid container spacing={0} alignItems="center" justify="center">
-                <Box marginBottom={4}>
-                    <Button onClick={handleStartQuiz} disabled={false} variant="contained" color="primary">Start Quiz</Button></Box>
-            </Grid>
-
-        </> : <Success viewer={viewer}
-                environment={environment}
-                setSuccessMessage={setSuccessMessage}
-                refetch={refetch}
-                setErrorMessage={setErrorMessage} />
-        )
+        <Grid container spacing={0} alignItems="center" justify="center">
+          <Box marginBottom={4}>
+            <Button
+              onClick={handleStartQuiz}
+              disabled={disableButton}
+              variant="contained"
+              color="primary"
+            >
+              Start Quiz
+            </Button>
+          </Box>
+        </Grid>
+      </>
+    ) : (
+      <Success
+        viewer={viewer}
+        environment={environment}
+        setSuccessMessage={setSuccessMessage}
+        refetch={refetch}
+        setErrorMessage={setErrorMessage}
+      />
+    );
 }
 
 export default Team
