@@ -216,7 +216,7 @@ const Landing: React.FC = () => {
                   <Typography variant="h5" align="center">
                     Prelims
                     <br />
-                    31st Jan' 2021
+                    7th Feb' 2021
                   </Typography>
                 </Box>
                 <Box className={classes.flexColumn} lineHeight={2}>
