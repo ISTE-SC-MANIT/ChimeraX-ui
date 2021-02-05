@@ -201,13 +201,14 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
 
       })
       .catch((error) => {
-        setErrorMessage(error)
-        return error;
+        // console.log(error)
+        setErrorMessage("You might have been singed up from email and password")
+        // return error;
       });
   };
 
   const responseGoogle = (response: GoogleLoginResponse) => {
-    console.log(response);
+   
     sendGoogleToken(response.tokenId);
   }
 

@@ -188,8 +188,8 @@ const Payment: React.FC<ComponentProps> = ({
       name: 'ISTE SC MANIT',
       description: 'Payment for chimera x',
 
-      handler: function (response) {
-        PayOrder(
+      handler: async (response) =>{
+        await PayOrder(
           environment,
           { paymentId: response.razorpay_payment_id },
           {
