@@ -208,8 +208,11 @@ const Login: React.FC<ComponentProps> = ({ setErrorMessage, setSuccessMessage })
   };
 
   const responseGoogle = (response: GoogleLoginResponse) => {
-   
-    sendGoogleToken(response.tokenId);
+  
+    if (Boolean(response.tokenId)){
+      sendGoogleToken(response.tokenId);
+    }
+    
   }
 
 
