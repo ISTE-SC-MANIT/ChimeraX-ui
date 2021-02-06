@@ -100,7 +100,7 @@ const Team: React.FC<ComponentProps> = ({ viewer, environment, setSuccessMessage
           <Box marginBottom={4}>
             <Button
               onClick={handleStartQuiz}
-              disabled={true}
+              disabled={disableButton}
               variant="contained"
               color="primary"
             >

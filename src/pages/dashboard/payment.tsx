@@ -418,7 +418,7 @@ const Payment: React.FC<ComponentProps> = ({
                       color="primary"
                       variant="contained"
                       onClick={handleRazorpay}
-                      disabled={disable}
+                      disabled={true}
                     >
                       Proceed for payment
                     </Button>
