@@ -2,9 +2,9 @@
   "name": "chimera",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start -p 80",
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
     "type-check": "tsc",
     "get-schema": "get-graphql-schema http://localhost:8080/graphql > schema.graphql",
     "relay": "relay-compiler --src ./src --schema ./schema.graphql --extensions ts tsx  --language typescript --artifactDirectory ./src/__generated__",
